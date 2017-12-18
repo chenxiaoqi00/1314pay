@@ -1,0 +1,26 @@
+<div class="cnav-wrap">
+    <div class="cnav wrap">
+        <ul>
+            {volist name="__MENU__.main" id="r"}
+                <li class="{$r.class|default=''}"><a href="{$r.url|U}">{$r.title}</a></li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+<div class="con-wrap wrap">
+    <div class="c-sidebar">
+        <h3>{$side_title}</h3>
+        {volist name="__MENU__.submenu" id="v"}
+        {notempty name="v['child']"}
+            <dl>
+            <dt>{$v['group']}</dt>
+            {volist name="v['child']" id="vo"}
+            <dd><a href="{$vo.url|U}" class="{$vo.class}">{$vo.title}</a></dd>
+            {/volist}
+        </dl>
+        {/notempty}
+        {/volist}
+    </div>
+    {//页面主体}{block name="body"}{/block}
+    <div class="clear"></div>
+</div>

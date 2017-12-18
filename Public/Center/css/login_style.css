@@ -1,0 +1,78 @@
+body{background-color: #F5F6F7;color: #506470;margin: 0;padding: 0;font-family: Tahoma, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;}
+p{margin: 0;padding: 0;}
+a{outline: none;font-style: normal;text-decoration: none;color: #677D8B;cursor: pointer;}
+.a:hover{color: #1E65BD;}
+.a{text-decoration: none;cursor: pointer;color: #1E65BD;}
+i{color: #FF6666;padding: 0px 8px;font-style: normal;}
+.sub-color{color: #F6C982 !important;}
+.sub-bg-color{background-color: #F6C982;}
+.msg{height: 35px;z-index: 9999;min-width: 200px;padding: 0 80px;line-height: 35px;text-align:center; color: #000;margin: 0px auto;position: fixed;top: -40px;left: 41%;border: none;background-color: #FFF;}
+.error{ font-size: 12px;display: block;text-align:right;color: #CC3333;display:none;}
+.downmsg-right{box-shadow: #0099CC 0px 0px 2px;}
+.downmsg-error{box-shadow: #CC3300 0px 0px 2px;}
+.btn{font-size: 14px;border: none; border-radius: 1px;padding: 5px 25px;outline: 0;cursor: pointer;display: inline-block;text-align: center;border-radius: 2px;font-weight: normal;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation;touch-action: manipulation;cursor: pointer;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;font-family: Tahoma, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;transition: all .2s ease-in;}
+.no-select{-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+input:-webkit-autofill{-webkit-box-shadow: 0 0 0 1000px white inset !important;}
+/*有问题?咨询我们*/
+.callMe-fixBox:visited{color: #fff;}
+.callMe-fixBox:hover{color:#fff;}
+.callMe-fixBox {position: fixed;z-index: 100;right: 40px;bottom: 50px;height: auto;width: auto;opacity: 100%;font-size: 14px;color: #fff;background-color: #677D8B;padding: 10px 20px;border-radius: 2px;cursor: pointer;}
+/*多行文本框*/
+textarea{padding-top: 5px;}
+::-webkit-scrollbar {width: 14px;height: 14px;background-color: #FFF;}  
+::-webkit-scrollbar-track,  
+::-webkit-scrollbar-thumb {border-radius: 999px;border: 5px solid transparent;}  
+::-webkit-scrollbar-track {box-shadow: 1px 1px 5px rgba(0,0,0,.2) inset;}  
+::-webkit-scrollbar-thumb {min-height: 20px;background-clip: content-box;box-shadow: 0 0 0 5px rgba(0,0,0,.2) inset;background-color: #eee;}  
+::-webkit-scrollbar-corner {background: transparent;}
+::selection {background:#888;color: #fff;}
+::-moz-selection {background:#888;color: #fff;}
+::-webkit-selection {background:#888;color: #fff;}
+.wrap-inline{width: 100%;margin: 0px auto;}
+.wrap-warning{display: block;text-align: center;font-size: 12px;color: #cbcbcb;margin-bottom: 10px;}
+.wrap-inline .note{text-align: center;font-size: 13px;color:#666;}
+.logo{width: 240px;height: 60px;background:url('../../statics/img/logo.png') no-repeat;padding-bottom: 10px;margin:0px auto;position: relative;left: 10px;margin-top: 5%;cursor: pointer;}
+.big-msg{font-weight: 800;font-size: 30px;text-align: center;display: block;padding-bottom: 20px;border-bottom: 1px solid #eee;margin-bottom: 20px;}
+.wrap-inline .l{display: inline-block;width: 95px;margin-right: 10px;text-align:left; }
+.wrap-inline .r{display: inline-block;width: 70%; }
+#input-text-code{display: none;}
+.wrap-inline .r input{overflow: hidden; font-size: 1rem;padding: 2px 0 2px 13px;border: 1px solid #dde3e7;border-radius: 2px;outline: 0;width: 100%;height: 25px;outline : none;margin: 10px 0px;font-size: 14px;color: #888;font-family: Tahoma, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;transition: all .2s ease-in;}
+.wrap-inline .r input:focus{outline: none;box-shadow: 0 1px 8px #dde3e7;border-color:#61A4F7;color:#61A4F7;}
+
+/*登录页面特有部分*/
+.login-content{width: 360px;box-shadow: 0px 0px 10px #ccc;border-bottom:1px solid #61A4F7; background-color: #FFF;padding: 20px 30px;border-radius: 3px;}
+#btn-login{background-color: #61A4F7;color: #fff;width: 95%;margin-top: 17px;padding: 0px;height: 40px;line-height: 40px;width: 100%;}
+/*注册页面特有部分*/
+.btn-code{font-size: 16px;background-color: #1E65BD ;color: #fff;display: inline-block;margin: 10px 0px;width: 100%;display: inline-block;position: absolute;top: 21px;height: 41px;padding: 0;line-height: 40px;}
+.btn-reg{background-color: #61A4F7;color: #fff;display: inline-block;margin: 15px 0px 10px 0px;width: 100%;padding: 0;height: 40px;line-height: 40px;}
+.regsiter-content{border-radius: 3px;width: 450px;background-color: #FFF;border-bottom: 1px solid #eee;margin: 0px auto;box-shadow: rgb(204, 204, 204) 0px 0px 10px;border-bottom: 1px solid rgb(247, 202, 129);padding: 20px 40px;}
+.regsiter-shadow{opacity:0.82; filter: alpha(opacity=82); background-color:#000;z-index: 50;height: 1000px;width: 100%;position: absolute;top: 0px;cursor: pointer;display:none;}
+.regsiter-shadow-str{position: absolute;width: 100%;display: block;font-size: 40px;color: #FFF;text-align: center;z-index: 100;}
+/*找回密码特有部分*/
+.btn-check,.btn-modify{background-color: #61A4F7;color: #fff;display: inline-block;margin: 15px 0px 10px 0px;width: 100%;padding: 0;line-height: 40px;height: 40px;}
+.retrieve-content{border-radius: 3px;width: 370px;background-color: #FFF;border-bottom: 1px solid #eee;margin: 0px auto;box-shadow: rgb(204, 204, 204) 0px 0px 10px;border-bottom: 1px solid rgb(247, 202, 129);padding: 20px 40px;}
+/*页面底部*/
+#login-reg-bottom{display: block;bottom: 5px;text-align: center;width: 100%;font-size: 14px;border: none;}
+/*补齐收款方式*/
+.gathering-content{border-radius: 3px;width: 420px;background-color: #FFF;border-bottom: 1px solid #eee;margin: 0px auto;box-shadow: rgb(204, 204, 204) 0px 0px 10px;border-bottom: 1px solid rgb(247, 202, 129);padding: 20px 40px;margin-bottom: 40px;}
+/*官方公告*/
+#notice_info{width: 96%;margin: 0px auto;background-color: #FFF;}
+#notice_info .notice{width: 100%;border-bottom: 1px solid #eee;padding: 25px 0px;display: block;}
+.notice-row .ico{display: inline-block;padding-left: 25px;height: 20px;width: 5%;}
+.notice-row .ico i{display: inline-block;height: 14px;width: 14px;background: url() no-repeat;}
+.notice-row .date{display: inline-block;height: 20px;width: 20%;}
+.notice-row .title{display: inline-block;height: 20px;font-size: 14px;color: #555;}
+.notice-row .watch{display: inline-block;float: right;position: relative;cursor: pointer;padding: 2px 35px 2px 20px;background-color: #F6C982;color: #fff;margin-right: 20px;  border-radius: 20px;}
+.notice-row .watch .watch-down{background: url() no-repeat;}
+.notice-row .watch .watch-up{background: url() no-repeat;}
+.notice-row .watch i{display: inline-block;width: 10px;height: 6px;position: absolute;right:-3.5px;top: 10px;}
+#notice_info .content{text-align: center;font-size: 13px;padding: 5px 25px;margin-top: 15px;background-color: #ebebeb;border-radius: 5px;display: none;}
+/*商品访问密码*/
+.product-pwd-content{border-radius: 3px;width: 500px;background-color: #FFF;border-bottom: 1px solid #eee;margin: 0px auto;box-shadow: rgb(204, 204, 204) 0px 0px 10px;border-bottom: 1px solid rgb(247, 202, 129);padding: 20px 40px;}
+/*注册页面*/
+.change_mode{font-size: 13px;margin-left: 0px;letter-spacing: 1px;cursor: pointer;color: #1E65BD;}
+.wrap-inline>.hi{color: #ccc;font-size: 14px;display: block;text-align: center;}
+/*补齐手机号码和补齐邮箱*/
+.pour{color: #FF6666;padding-left: 10px;text-decoration: underline;font-size: 13px;display: none;}
+/*提高兼容模式*/
+.gathering-content>.wrap-contents{margin: 0px auto;}

@@ -1,0 +1,646 @@
+
+{extend name="base" /}
+
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__CSS__/iCheck/custom.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/pay-white.css"/>
+{/block}
+
+{block name="body"}
+<div class="container-pay-body">
+		<!-- <span class="container-body-address">您当前位置: </span> -->
+		<div class="container-pay-content">
+			<div class="pay-content-left">
+				<h4>商户信息</h4>
+				<div>
+					<label>商户站点 : &nbsp</label><span>{$sitename}</span> <!-- {:users($userid,'sitename')} -->
+				</div>
+				<div>
+					<label>商户网站 : &nbsp</label><span>{$siteurl}</span> <!-- {:users($userid,'siteurl')} -->
+				</div>
+				<div>
+					<label>商户QQ : &nbsp</label><span>{$qq}          <!-- {:users($userid,'qq')}   -->
+					<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$qq}&site=&Menu=yes" >
+					<img alt="点击这里给我发消息" src="http://wpa.qq.com/pa?p=1:{$qq}:41" align="absmiddle">
+					</a></span>
+				</div>
+				<div>
+					<label>发后类型 : &nbsp</label><span>自动发货 </br>(订单支付成功后，即可在网页上获得卡密，也可通过“订单查询”来获取卡密信息)</span>
+				</div>
+				<div>
+					<label>举报投诉 : &nbsp</label>
+					<a href="javascript:void(0);" class="btn btn-danger btn-small" id="complain"> <i class="fa fa-edit"></i>举报投诉</a>
+				</div>
+				<!-- <div class="i-checks checkbox content-group">
+					<label class="checkbox-inline" style="padding-left: 0;"><input type="checkbox" value="option1" id="inlineCheckbox1">同意并认真阅读用户合作协议</label>
+				</div> -->
+			</div>
+			<div class="pay-content-right">
+				<div class="pay-content-right-check pay-list">
+					<p class="pay-list-title">
+						订单查询
+					</p>
+					<div class="pay-list-detail">
+						<!-- <div > -->
+							<!-- <select name="search-type" class="form-control input-sm" style="width:25%;">
+								<option value="1">订单号</option>
+								<option value="2">联系方式</option>
+							</select> -->
+					<!-- 	</div> -->
+						<input type="text" name="orderid" class="form-control input-sm" style="width:55%;" placeholder="请输入搜索内容" >
+						<a href="javascript:;" class="remark input-sm" id="order-search">支付结果查询</a>
+					</div>
+				</div>
+				<form id="order-info">
+				<div class="pay-content-right-list pay-list">
+					<div>
+						<p class="pay-list-title">
+							选择商品
+						</p>
+					</div>
+					<div class="pay-list-detail">
+						<div class="content-body-group" id="goodcate">
+							<label>商品分类: </label>
+								<select name="goodcate" onchange="getgoodcate(this)" class="form-control input-sm" >
+								{if condition="$goodcatesize >1 "}
+									<option value="">==请选择商品分类==</option>
+								{/if}
+								{volist name="goodcate" id="vo"}
+									<option value="{$vo['linkid']}">{$vo['catename']}</option>
+								{/volist}
+								</select>
+						</div>
+						<div class="content-body-group" id="goodlist">
+							<label>商品名称: </label>
+								<select name="goodlist" onchange="getgoodlist(this)" class="form-control input-sm" >
+								{if condition="$goodlistsize >1 "}
+									<option value="">==请选择商品==</option>
+								{/if}
+								
+								{volist name="goodlist" id="vo"}
+									<option value="{$vo['linkid']}">{$vo['goodname']}</option>
+								{/volist}
+								</select>
+						</div>
+						<div class="content-body-group">
+							<label>商品价格: </label><span class="content-body-group-money good-price">{$unitPrice|default=0}</span><span style="color:#FF0000">元</span>
+						</div>
+						<div class="content-body-group">
+							<label>购买数量: </label>
+							<div class="pay-num" >
+								<div class="input-group input-group-sm" > 
+								    <span class="input-group-btn">
+								     	<button class="btn btn-default minus" type="button">-</button>
+								    </span>
+									<input type="text" name="quantity" onkeypress="return event.keyCode>=48&&event.keyCode<=57" ng-pattern="/[^a-zA-Z]/" class="quantity form-control input-sm" value="{present name='quantity'}{$quantity}{else /}1{/present}">
+									<span class="input-group-btn">
+								     	<button class="btn btn-default plus" type="button">+</button>
+								    </span>
+								</div>
+							</div>	
+							<span class="inventory">{present name="inventory"}库存量:{$inventoryinfo}{/present}</span>
+							<input type="hidden" name="inventory" value="{$inventory}">
+						</div>
+						<div class="content-body-group" style="display: none;">
+							<label>优惠码: </label><input type="text" name="couponcode" class="form-control input-sm"><span class="important-remark">订单提交后优惠券即使用</span>
+						</div>
+						<div class="content-body-group">
+							<label>联系信息: </label><input type="text" name="contact" class="form-control input-sm" value="{present name='contact'}{$contact}{/present}"><span class="important-remark">订单查询的重要凭证</span>
+						</div>
+						<div class="content-body-group">
+							<label>Email: </label><input type="text" name="email" class="form-control input-sm" value="{present name='email'}{$email}{/present}"><span class="important-remark">如需将支付信息发送至邮箱请填写正确的邮箱号</span>
+						</div>
+							<span class="i-checks checkbox" style="display: inline-block;">
+								<label class="checkbox-inline" style="padding-left: 0px;width: auto;"><input type="checkbox" name="isagree" value="option1" id="inlineCheckbox1"  checked="checked"></label>同意并认真阅读<a href="javascript:;" data-title="用户合作协议" data-url="{:U('ajax/userread')}" class="userread">《用户合作协议》</a>
+							</span>
+					</div>
+				</div>
+				
+				<hr />
+				<div class="pay-content-right-list pay-list">
+					<p class="pay-list-title" >
+						支付方式
+					</p>
+					<ul class="pay-list-detail pay-way-list" style="margin-left: -4px;">
+					{volist name="ptp" id="vo"}
+						<li class="pay-list-way" data="{$vo['data']}">{$vo['name']}</li>
+					{/volist}
+						<!-- <li class="pay-list-way" data="wechat">微信支付</li>
+						<li class="pay-list-way" data="zhifubao">支付宝</li>
+						<li class="pay-list-way" data="wangying">网银支付</li>
+						<li class="pay-list-way" data="QQpay">QQ钱包</li>
+						<li class="pay-list-way" data="caifutong">财付通</li> -->
+						<li class="pay-list-way" data="chongzhika">充值卡支付</li>
+					</ui>
+				</div>
+				<div class="pay-content-right-list pay-list ">
+					<p class="pay-list-title">
+					</p>
+					
+					<ul class="pay-list-detail bank-way-list wangying" style="display:none">
+						<li class="bank-list-way" data="ICBC-NET"><img src="__IMG__/ICBC-NET.png"></li>
+						<li class="bank-list-way" data="BOCO-NET"><img src="__IMG__/BOCO-NET.png"></li>
+						<li class="bank-list-way" data="CEB-NET"><img src="__IMG__/CEB-NET.png"></li>
+						<li class="bank-list-way" data="CMBC-NET"><img src="__IMG__/CMBC-NET.png"></li>
+						<li class="bank-list-way" data="ABC-NET"><img src="__IMG__/ABC-NET.png"></li>
+						<li class="bank-list-way" data="SPDB-NET"><img src="__IMG__/SPDB-NET.png"></li>
+						<li class="bank-list-way" data="CIB-NET"><img src="__IMG__/CIB-NET.png"></li>
+						<li class="bank-list-way" data="ECITIC-NET"><img src="__IMG__/ECITIC-NET.png"></li>
+						<li class="bank-list-way" data="CCB-NET"><img src="__IMG__/CCB-NET.png"></li>
+						<li class="bank-list-way" data="CBHB-NET"><img src="__IMG__/CBHB-NET.png"></li>
+						<li class="bank-list-way" data="PAB-NET"><img src="__IMG__/PAB-NET.png"></li>
+						<li class="bank-list-way" data="HXB-NET"><img src="__IMG__/HXB-NET.png"></li>
+						<li class="bank-list-way" data="CMBCHINA-NET"><img src="__IMG__/CMBCHINA-NET.png"></li>
+						<li class="bank-list-way" data="BOC-NET"><img src="__IMG__/BOC-NET.png"></li>
+						<li class="bank-list-way" data="GDB-NET"><img src="__IMG__/GDB-NET.png"></li>
+						<li class="bank-list-way" data="SDB-NET"><img src="__IMG__/SDB-NET.png"></li>
+						<li class="bank-list-way" data="BJRCB-NET"><img src="__IMG__/BJRCB-NET.png"></li>
+						<li class="bank-list-way" data="POST-NET"><img src="__IMG__/POST-NET.png"></li>
+						<li class="bank-list-way" data="NBCB-NET"><img src="__IMG__/NBCB-NET.png"></li>
+						<li class="bank-list-way" data="HKBEA-NET"><img src="__IMG__/HKBEA-NET.png"></li>
+						<li class="bank-list-way" data="BCCB-NET"><img src="__IMG__/BCCB-NET.png"></li>
+						<li class="bank-list-way" data="NJCB-NET"><img src="__IMG__/NJCB-NET.png"></li>
+						<li class="bank-list-way" data="SHB-NET"><img src="__IMG__/SHB-NET.png"></li>
+						<li class="bank-list-way" data="SHRCB-NET"><img src="__IMG__/SHRCB-NET.png"></li>
+					</ul>
+					
+					<ul class="pay-list-detail bank-way-list chongzhika" style="display:none">
+						{volist name="chennal" id="cn"}
+						{if condition="($cn['payid'] lt 24) "}
+						<li class="bank-list-way" data="{$cn['id']}"><img src="__IMG__/{:pay($cn['payid'],'imgurl')}">{$ch['channelname']}</li>
+						{/if}
+						{/volist}
+					</ul>
+					<ul class="pay-list-detail bank-way-list zhifubao" style="display:none">
+						<li class="bank-list-way" data="ALIPAY"><img src="__IMG__/alipay.png"></li>
+					</ul>
+					
+					<ul class="pay-list-detail bank-way-list caifutong" style="display:none">
+						<li class="bank-list-way" data="TENPAY"><img src="__IMG__/tenpay.png"></li>
+					</ul>
+					<ul class="pay-list-detail bank-way-list wechat" style="display:none">
+						<li class="bank-list-way" data="WXPAY"><img src="__IMG__/wxpay.png"></li>
+					</ul>
+					<ul class="pay-list-detail bank-way-list QQpay" style="display:none">
+						<li class="bank-list-way" data="QQPAY"><img src="__IMG__/qqpay.png"></li>
+					</ul>
+				</div>
+				<div class="chongzhika" style="display:none">
+				<div  class="pay-content-right-list pay-list">
+				<p class="pay-list-title">
+						支付卡
+					</p>
+					<div class="pay-list-detail">
+						<select onchange="select_card_quantity()" name="cardquantity">
+							<option value="1">1张卡</option>
+					<option value="2">2张卡</option>
+					<option value="3">3张卡</option>
+					<option value="4">4张卡</option>
+					<option value="5">5张卡</option>
+					<option value="6">6张卡</option>
+					<option value="7">7张卡</option>
+					<option value="8">8张卡</option>
+					<option value="9">9张卡</option>
+					<option value="10">10张卡</option>
+						</select>
+						</div>
+					</div>
+					<div class="pay-content-right-list pay-list card_list">
+					<p class="pay-list-title">
+					</p>
+					<ul class="pay-list-detail">
+						<li><span class="red">*</span> 点卡面值：<select name="cardvalue[]" class="cardvalue"><option value="">请选择充值卡面额</option></select></li>
+						<li><span class="red">*</span> 充值卡号：<input type="text" class="input cardnum" size="30" name="cardnum[]" /></li>
+						<li><span class="red">*</span> 充值卡密：<input type="text" class="input cardpwd" size="30" name="cardpwd[]" /></li>
+					</ul>
+					</div>
+				<div class="pay-content-right-list card_list_add"></div>
+				</div>
+			<!-- 	<div class="pay-content-right-list pay-list">
+					<p class="pay-list-title">
+						付款方式
+					</p>
+					<div class="i-checks radio content-group">
+						<label class="" style="padding-left: 0;"><input name="card" type="radio" value="option1" id="inlineCheckbox1" checked="checked">储蓄卡</label>
+						<label class="" style="padding-left: 0;"><input name="card" type="radio" value="option2" id="inlineCheckbox2">信用卡</label>
+					</div>
+				</div> -->
+				<div class="pay-content-right-list pay-list">
+					<p class="pay-list-title">
+						总计金额
+					</p>
+					<p class="pay-list-money total should-pay">0.00</p><p class="pay-list-money">元</p>
+					<p class="pay-list-title">
+						优惠金额
+					</p>
+					<p class="pay-list-money coupon should-pay">0.00</p><p class="pay-list-money">元</p>
+				</div>
+				<!-- <div class="pay-content-right-list pay-list">
+					<p class="pay-list-title">
+						优惠金额
+					</p>
+					<p class="pay-list-money coupon should-pay">0.00</p><p class="pay-list-money">元</p>
+				</div> -->
+				<div class="pay-content-right-list pay-list">
+					<p class="pay-list-title">
+						应付金额
+					</p>
+					<p class="pay-list-money paymoney should-pay">0.00</p><p class="pay-list-money">元</p>
+				</div>
+				<div class="pay-content-right-list pay-list">
+					<p class="pay-list-title">
+					</p>
+					<input type="hidden" name="userid" value="{$userid}">
+					<input type="hidden" name="goodlinkid" value="{$goodlist[0]['linkid']}">
+					<input type="hidden" name="paytype" value="{$ptp[0]['data']}">
+					<input type="hidden" name="pid" value="">
+					<input type="hidden" name="price" value="">
+					<input type="hidden" name=orderid value="{$orderid}">
+					<a href="javascript:;" class="pay-content-right-submit">确认提交</a>
+				</div>
+				</form>
+				<div class="pay-content-disclaimer">
+					<h4>免责说明：</h4>
+					<p>(向陌生人付款，请注意交易风险，否则造成的经济损失自负！)</p>
+					<p>本站仅是提供自动发卡服务，并非销售商，相关售后问题并不负责，由此产生的交易纠纷由双方自行处理，与1314支付无关！</p>
+					<p>如果您在付款过程中遇到虚假商品或取卡问题，请与企业客服QQ代表联系：2881524853</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{/block}
+
+{block name="script"}
+	
+	<script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green ',
+                radioClass: 'iradio_square-green ',
+            });
+            //页面初始的时候计算价钱
+            $(".total").text(($(".good-price").text()*($("input[name=quantity]").val())).toFixed(2));  
+            count();
+        });
+        
+      	//改变商品分类
+        function getgoodcate(that){ 
+        	var linkid=$(that).children('option:selected').val();
+        	if(linkid){
+              	 $.get("/getcategory/"+linkid,
+                   	 function(result){
+                   		 if(result.status==1){
+                   			 var goodlist = '';
+                   			$.each(result.data,function(index,data){
+                   				goodlist += "<option value="+data['linkid']+">"+data['goodname']+"</option>"
+                   			}) 
+                   			 var _goodlist = "<option value=''>==请选择商品==</option>"+goodlist;
+                   			$("select[name='goodlist']").html("");
+                   			$("select[name='goodlist']").html(_goodlist);
+                   			$("input[name=couponcode]").parent().hide();
+                   		 }else{
+                   			layer.msg(result.info);
+                   		 }
+                   	 });
+              	 
+            	 $(".good-price").text("0.00");
+       			 $(".unit-price").text("0.00");
+       			 $(".total").text("0.00");
+       			 $(".inventory").text("");
+       			$("input[name=inventory]").val(0);
+           	}else{
+           		$("select[name='goodlist']").html("");
+       			$("select[name='goodlist']").html("<option value=''>==请选择商品==</option>");
+           		 $(".good-price").text("0.00");
+       			 $(".unit-price").text("0.00");
+       			 $(".total").text("0.00");
+       			 $(".inventory").text("");
+       			$("input[name=inventory]").val(0);
+           	}
+      }
+        //改变商品
+        function getgoodlist(that){
+        	var linkid=$(that).children('option:selected').val();
+        	if(linkid){
+           	 $.get("/getgood/"+linkid,
+                	 function(result){
+                		 if(result.status==1){
+                			 $(".inventory").text("库存量:"+result.inventoryinfo);
+                			 $("input[name=inventory]").val(result.count);
+                		      //如果原先购买量超过改变购买量
+                	         var inventory =  $("input[name=inventory]").val();
+                	         var quantity = parseInt($(".quantity").val());
+                	         if(quantity>inventory){
+                	 		   	$(".quantity").val(inventory);
+                	 		    $(".num").text(inventory)
+                	 	      }
+                	         
+                			 $(".good-price").text(result.price);
+                			 $(".unit-price").text(result.price);
+                	         var total = result.price*($("input[name=quantity]").val());
+                	         $(".total").text(total);
+                	         count();
+                	         $("input[name=goodlinkid]").val(linkid);
+                	         if(result.is_coupon == 1){
+                	        	 $("input[name=couponcode]").parent().show();
+                	         }else{
+                	        	 $("input[name=couponcode]").parent().hide();
+                	         }
+                		 }else{
+                   			layer.msg(result.info);
+                   		 }
+                	 });
+        	}else{
+        		 $(".good-price").text("0.00");
+    			 $(".unit-price").text("0.00");
+    			 $(".total").text("0.00");
+    			 count();
+    			 $(".inventory").text("");
+    			 $("input[name=inventory]").val(0);
+        	}
+
+    	}
+       
+        //购买数量减1
+        $(".minus").click(function(){
+	        var quantity = parseInt($(".quantity").val());
+	        if(quantity > 0){
+	        	$(".quantity").val(quantity-1);
+	        	inputCalculate(quantity-1)
+	        }else{
+	        	layer.msg('数量必须大于0！', { icon: 5, time: 1500, anim: 6 });
+	        }
+        })
+        //购买数量加1
+       $(".plus").click(function(){
+	        var quantity = parseInt($(".quantity").val());
+	       var inventory =   $("input[name=inventory]").val();
+	       if(quantity<inventory){
+		   	$(".quantity").val(quantity+1);
+		   	inputCalculate(quantity+1)
+	       }else{
+	    	   layer.msg('数量不能大于库存数！', { icon: 5, time: 1500, anim: 6 });
+	       }
+        })
+        
+        // 库存量输入框修改事件
+        $('input[name=quantity]').change(function(){
+        	var quantity = parseInt($(".quantity").val());
+ 	       var inventory =   $("input[name=inventory]").val();
+ 	       if(quantity<inventory){
+ 		   	$(".quantity").val(quantity);
+ 		   	inputCalculate(quantity);
+ 	       }else{
+ 	    	   layer.msg('数量不能大于库存数！', { icon: 5, time: 1500, anim: 6 },function(){
+ 	    		   $('input[name=quantity]').val(inventory);
+ 	    		  inputCalculate(inventory);
+ 	    	   });
+ 	       }
+ 	      if(quantity > 0){
+	        	$(".quantity").val(quantity);
+	        	inputCalculate(quantity)
+	        }else{
+	        	layer.msg('数量数量必须大于0！', { icon: 5, time: 1500, anim: 6 },function(){
+	        		$('input[name=quantity]').val(1);
+	        		inputCalculate(1);
+	        	});
+	        }
+        });
+        //改变购买数量
+        $(".quantity").on("input propertychange",function(){
+	        var num = $(this).val();
+	        inputCalculate(num)
+       })
+       //改变购买数量时计算价格
+       function inputCalculate(num){
+	        var total = ($(".good-price").text())*num;
+	        $(".total").text(total);
+	        $("input[name=price]").val(total);
+	        count();
+        }
+        // 计算实付金额
+        function count(){
+        	var total = $(".total").text();
+        	var coupon = $('.coupon').text();
+        	$(".paymoney").text(total-coupon);
+        }
+        //切换支付方式
+        $(".pay-list-way").click(function(){
+
+        	$(".pay-list-way").each(function(){
+        		$(this).removeClass('current');
+        	});
+        	$(this).addClass('current');
+        	
+        	//切换具体的支付
+        	$(".bank-way-list").each(function(){
+        		$(this).hide();
+        	});
+        	$('.chongzhika').hide();
+        	var pay_detail = $(this).attr("data");
+        	$("."+pay_detail).show();
+        	
+        	$('input[name=paytype]').val(pay_detail);
+        	$('input[name=pid]').val("");
+        })
+        
+        //选择具体的支付方式
+        $(".bank-list-way").click(function(){
+        	$(".bank-list-way").each(function(){
+        		$(this).removeClass('current');
+        	});
+        	$(this).addClass('current');
+        	var pay_detail = $(this).attr("data");
+        	$('input[name=pid]').val(pay_detail);
+        })
+        
+        //页面初始时的默认选择付款方式
+       $(function(){
+    	 var that =  $(".pay-way-list").find("li").first();
+    	 that.addClass('current');
+    	 var pay_detail = that.attr("data");
+    	 $("."+pay_detail).show();
+       });
+        // 订单提交
+        $('.pay-content-right-submit').click(
+        		function(){
+        			// 提交验证
+        			var is = yanzheng();
+        			if(is == false){
+        				return false;
+        			}
+        			if($('input[name=pid]').val() == ''){
+        				alert('支付方式不能为空');
+        			}
+        			var data = $("form").serialize();
+        			console.log(data);
+                	var url   = "/ajax/pay.html?"+data;
+                		layer.open({
+                		    type: 2,
+                		    title: '订单支付',
+                		    scrollbar: false,
+                		    area: [ '45%', '85%'],
+                		    skin: 'layui-layer-rim', //加上边框
+                		    content: url,
+                		});
+        		}	
+        );
+        
+   	 	// 添加充值卡
+    	var select_card_quantity=function(){
+    	    var quantity=$('[name=cardquantity]').val();
+    		quantity=quantity-1;
+    		$('.card_list_add').html('');
+    		for(var i=1;i<=quantity;i++){
+    			$('.card_list_add').append($('.card_list:first').clone());
+    		}	
+    	}
+   	 	// 充值卡面额获取
+   	 	$('.chongzhika .bank-list-way').click(function(){
+   	 		var id = $(this).attr('data');
+   	 		var option='<option value="">请选择充值卡面额</option>';
+   	 		$.post("{:U('ajax/getpayprice')}",{id:id},function(data){
+   	            $('.cardvalue').each(function(){
+   				    $(this).html(option+data);
+   				});
+   	 	});
+   	 });
+   	 // 表单提交验证
+   	 function yanzheng(){
+   		 // 产品分类
+   		 if($('select[name=goodcate]').val() == ''){
+   			alert('请选择商品分类！');
+   			$('select[name=goodcate]').focus();
+   			return false;
+   		 }
+   		// 选择产品
+   		 if($('input[name=goodlinkid]').val() == ''){
+   			alert('请选择具体商品！');
+   			$('select[name=goodlist]').focus();
+   			return false;
+   		 }
+   		// 产品数量
+   		 if($('input[name=quantity]').val() <= 0){
+   			alert('请选择产品数量！');
+   			$('input[name=quantity]').focus();
+   			return false;
+   		 }
+   		// 联系QQ
+   		 if($('input[name=contact]').val() == ''){
+   			alert('请填写联系信息！');
+   			$('input[name=contact]').focus();
+   			return false;
+   		 }
+   		 // 用户协议
+   		if($('[name=isagree]').is(':checked')==false){
+   		    alert('请阅读和同意用户协议，才能继续购买！');
+   			$('[name=isagree]').focus();
+   			return false;
+   		}
+   		// 支付方式
+  		 if($('input[name=pid]').val() == ''){
+  			alert('请选择具体支付方式！');
+  			$('.pay-content-right-list').focus();
+  			return false;
+  		 }
+   		// 充值卡修改
+   		if($('input[name=paytype]').val()=="chongzhika"){
+   			var cte = "";
+   			var is = true;
+   			var i=1;
+   			$('.cardvalue').each(function(){
+   				if($(this).val()==''){
+   					cte=cte+"第"+i+"张卡 请选择充值卡面值!\n";
+   					is = false;
+   				}
+   				i++;
+   			});
+
+   			var i=1;
+   			$('.cardnum').each(function(){
+   				if($(this).val()==''){
+   					cte=cte+"第"+i+"张卡 请填写充值卡号!\n";
+   					is = false;
+   				}
+   				i++;
+   			});
+
+   			var i=1;
+   			$('.cardpwd').each(function(){
+   				if($(this).val()==''){
+   					cte=cte+"第"+i+"张卡 请填写充值卡密!\n";
+   					is = false;
+   				} 
+   				i++;
+   			});
+   			if(cte != ''){
+   				alert(cte);
+   	   			return false;
+   			}
+   			
+   		}
+   	 }
+   	 // 搜索
+   	$('#order-search').click(function(){
+   		var type = $('select[name=search-type]').val();
+   		var data = $('input[name=orderid]').val();
+   		if(data == ""){
+    		layer.msg("请先输入订单号！", {icon: 5, time: 1500 , anim: 6});
+    		return false;
+    	}
+   		
+   		var url = "/Home/Orders/order/contact/"+data;
+   		window.open(url);
+   	});
+   	 // 优惠券检查
+   	 $('input[name=couponcode]').change(function(){
+   		 var code = $(this).val();
+   		 var linkid = $('input[name=goodlinkid]').val();
+   		 if(code == ""){
+   			 alert("请填写优惠券码");
+   			 $(this).focus();
+   			 return false;
+   		 }
+   		 if(linkid == ""){
+   			alert('请选择具体商品！');
+   			$('select[name=goodlist]').focus();
+   			return false;
+   		 }
+   		 
+   		$.post("{:U('ajax/checkcode')}",{code:code,linkid:linkid},function(data){
+	            if(data.status != 1){
+	            	alert(data.info);
+	      			 $(this).focus();
+	            }
+	            if(data.status == 1){
+	            	if(data.ctype == 1){
+	            		$('.coupon').text(data.price);
+	            		count();
+	            	}
+	            	if(data.ctype == 100){
+	            		var total = $(".total").text();
+	            		$('.coupon').text(data.price*total/100);
+	            		count();
+	            	}
+	            	alert(data.info);
+	            }
+	 	});
+   	 });
+   	 // 用户合作协议
+   	 $('.userread').click(function() {
+    var title = $(this).data('title');
+    var url   = $(this).data('url');
+    layer.open({
+        type: 2,
+        title: title,
+        scrollbar: false,
+        area: [ '40%', '60%'],
+        skin: 'layui-layer-rim', //加上边框
+        content: url,
+    });
+});
+</script>
+
+{/block}
+
+	

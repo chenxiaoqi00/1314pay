@@ -1,0 +1,52 @@
+{extend name="Public/base" /}
+{block name="style"}<link href="__CSS__/plugins/iconpicker/bootstrap-iconpicker.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">{/block}
+{block name="body"}
+    <div class="ibox-title">
+        <h5>{$meta_title}</h5>
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                <!--名称 单行文本-->
+                {form:input name="title" title="名称" value="info['title']|default=''" tips="菜单显示的名称" /}
+                <!--图标 选择器-->
+                {form:icon name="icon" title="图标" value="info['icon']|default=''" /}
+                <!--类型 单选框-->
+                {form:radio name="type" title="类型" data="radioType" checked="info['type']" /}
+                <!--模块 选择框-->
+                {form:select name="module" title="模块" first="==选择模块==" data="AuthModule" selected="info['module']" /}
+                <!--分组 单行文本-->
+                {form:input name="group" title="分组" value="info['group']|default=''" tips="左侧菜单分组" cols="3" /}
+                <!--名称 单行文本-->
+                {form:input name="sort" title="排序" value="info['sort']|default='0'" tips="分组显示顺序" cols="2" /}
+                <!--链接 单行文本-->
+                {form:input name="url" title="链接" value="info['url']" tips="U函数解析的URL或者外链" /}
+                <!--上级菜单 选择框-->
+                {form:select name="pid" title="上次菜单" first="==顶级菜单==" data="Menus" selected="info['pid']" /}
+                <!--隐藏 开关效果-->
+                {form:switch name="is_hide" title="隐藏" value="info['is_hide']" /}
+                <!--提示 单行文本-->
+                {form:input name="tip" title="提示" value="info['tip']" /}
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="id" value="{$info.id|default=''}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+    <script type="text/javascript" src="__JS__/plugins/iconpicker/iconset/iconset-fontawesome-4.2.0.min.js"></script>
+    <script type="text/javascript" src="__JS__/plugins/iconpicker/bootstrap-iconpicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+    <script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+    <script type="text/javascript">
+        setFormValue("type", {$info.type|default=1});
+    </script>
+{/block}

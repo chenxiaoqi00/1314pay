@@ -1,0 +1,116 @@
+/*个人中心*/
+.well {padding: 0;background-color: #fff;border: none;box-shadow:none;}
+.zhxx{padding:44px 30px;}
+.zhxx_01{margin-bottom:46px;}
+.gfgg{text-align:left;padding: 25px 30px;border-bottom: 1px solid #eee;margin:0 20px;}
+.gfgg_last{text-align:left;padding:28px 0;margin:0 20px;}
+.xiangqing{padding-left:10px;}
+.layui-layer-btn .layui-layer-btn0 {border-color: #2b9cf2!important;background-color: #2b9cf2!important;color: #f6f6f6!important;font-weight: bold;}
+.pagesplit-content *{font-family: Tahoma, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;}
+/*账户信息*/
+.media-left, .media>.pull-left {padding-right: 18px;}
+.media-heading {margin-top: 5px;margin-bottom: 0px;}
+/*官方公告*/
+.gonggao_btn{background:#FFF;border:none;}
+.btn{box-shadow:none;}
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {outline:none;box-shadow:none;}
+.xiangqing{padding-left:40px;}
+.zhankai{background:url() no-repeat 50% 50%;}
+.nozhankai{background:url() no-repeat 50% 50%;}
+/*---------------个人中心结束*/
+.blue{color: #0082c3;}
+.inline textarea{line-height: 14px;height:90px;padding-top: 5px;overflow-y:auto;}
+.btn.active.focus,.btn.active:focus,.btn.focus,.btn:active.focus,.btn:active:focus,.btn:focus,.sousuo_button,button:focus,button:active {outline:none;box-shadow:none;}
+#listSum{padding: 0px 5px;}
+.border-box{-moz-box-sizing: border-box;-webkit-box-sizing: border-box; -o-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box;}
+/*end*/
+
+/*交易记录*/
+.shijian {background:url() no-repeat 95% center;width: 120px;border: 1px solid #bbb!important;}
+.shijian:hover {cursor:pointer;}
+.jyjl {padding-right:10px;color: #FF6600;}
+.search_section {position:relative;}
+.search_ddbh {position:absolute;left:2px;top:3px;height:28px;width:116px;}
+.ddbh_select {border:none;height:30px;outline:none;margin-top:-1px;margin-left:-1px;}
+.ddbh_select:focus,.ddbh_select:hover {border:none;outline:none;}
+/*支付选择界面*/.col-sm-7 .addchecked {background:url() no-repeat;border:none;}
+.pc_yhxyyd {position:absolute;left:0px;top:-8px;margin-top:2px;width:13px;height:13px;border-radius:2px;border:1px solid #CCCCCC;float:left;margin-right:15px;}
+.pc_yhxymk {overflow:hidden;margin-top:0px;position:relative;}
+/*zhanghu*/  .pc_zhanghu_section_01 img {float:left;}
+.pc_zhanghu_section_01_01 {float:left;margin-left:10px;}
+.pc_zhanghu_section {float:left;margin-left:2%;width: 15%;min-width: 230px;}
+.zhxx {overflow:hidden;}
+.zhanghu_jine {font-size:18px;margin-top:8px;color:#666666;}
+.zdjs {font-size:14px;font-weight:bold;}
+.zhanghu_h {font-size:22px;color:#666666;font-weight:bold;font-family:'Microsoft YaHei';}
+/*shanghu*//*商品分类*/.flmc {position:relative;}
+.fl {padding:0px 8px 16px 20px;}
+.fl:hover {cursor:pointer;}
+.bianji_unfocuc {background:url() right 0 no-repeat;}
+.bianji_focus {background:url() right 0 no-repeat;}
+/*分类标题编辑框*/
+.fl_bianji {display:none;width:350px;height:88px;position:absolute;left:-95px;top:-110px;box-shadow: rgb(222, 225, 226) 0px 1px 24px;background: #fff;border-radius: 5px;}
+.fl_bianji h4 {padding-left:10px;color:#666666;padding-top:0px;margin-top:5px;font-size:14px;border:none !important;}
+.fl_tanchu {width: 260px;border-radius: 0px;margin-left: 8px;line-height: 28px;border: none;border-bottom: 1px solid #eee;float: left;display: inline-block;text-align: center;}
+.div-baocun-content{padding-top: 6px;}
+.fl_baocun {line-height:25px;background:#2b9cf2;border:none;color:#FFF;font-size: 12px;margin-right: 10px;float: right;border-radius:2px;display: inline-block;padding: 1px 10px;position: relative;top: 3px;cursor: pointer;margin-top: 2px;font-family: Tahoma, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;}
+/*商品购买*/
+.shangpinliebiao {width:800px;overflow:hidden;}
+.shangpinliebiao div {padding:0 5px;min-width:180px;text-align:center;float:left;margin-top:10px;line-height:38px;}
+.shangpinliebiao div:hover {cursor:pointer;}
+.shangpinliebiao>div {margin-left:5px;}
+.shangpinfenlei>div>div {margin-left:5px;}
+.shangpinfenlei>div:hover {cursor:pointer;}
+.shangpinfenlei {width:800px;overflow:hidden;}
+.shangpinfenlei>.spfl_section>div {padding:5px;min-width:180px;text-align:center;float:left;margin-top:10px;}
+.zhifupintai img:hover {cursor:pointer;}
+.zhifupintai>div {float:left;margin-bottom:5px;width:172px;height:58px;overflow:hidden;}
+.zhifupintai>div {margin-left:5px;}
+.zhifupintai_border_default {border:1px solid #cccccc;}
+.zhifupintai_border_click {border:1px solid #2bb9f2;}
+.zhifupintai>div>img {width:100%;height:100%;}
+.zhifupintai img:nth-of-type(4n+1) {margin-left:0px;}
+.zhifupintai img:nth-of-type(1) {margin-left:0px;}
+.pc_spsl {width:800px;overflow:hidden;}
+.pc_spsl>div {margin-left:5px;padding:5px;width:180px;text-align:center;float:left;margin-top:10px;}
+.pc_spsl>div:nth-of-type(4n+1) {margin-left:0px;}
+.pc_spsl>div:nth-of-type(1) {margin-left:0px;}
+.pc_spsl input {margin-left:5px;margin-top:10px;}
+/*添加卡密*/  .wenjian {height:30px;}
+.progress {width:250px;margin-top:12px;}
+.checked_label {line-height:30px;}
+/*商户*/  .input_style_none {border:none;outline:none;background:#FFF;text-shadow:none;}
+.input_style_none:focus {border:none;outline:none;background:#FFF;text-shadow:none;}
+/*商户信息*/  .pc_yhxyyd4 {position:absolute;left:0px;top:13px;margin-top:2px;width:13px;height:13px;border-radius:2px;border:1px solid #CCCCCC;float:left;margin-right:15px;}
+.label_style .input_margin {margin-top:8px;}
+/*申请结算*/  .button_bg2 {background:#2bb9f2;width:94px;height:35px;color:#FFF;font-size:14px;}
+/*添加商品页面*/
+i{/* color:#666; */font-style:normal;padding-right:10px;}
+.inline .form-control {width:35%;border-radius: 5px;}
+.inline>*{float:left;}
+.inline {display:block;padding:10px 0px;position:relative;overflow: hidden;margin-left: 30px;}
+.inline .title {line-height:34px;padding-right:10px;text-align:right;font-weight:bold;width:180px;color:#555;}
+.inline .miaosu {display: inline-block;font-size:13px;color:#696969;padding-left:20px;line-height:35px;height: 35px;position: relative;top: 2px;letter-spacing: 0.5px;}
+/*获取链接*/.layui-layer-demo .layui-layer-title {border:none;background-color:#2b9cf2;color:#fff;text-align:center;padding:0px;font-size: 16px;}
+.layui-layer-link {padding:0px 20px 0px 20px;}
+.layui-layer-link span {font-weight:bold;}
+.zhyy {
+    line-height: 36px;
+    color: #2bb9f2;
+}
+
+.button_bg {
+    background: #2b9cf2;
+    height: 35px;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background-size: 100px;
+	margin-left: 480px;
+	width:150px;
+}
+.title i {
+    color: #ff6600;
+}

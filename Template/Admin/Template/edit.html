@@ -1,0 +1,25 @@
+{extend name="Public/base" /} {block name="style"}
+<link href="__CSS__/plugins/iconpicker/bootstrap-iconpicker.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">{/block}{block name="body"}
+<div class="tabs-container">
+    <div class="ibox-content float-e-margins tab-content">
+        <form class="form-horizontal m-t" action="__SELF__" method="post">
+            <div id="base" class="tab-pane active">
+                <!--文件名称 单行文本-->
+                {form:input name="filename" title="文件名" value="filename" cols="3" readonly="true" tips="修改的文件名" /}
+                <!--描述 多行文本框-->
+                {form:textarea name="content" title="内容" value="content" cols="9" rows="22" tips="修改当前模板内容" /}
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <input type="hidden" name="file" value="{:I('file')}">
+                    <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

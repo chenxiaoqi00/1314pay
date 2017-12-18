@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8" />
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<!-- <meta name="description" content="1314自动发卡平台是一个专业的软件卡密等虚拟商品在线交易平台，拥有多种支付方式：费率低、结算快、正规企业平台一直稳定运营，所开发的多项功能被业界争相模仿。">
+	<meta name="keywords" content="自动发卡平台,发卡平台,自动发卡,卡类兑换平台,卡类寄售,自动支付平台"> -->
+	<meta name="description" content="{:C('WEB_SITE_DESCRIPTION')}">
+	<meta name="keywords" content="{:C('WEB_SITE_KEYWORD')}">
+	<title>{$meta_title}-{:C('WEB_SITE_TITLE')}</title>
+	<!--引入样式库-->
+	<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/home-index-style.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/gdt-style.css"/>
+	<link rel="shortcut icon" href="/logo.ico">
+{block name="style"}{/block}
+</head>
+<style>
+.shiming {
+	text-align: center;
+}
+</style>
+<body>
+	<div class="container-fluid" id="nav">
+		<div class="container">
+			<a class="logo" href="{:U('Index/index')}"></a>
+			<div id="navbar">
+				<ul>
+					<li><a href="{:U('Index/index')}">网站首页</a></li>
+					<li><a href="{:U('Index/aboutUs')}">公司简介</a></li>
+					<li><a href="{:U('Index/service')}">服务项目</a></li>
+					<li><a href="{:U('Index/connect')}">联系我们</a></li>
+					<li><a href="{:U('Index/qualificatio')}">企业资质</a></li>
+					<li>
+						<a href="{:U('Orders/index')}" class="navbar-a-last">
+							<div class="home-nav-order">订单查询</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div style="font-family: Microsoft YaHei; line-height: 60px; color: #337ab7; height: 60px; float: right;">
+			{present name="username"}
+	        	{$username} 您好！[ <a  href="{:U('Center/Index/index')}" rel="nofollow">会员中心</a> ]  <span  style="cursor:pointer" class='ajax-get' id="login-out" rel="nofollow">[ 退出 ]</span> 
+	        {else/}
+	        	<div class="btn-group"><!-- {:U('Center/Public/login')} -->
+					<div class="login"><a  target="_blank" href="{:U('Center/Public/login')}">商户登陆</a></div>
+					<div class="register"><a target="_blank" href="{:U('Center/Public/register')}">商户注册</a></div>
+				</div>
+	        {/present}
+	        </div>
+		</div>
+	</div>
+		{block name="body"}{/block}
+	<div class="container-fluid" id="footer">
+		<div class="container">
+			<div class="f-l">
+				<div style="width: 0;"></div>
+				<div class="f-l-t">
+					<h2>关于我们</h2>
+					<ul>
+						<li><a target="_blank" href="{:U('Index/aboutUs')}">公司简介</a></li>
+						<li><a target="_blank" href="{:U('News/notice')}">新闻公告</a></li>
+						<li><a target="_blank" href="{:U('Index/connect')}">联系我们</a></li>
+						<li><a target="_blank" href="{:U('Index/qualificatio')}">企业资质</a></li>
+					</ul>
+				</div>
+				<div class="f-l-t">
+					<h2>商务合作</h2>
+					<ul>
+						<li><a target="_blank" href="{:U('/Center/Public/register')}">账号注册</a></li>
+						<li><a target="_blank" href="">投诉建议</a></li>
+						<li><a target="_blank" href="">服务协议</a></li>
+						<li><a target="_blank" href="{:U('News/detail',array('id'=>206))}">使用条款</a></li>
+					</ul>
+				</div>
+				<div class="f-l-t">
+					<h2>联系我们</h2>
+					<ul>
+						<li><a href="">客服电话：18069131930</a></li>  <!-- 2881524852 -->
+						<li><a href="">电子邮箱：18069131930@163.com</a></li>
+						<li><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2881524852&site=&Menu=yes"><p>在线交谈：</p><i class="icon icon-qq"></i><p>2881524852</p></a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="f-l">
+				<h2>微信公众号</h2>
+				<img src="__IMG__/home/qrcode.png"/>
+			</div>
+		</div>
+		
+		<div class="banquan">
+			<p>Copyright 2016-2020 www.1314fk.com All rights reserved 浙ICP备16008939号-2    浙公网安备 33021202000401号</p>
+		</div>
+		
+		<div class="shiming">
+			<a  key ="59e84faa0c90964ae853b285"  logo_size="83x30"  logo_type="realname"  href="http://www.anquan.org " >
+			<script src="//static.anquan.org/static/outer/js/aq_auth.js "></script></a>
+		</div>
+	</div>
+	
+	<div class="side-bar"> 
+		<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2881524852&site=&Menu=yes" class="icon-qq">QQ在线咨询</a> 
+		<a href="" class="icon-chat">微信<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="__IMG__/home/qrcode.png" alt="微信订阅号"></div></a> 
+		<a  href="javascript:void(0);" class="icon-blog" id="complain">投诉举报</a> 
+		<!-- <a href="mailto:admin@admin.com" class="icon-mail">mail</a>  -->
+	</div>
+</body>
+	<script src="__JS__/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__JS__/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__JS__/plugins/layer/layer.js"></script>
+	<script>
+	    $("#login-out").on('click', function() {
+	        var $url  = '/Center/Public/out';
+	        $.get($url, function(res) {
+	            if(res.status){
+	                layer.msg(res.info, {icon: 6, time: 1500 },function(){
+	                    window.location.href = res.url;
+	                });
+	            } else {
+	                layer.msg(res.info, {icon: 5, time: 1500 , anim: 6});
+	            }
+	        });
+	    });
+	    
+	 	//举报弹框
+	 	$(document).delegate("#complain","click",function(){
+   	 	/* $("#complain").click(function(){ */
+		var url = "/Home/Complain/index";
+		var title = "举报投诉";
+		layerindex = layer.open({
+			  type: 2,
+			  title:title,
+			  area: ['50%', '63%'], //宽高
+			  btn: ['确定', '关闭'],
+			  yes: function(index, layero){
+				var iframeWin = window[layero.find('iframe')[0]['name']];
+				var flag = iframeWin.complainSubmit();
+				layer.msg(flag.info);
+				if(flag.status==1){
+					setTimeout(function(){
+		    			layer.close(layerindex)
+		    		},1200)
+				}
+			  },
+			content: url
+			});
+   	 	})
+    </script>
+	{block name="script"}{/block}
+</html>

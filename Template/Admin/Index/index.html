@@ -1,0 +1,130 @@
+{extend name="Public/base" /}
+{block name="body"}
+  		<div class="col-sm-3 complain"  style="cursor:pointer;">
+            <div class="widget style1 red-bg">
+                <div class="row">
+                    <div class="col-xs-4"> <i class="fa fa-comments fa-5x"></i> </div>
+                    <div class="col-xs-8 text-right"> <span>未处理投诉</span>
+                        <h2 class="font-bold">{$complain_count}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 account" style="cursor:pointer;">
+            <div class="widget style1 yellow-bg">
+                <div class="row">
+                    <div class="col-xs-4"> <i class="fa fa-files-o fa-5x"></i> </div>
+                    <div class="col-xs-8 text-right"> <span> 申请结算 </span>
+                        <h2 class="font-bold"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--     <div class="col-sm-3">
+            <div class="widget style1 lazur-bg">
+                <div class="row">
+                    <div class="col-xs-4"> <i class="fa fa-list fa-5x"></i> </div>
+                    <div class="col-xs-8 text-right"> <span> 待审核文章 </span>
+                        <h2 class="font-bold">123</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="widget style1 navy-bg">
+                <div class="row">
+                    <div class="col-xs-4"> <i class="fa fa-user fa-5x"></i> </div>
+                    <div class="col-xs-8 text-right"> <span> 会员数 </span>
+                        <h2 class="font-bold">1024</h2>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+      
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>系统信息</h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                        <tr>
+                            <td>服务器操作系统：</td>
+                            <td>{$sys_info.os}</td>
+                            <td>服务器域名/IP：</td>
+                            <td>{$sys_info.domain} [ {$sys_info.ip} ]</td>
+                            <td>服务器环境：</td>
+                            <td>{$sys_info.web_server}</td>
+                        </tr>
+                        <tr>
+                            <td>PHP 版本：</td>
+                            <td>{$sys_info.phpv}</td>
+                            <td>Mysql 版本：</td>
+                            <td>{$sys_info.mysql_version}</td>
+                            <td>GD 版本</td>
+                            <td>{$sys_info.gdinfo}</td>
+                        </tr>
+                        <tr>
+                            <td>文件上传限制：</td>
+                            <td>{$sys_info.fileupload}</td>
+                            <td>最大占用内存：</td>
+                            <td>{$sys_info.memory_limit}</td>
+                            <td>最大执行时间：</td>
+                            <td>{$sys_info.max_ex_time}</td>
+                        </tr>
+                        <tr>
+                            <td>安全模式：</td>
+                            <td>{$sys_info.safe_mode}</td>
+                            <td>Zlib支持：</td>
+                            <td>{$sys_info.zlib}</td>
+                            <td>Curl支持：</td>
+                            <td>{$sys_info.curl}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>版权信息</h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                        <tr>
+                            <td>程序名称：</td>
+                            <td>HiCMS管理系统</td>
+                            <td>程序版本：</td>
+                            <td>Version 1.0</td>
+                            <td>更新日期：</td>
+                            <td>2017年2月28日</td>
+                        </tr>
+                        <tr>
+                            <td>开发人员：</td>
+                            <td>LaoHe</td>
+                            <td>联系QQ：</td>
+                            <td>21199555</td>
+                            <td>联系电话：</td>
+                            <td>18905807060 15088877555</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>{/block}
+    {block name="script"}
+    <script>
+    
+ /*    投诉信息 */
+    $(".complain").click(function(){
+    	window.location.href = "/Admin/Complain/index?is_state=0";
+    })
+    
+    $(".account").click(function(){
+    	window.location.href = "/Admin/UserMoney/index.html?account=1";
+    })
+    </script>
+    {/block}

@@ -1,0 +1,24 @@
+<!--extend name="Public/Common"/-->
+<!--block name="style"-->
+<link type="text/css" rel="stylesheet" href="__CSS__/list.css">
+<!--/block-->
+<!--block name="body"-->
+<div class="section  articlec">
+    <div class="zzy"> <span class="crumb">
+    <a href='/'>网站首页</a>&nbsp;>&nbsp;
+    <!--notempty name="breadCrumb"-->
+        <!--volist name="breadCrumb" id="nav"-->
+        <a href="{:U('lists','id='.$nav['id'])}">{$nav.title}</a>&nbsp;>&nbsp;
+        <!--/volist-->
+    <!--/notempty-->
+    正文
+    </span>
+        <h1>{$info['title']}</h1>
+        <div class="artInfo h12"><span><a href="#"></a></span><span>{$info.inputtime|times}</span> </div>
+        <div class="zhengwencss">
+            {$info.content}
+        </div>
+        <div class="pages"> </div>
+    </div>
+</div>
+<!--/block-->

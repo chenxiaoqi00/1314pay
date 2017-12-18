@@ -1,0 +1,90 @@
+
+<!-- 快捷关闭按钮路径 -->
+<script type="text/javascript">
+ var hi = {
+    //快速编辑URL
+    'url_quick': '{:U("quick")}',
+    'on_off': '{:U("changeState")}'
+        };
+
+ </script>
+<script type="text/javascript" src="__BASE_JS__/jquery.min.js"></script>
+<script type="text/javascript" src="__BASE_JS__/plugins/layer/layer.js"></script>
+<script type="text/javascript" src="__JS__/common.js"></script>
+<script src="__JS__/ZeroClipboard-2.2.js" type="text/javascript" charset="utf-8"></script>
+<script src="__BASE_JS__/plugins/layer/layer.js"></script>
+<script src="__BASE_JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+	$(".main-menu").click(function(){
+			$(".main-menu").each(function(){
+				$(this).removeClass("selected");
+			})
+				$(this).addClass("selected");
+	})
+	
+		
+    $("#login-out").on('click', function() {
+        var $url  = '/Center/Public/out';
+        $.get($url, function(res) {
+            if(res.status){
+                layer.msg(res.info, {icon: 6, time: 1500 },function(){
+                    window.location.href = res.url;
+                });
+            } else {
+                layer.msg(res.info, {icon: 5, time: 1500 , anim: 6});
+            }
+        });
+    });
+    
+	$(function(){
+		var url='/Center/Index/collectionInformation';
+		$.get(url,function(resoult){
+			if(resoult.status==0){
+				if(location.href.indexOf("Center/index/userInfo/show/no")==-1){
+					 layer.alert(resoult.info, {
+					      skin: 'layui-layer-lan' //样式类名  自定义样式
+					      ,closeBtn: 1    // 是否显示关闭按钮
+					      ,shade: 0
+					      ,area: ['450px', '150px']
+					      ,btn: ['去设置','下次再说'] //按钮
+					      ,icon: 6    // icon
+					      ,yes:function(){
+					         location.href="/Center/index/userInfo/show/no";
+					      }
+					     ,btn2:function(){
+					        layer.close()
+					     }});
+				}
+			}
+			
+		})
+	})
+	
+/* 时间选择器 */
+	function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+</script>
+{// 页面JS文件 }{block name="script"}{/block}

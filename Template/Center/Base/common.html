@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+{// 引入头部公共文件 }{include file="Base/head"/}
+</head>
+<script type="text/javascript">
+    var hi = {
+        //快速编辑URL
+        'url_quick': '{:U("quick")}',
+        //百度上传URL
+        'url_upload_picture': '{:U("center/upload/webUploader",array("session_id"=>session_id()))}',
+        //编辑器上传
+        'url_editor_upload': '{:U("center/upload/ueditor",array("session_id"=>session_id()))}',
+        //当前URL地址
+        'url_curr': '{:U()}',
+      	//百度上传URL
+        'url_upload_file': '{:U("center/upload/fileUploader",array("session_id"=>session_id()))}',
+        //百度上传队列
+        'url_upload_list': '{:U("center/upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+    };
+</script>
+<body>
+	<div>
+		{// 引入头部公共文件 }{include file="Base/header"/}
+		{// 引入body公共文件 }{include file="Base/body"/}
+		{// 引入底部公共文件 }{include file="Base/footer"/} 
+</body>
+</html>

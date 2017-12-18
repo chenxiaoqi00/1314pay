@@ -1,0 +1,63 @@
+{extend name="Public/base" /} {block name="style"}
+<link href="__CSS__/plugins/iconpicker/bootstrap-iconpicker.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">{/block} {block name="body"}
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#base" aria-expanded="true">基&nbsp;&nbsp;&nbsp;&nbsp;础</a></li>
+        <li><a data-toggle="tab" href="#extend" aria-expanded="false">扩&nbsp;&nbsp;&nbsp;&nbsp;展</a></li>
+    </ul>
+    <div class="ibox-content ibox-noborder float-e-margins tab-content">
+        <form class="form-horizontal m-t" action="__SELF__" method="post">
+            <div id="base" class="tab-pane active">
+                <!--名称 单行文本-->
+                {form:input name="title" title="栏目名称" value="info['title']" cols="3" tips="显示的栏目名称" /}
+                <!--模块 选择框-->
+                {form:input name="name" title="栏目标识" value="info['name']" tips="如不填，默认为栏目拼音" /}
+                <!--上级栏目 选择框-->
+                {form:select name="pid" title="上级栏目" first="==顶级栏目==" data="category" selected="info['pid']" /}
+                <!--名称 单行文本-->
+                {form:input name="sort" title="排序" value="info['sort']|default='0'" tips="栏目顺序,数字越大越靠前" cols="2" /}
+                <!--类型 单选框-->
+                {form:radio name="model" title="文章模型" data="model" checked="info['model']" /}
+                <!--前台投稿 开关效果-->
+                {form:switch name="ispost" title="前台投稿" value="info['ispost']" /}
+                <!--开启审核 开关效果-->
+                {form:switch name="ischeck" title="开启审核" value="info['ischeck']" /}
+            </div>
+            <div id="extend" class="tab-pane">
+                <!--名称 单行文本-->
+                {form:input name="tpl_list" title="列表页模板" value="info['tpl_list']" cols="2" /}
+                <!--名称 单行文本-->
+                {form:input name="tpl_show" title="详情页模板" value="info['tpl_show']" cols="2" /}
+                <!--名称 单行文本-->
+                {form:input name="meta_title" title="网站标题" value="info['meta_title']" cols="3" tips="网站显示的网站标题" /}
+                <!--描述 选择框-->
+                {form:textarea name="keywords" title="栏目关键词" value="info['keywords']" cols="6" rows="3" tips="网站关键词以,号分割" /}
+                <!--描述 选择框-->
+                {form:textarea name="description" title="栏目描述" value="info['description']" cols="6" rows="3" tips="栏目网站描述" /}
+                <!--允许评论 开关效果-->
+                {form:switch name="isreply" title="允许评论" value="info['isreply']" /}
+                <!--生成静态 开关效果-->
+                {form:switch name="ishtml" title="生成静态" value="info['ishtml']" /}
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <input type="hidden" name="id" value="{$info.id|default=''}">
+                    <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/plugins/iconpicker/iconset/iconset-fontawesome-4.2.0.min.js"></script>
+<script type="text/javascript" src="__JS__/plugins/iconpicker/bootstrap-iconpicker.min.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript">
+        setFormValue("model", {$info.model|default=2});
+    </script>
+{/block}

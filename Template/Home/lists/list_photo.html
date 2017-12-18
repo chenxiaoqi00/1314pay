@@ -1,0 +1,48 @@
+<!--extend name="Public/Common"/-->
+<!--block name="style"-->
+<link type="text/css" rel="stylesheet" href="__CSS__/list.css">
+<!--/block-->1111111
+<!--block name="body"-->
+<div class="section">
+    <div class="fl wd75">
+        <div class="titlex">
+            <h3>{$title}<a target="_blank" class="more fr" href="/">&gt;&gt;返回首页1111</a></h3></div>
+        <!--活动公告列表-->
+        <div class="articlet">
+            <div class="list0a">
+                <ul>
+                    <!--notempty name="_list"-->
+                    <!--volist name="_list" id="vo"-->
+                    <li><i></i><span>[{$vo.updatetime|times}]</span><a href="#" target="_blank">{$vo.title}</a></li>
+                    <!--/volist-->
+                    <!--else/-->
+                    <li><p class="item">暂无相关信息</p></li>
+                    <!--/notempty-->
+                </ul>
+                <div class="page">
+                    {$_page}
+                </div>
+            </div>
+        </div>
+        <!--活动公告结束-->
+    </div>
+    <div class="listr fr wd20">
+        <div class="white"></div>
+        <div class="hdol">
+            <h3> <a href="{:U('lists?id=2')}" class="more fr" target="_blank">更多&gt;&gt;</a></h3>
+        </div>
+        <!--活动掠影列表-->
+        <div class="listpic pd10">
+            <ul>
+                <!--label:list name="hdlist" catid="2" limit="5"-->
+                <li><a href="{$v.url}" target="_blank"><img src="{$v.thumb|thumb=200,125}" width="200" height="123" />
+                    <p>{$v.title}</p>
+                    </a>
+                </li>
+                <!--/label:list-->
+            </ul>
+        </div>
+        <!--活动掠影结束-->
+    </div>
+</div>
+<!--/block-->

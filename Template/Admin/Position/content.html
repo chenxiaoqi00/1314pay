@@ -1,0 +1,60 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="ibox-title m-t-0">
+        <div class="btn-group pull-right">
+            <form method="get" class="pull-right form-inline so-form">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" name="title" placeholder="{$title}">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="__SELF__"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="pull-left col-sm-6">
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('remove')}"><i class="fa fa-check"> 移除</i></button>
+            <button class="btn btn-primary input-sm"><i class="fa fa-reply" onclick="javascript:history.back(-1);return false;"> 返回</i></button>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>名称</th>
+                        <th>栏目</th>
+                        <th>模型</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck"><input class="ids check" type="checkbox" name="ids[]" value="{$vo.posid}-{$vo.id}-{$vo.modelid}"></td>
+                                <td class="title">{$vo['data']['title']}</td>
+                                <td>{$vo['catid']|breadcrumb=false}</td>
+                                <td>{$vo.modelid|show_position_model}</td>
+                                <td>
+                                    <a url="{:U('remove',array('ids'=>$vo['posid'].'-'.$vo['id'].'-'.$vo['modelid']))}" class="btn btn-danger btn-xs confirm ajax-get" title="移除{$vo['data']['title']}"><i class="fa fa-trash"></i> 移除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__JS__/editable/js/bootstrap-editable.min.js"></script>
+{/block}

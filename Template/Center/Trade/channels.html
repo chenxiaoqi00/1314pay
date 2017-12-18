@@ -1,0 +1,140 @@
+{extend name="Base/common" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__BASE_JS__/editable/css/bootstrap-editable.css"/>
+<link rel="stylesheet" type="text/css" href="__BASE_CSS__/style.css"/>
+<style>
+.onoffswitch-inner:before {
+    text-align: left; 
+    content: "开启";
+}
+.onoffswitch-inner:after {
+    content: "关闭";
+}
+</style>
+{/block}
+
+ {block name="body"}
+<div class="c-content">
+	<div class="">
+	         <form class="ids" style="margin-bottom: 20px;">
+            <table class="list-table">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th class="width150">支付方式</th>
+                        <th class="width50">商户汇率</th>
+                        <th class="width50">排序</th>
+                        <th class="width50">是否开启</th>
+                    </tr>
+                </thead>
+				{volist name="otherPay" id="vo" key="k"}
+                <!-- <tr {eq name="vo['state']" value="0"}style="display:none"{/eq}> -->
+                <tr >
+                    <td>{$vo['channelname']}</td>
+                    <td>{present name="vo['price']"}{$vo['price']}{else /}<a href="javascript:void(0);" class="price">查看明细</a>{/present}</td>
+                    <td><a href="javascript:;" class="edit-text" data-placeholder="请输入名称" data-type="text" data-pk="{$vo.id}" data-name="sort">{$vo['sortid']}</a></td>
+	                <td>
+	                    {if condition="$vo.state eq 1"}
+		                    {present name="vo['id']"}
+		                      <div class="onoffswitch-large" style="margin:auto">
+		                          <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-field="status" data-id="{$vo['id']}" id="status{$vo['id']}" {eq name="vo['is_state']" value="1"}checked{/eq}>
+		                          <label class="onoffswitch-label" for="status{$vo['id']}">
+		                              <span class="onoffswitch-inner"></span>
+		                              <span class="onoffswitch-switch"></span>
+		                          </label>
+		                      </div>
+		                      {else /}
+		                      <a href="javascript:void(0);"  class="btn btn-small price" >查看明细</a>
+		                      {/present} 
+	                  		
+	                   {else /}
+	                  		<span style="color:#bf242a" >平台已关闭</span>
+	                   {/if}
+	            	</td>
+                </tr>
+			{/volist}
+            </table>
+        </form>
+	</div>
+	
+		<!-- 模态框（Modal）-->
+	<div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog" style="width: 800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="demoModalLabel"></h4>
+				</div>
+				<div class="modal-body" style="height: 500px; overflow:auto;">
+				<table class="list-table ">
+	                <caption></caption>
+	                <thead>
+	                    <tr>
+	                        <th class="width20">支付方式</th>
+	                        <th class="width20">商户汇率</th>
+	                       <!--  <th class="width50">排序</th> -->
+	                        <th class="width20">是否开启</th>
+	                    </tr>
+	                </thead>
+					{volist name="rechargeableCard" id="vo" key="k"}
+	                <tr>
+	                    <td>{$vo['channelname']}</td>
+	                    <td>{$vo['price']}</td>
+	                   <!--  <td >{$vo['sortid']}</td> -->
+	                    <td>
+	                    {if condition="$vo.state eq 1"}
+	                      <div class="onoffswitch-large" style="margin:auto">
+	                          <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-field="status" data-id="{$vo['id']}" id="status{$vo['id']}" {eq name="vo['is_state']" value="1"}checked{/eq}>
+	                          <label class="onoffswitch-label" for="status{$vo['id']}">
+	                              <span class="onoffswitch-inner"></span>
+	                              <span class="onoffswitch-switch"></span>
+	                          </label>
+                      	  </div>
+                      	 {else /}
+	                  		<span style="color:#bf242a">平台已关闭</span>
+	                   	{/if}
+	                    </td>
+	                </tr>
+				{/volist}
+            </table>
+				</div><!-- /.modal-body -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+  </div>          
+{/block}
+
+{block name="script"}
+<script src="__BASE_JS__/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__BASE_JS__/editable/js/bootstrap-editable.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$(".price").click(function(){
+	$('#demoModal').modal('show');
+})
+
+$(function() {
+    //editable 快捷操作  个人中心支付方式排序
+    $.fn.editable.defaults.url = hi.url_quick;
+    $.fn.editable.defaults.emptytext = '空值';
+    $.fn.editable.defaults.params = function(params) {
+        params.type = $(this).data('type') || '';
+        params.field = $(this).data('name') || '';
+        params.id = $(this).data('pk') || '';
+        return params;
+    };
+    $.fn.editable.defaults.success = function(res) {
+        if (res.status) {
+            layer.msg(res.info, { icon: 6, time: 1500 });
+        } else {
+            return res.info;
+        }
+    };
+    $('.edit-text').editable();
+    $('.edit-textarea').editable({ showbuttons: 'bottom' });
+    $('.edit-select').editable();
+})
+</script>
+{/block}

@@ -1,0 +1,33 @@
+<link rel="stylesheet" type="text/css" href="__JS__/editable/css/bootstrap-editable.css"/>
+<table class="table table-striped">
+ <caption></caption>
+ <thead>
+     <tr>
+     
+         <th class="width20">通道ID</th>
+         <th class="width20">通道名称</th>
+         <th class="width50">商户分成</th>
+         <th class="width20">是否关闭</th>
+     </tr>
+ </thead>
+ <tbody class="modal-tbody">
+	{volist name="paylist" id="vo" key="k"}
+      <tr>
+             <td>{$vo['channelid']}</td>
+             <td>{$vo['channelname']}</td>
+             <td><a href="javascript:;" class="edit-text" data-placeholder="请输入名称" data-type="text"  data-pk="{$vo.id}" data-name="price">{$vo['price']}</a></td>
+             <td>
+               <div class="onoffswitch-large">
+                  <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-url="{:U('changeState')}"  data-field="is_state" data-id="{$vo['id']}" id="status{$vo['id']}" {eq name="vo['is_state']" value="0"}checked{/eq}>
+                  <label class="onoffswitch-label" for="status{$vo['id']}">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch"></span>
+                  </label>
+              </div>
+             </td>
+         </tr>
+	{/volist}
+</tbody>
+</table>
+<script src="__JS__/editable/js/bootstrap-editable.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>

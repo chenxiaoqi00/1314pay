@@ -1,0 +1,82 @@
+{extend name="Base/common" /}{block name="style"}<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">{/block}{block name="body"}
+<div class="c-content">
+    <div class="c-tip">
+        【重要通知】产品违规发布规则说明<a href="javascript:void">点击查看</a>
+    </div>
+    <div class="cd-wrap padding20">
+        <ul class="time-tab">
+            {volist name="shopmenu" id="v"}
+            <li {eq name="ACTION_NAME" value="$key"}class="current"{/eq}><a href="{:U($key)}">{$v}</a></li>
+            {/volist}
+        </ul>
+        <form  action="__SELF__" method="post" class="form marginT30">
+            <div class="form-group">
+                <label for="shopname">店铺名称</label>
+                <input type="text" name="shopname" class="form-control width300" value="{$shop['shopname']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 店铺首页及网页标题上显示的店铺名称</span>
+            </div>
+            <div class="form-group">
+                <label for="business">主营业务</label>
+                <textarea name="business" class="form-control width400 height100">{$shop['business']}</textarea>
+                <span class="help-block"><i class="fa fa-info-circle"></i> 关键字最多可输入50字,请用","进行分隔,例如”男装,女装,童装</span>
+            </div>
+            <div class="form-group">
+                <label for="qq">客服QQ</label>
+                <input type="text" name="qq" class="form-control width100" value="{$shop['qq']}">
+            </div>
+            <div class="form-group">
+                <label for="wangwang">阿里旺旺</label>
+                <input type="text" name="wangwang" class="form-control width100" value="{$shop['wangwang']}">
+            </div>
+            <div class="form-group">
+                <label for="worktime">工作时间</label>
+                <input type="text" name="worktime" class="form-control width150" value="{$shop['worktime']|default='09:00-17:00'}">
+            </div>
+            <div class="form-group">
+                <label for="inventory_warning">库存预警</label>
+                <input type="text" name="inventory_warning" class="form-control width100" value="{$shop['inventory_warning']|default=0}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 库存少于预警数则报警提示</span>
+            </div>
+            <div class="form-group">
+                <label for="free_shipping_price">包邮额度</label>
+                <input type="text" name="free_shipping_price" class="form-control width100" value="{$shop['free_shipping_price']|default='0.00'}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 满多少免运费</span>
+            </div>
+            <div class="form-group">
+                <label for="keywords">SEO关键字</label>
+                <textarea name="keywords" class="form-control width400 height100">{$shop['keywords']}</textarea>
+                <span class="help-block"><i class="fa fa-info-circle"></i> 用于店铺搜索引擎的优化,关键字之间请用英文逗号分隔</span>
+            </div>
+            <div class="form-group">
+                <label for="description">SEO描述</label>
+                <textarea name="description" class="form-control width400 height100">{$shop['description']}</textarea>
+                <span class="help-block"><i class="fa fa-info-circle"></i> 用于店铺搜索引擎的优化,建议120字以内</span>
+            </div>
+            <div class="marginL100">
+                <input type="hidden" name="shopid" value="{$shop['shopid']}">
+                <input type="submit" value="保存" class="btn btn-success btn-large ajax-submit" target-form="form">
+                <a href="javascript:;" class="btn btn-default btn-large" onclick="javascript:history.back(-1);return false;">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script src="__BASE_JS__/linkagesel/comm.js"></script>
+<script src="__BASE_JS__/linkagesel/linkagesel.min.js"></script>
+<script src="__JS__/labelauty/labelauty.js"></script>
+<script>
+    $(function(){
+        $(':input').labelauty();
+    });
+    var opts = {
+        ajax: '{:U("api/region/index")}',
+        selStyle: 'margin-left: 3px;',
+        select:[ '#province', '#city', '#district' ],
+        head: '=请选择地区=',
+        defVal:[{$info['province']}, {$info['city']}, {$info['district']}]
+    };
+    var linkageSel = new LinkageSel(opts);
+</script>
+{/block}
+{/block}

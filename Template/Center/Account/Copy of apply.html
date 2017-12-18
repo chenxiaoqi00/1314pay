@@ -1,0 +1,59 @@
+{extend name="Base/common" /} 
+{block name="body"}
+	<div class="c-content">
+		<form action="__SELF__">
+			<div>申请结算</div>
+			<div><span>可结算金额：</span><span class="unpaid">{$unpaid}</span><span>元</span></div>
+			<div><span>申请金额：</span><input type="text" class="form-control applyMoney" name="applyMoney" value=""><span>(暂不收取手续费,最低申请结算10元)</span></div> <!-- 不足100元扣费2元，超过部分每100元扣费2元，最低申请结算10元 -->
+			<div><span>手续费：</span><span>0.00元</span><span class="money-msg"></span></div>
+			<button type="button" disabled="disabled" id="apply-account" >申请结算</button><span class="apply-msg"></span>
+		</form>     <!-- disabled="disabled" -->
+	</div>
+{/block}
+{block name="script"}
+	<script>
+	$("#apply-account").click(function(){
+		var url=$("form").attr("action");
+		var data = $("form").serialize();
+		$.post(url,data,function(resolut){
+			layer.msg(resolut.info)
+		})
+	})
+	
+	$(".applyMoney").bind('input porpertychange',function(){
+		 var applyMoney = parseFloat($("input[name='applyMoney']").val());
+		 var unpaid = Number($(".unpaid").text());
+		 var balance = unpaid-applyMoney;
+		 if(isInteger(applyMoney)){
+			 $(".apply-msg").text("请输入大于0的数字");
+			 $(".money-msg").text("")
+			 $('#apply-account').attr('disabled',"true");
+		 } else if(!applyMoney){
+			 $(".apply-msg").text("");
+			 $(".money-msg").text("")
+			 $('#apply-account').attr('disabled',"true");
+		 }else if(applyMoney<10){
+			 $(".apply-msg").text("最低结算金额是：10 元,请重新修改结算金额");
+			 $(".money-msg").text("")
+			 $('#apply-account').attr('disabled',"true");
+		 }else if(applyMoney>unpaid){
+			 $(".apply-msg").text("申请结算的金额已经超出了您的余额,请修改");
+			 $(".money-msg").text("")
+			 $('#apply-account').attr('disabled',"true");
+		 }else{
+			 $(".apply-msg").text("");
+			 $(".money-msg").text(",结算后余额"+balance)
+			 $('#apply-account').removeAttr("disabled"); 
+		 }
+	});
+	
+	function isInteger(obj) {
+		  var parnt = /^\d+(\.\d+)?$/;
+	        if(!parnt.exec(obj)){
+	            return true;    
+	        }else {
+		        return false;
+		    }
+	}
+	</script>
+{/block}

@@ -1,0 +1,180 @@
+{extend name="Base/common" /}
+{block name="style"}
+
+<link rel="stylesheet" type="text/css" href="__BASE_CSS__/style.css"/>
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+{/block}
+
+ {block name="body"}
+<div class="c-content">
+<form action="__SELF__" method="post">
+<div class="form-group" style="margin-bottom: 20px;">
+<div class="search-date">
+	{center:radio title="分类" name="type" data="type" checked="info['type']"/}
+</div>
+<button class="btn btn-success btn-middle">搜索</button>
+</div>
+</form>
+	<!-- <div class="echart-breadcrumb"><span>订单交易记录</span> </div> -->
+          
+	<!-- <div class=""> -->
+	       <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    	<div id="order-echart" style="width: 100%;height:450px;"></div>
+	<!-- </div> -->
+	
+  </div>          
+{/block}
+
+{block name="script"}
+<script src="__BASE_JS__/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script type="text/javascript">
+setFormValue("type", {$info.type|default=0});
+setFormValue("num", {$info.num|default=7});
+$(function(){
+	$(':input[class="form-radio"], input[class="form-checkbox"]').labelauty();
+});
+	//基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('order-echart'));
+	//app.title = '折柱混合';
+	var data = eval({$data});
+	var date = eval({$date});
+	var option = {
+		 title: {
+	          //  text: '订单交易记录',
+	     	 subtext:'订单交易记录',
+	     	 x:'center',
+	     	top:'5%',
+			subtextStyle:{
+				fontFamily:'SimHei',
+				fontSize:20,
+				fontWeight:'bold',
+				left: 'right'
+			}
+	        },
+	    tooltip: {
+	        trigger: 'axis',
+	        axisPointer: {
+	            type: 'cross',
+	            crossStyle: {
+	                color: '#999'
+	            }
+	        }
+	    },
+	    toolbox: {
+	        feature: {
+	            dataView: {show: true, readOnly: false},
+	            magicType: {show: true, type: ['line', 'bar']},
+	            restore: {show: true},
+	            saveAsImage: {show: true}
+	        }
+	    },
+	    legend: {
+	        data:['提交订单','成交订单数','提交金额','成功金额']
+	    },
+	    xAxis: [
+	        {
+	            type: 'category',
+	            data: date,
+	            axisPointer: {
+	                type: 'shadow'
+	            },
+	            axisLine:{
+	            	lineStyle:{
+	            		color: '#B1B1B1'
+	            	}
+	            }
+	        }
+	    ],
+	    yAxis: [
+	        {
+	            type: 'value',
+	            name: '订单量',
+	            min: 0,
+	            axisLabel: {
+	                formatter: '{value} 单'
+	            },
+	            axisLine:{
+	            	lineStyle:{
+	            		color: '#B1B1B1'
+	            	}
+	            }
+	        },
+	        {
+	            type: 'value',
+	            name: '金额',
+	            min: 0,
+	            axisLabel: {
+	                formatter: '{value} 元'
+	            },
+	            axisLine:{
+	            	lineStyle:{
+	            		color: '#B1B1B1'
+	            	}
+	            }
+	        }
+	    ],
+	    series: [
+	        {
+	            name:'提交订单',
+	            type:'bar',
+	            data:data[0],
+	            itemStyle:{
+	                normal:{
+	                    color: "#3FB1E3" //图标颜色
+	                }
+	            }
+	         
+	        },
+	        {
+	            name:'成交订单数',
+	            type:'bar',
+	            data:data[1],
+	            itemStyle:{
+	                normal:{
+	                    color: "#6BE6C1" //图标颜色
+	                }
+	            }
+	        },
+	        {
+	            name:'提交金额',
+	            type:'line',
+	            yAxisIndex: 1,
+	            data:data[2],
+	            itemStyle:{
+	                normal:{
+	                    color: "#8089A6" //图标颜色
+	                }
+	            },
+	            lineStyle:{
+	                normal:{
+	                    width:4,  //连线粗细
+	                    color: "#8089A6"  //连线颜色
+	                }
+	            }
+	        },
+	        {
+	            name:'成功金额',
+	            type:'line',
+	            yAxisIndex: 1,
+	            data:data[3],
+	            itemStyle:{
+	                normal:{
+	                    color: "#B5BAEC" //图标颜色
+	                }
+	            },
+	            lineStyle:{
+	                normal:{
+	                    width:2,  //连线粗细
+	                    color: "#B5BAEC"  //连线颜色
+	                }
+	            }
+	        }
+	]
+	};
+	
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+</script>
+{/block}

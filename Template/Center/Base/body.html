@@ -1,0 +1,33 @@
+<div class="pc_main" style="margin-top: 10px;">
+       <div class="Hui-aside" style="margin-top: 60px;">
+        <div class="menu_dropdown"> 
+        	{volist name="__MENU__.submenu" id="v"}
+	        	{notempty name="v['child']"}
+		        	<dl class="main-menu {$v['class']}" >
+		            <dt><i class="fa {$v.icon}" style="padding: 0 15px;"></i>{$v['group']}<b></b></dt>
+		            <dd>
+		              <ul ftype="user">
+		              	{volist name="v['child']" id="vo"}
+		              		<li><a class="menu-item {$vo['class']}"  href="{$vo.url|U}" ><div class="ball"></div>{$vo.title}</a></li>
+		              	{/volist}
+		              </ul>
+		            </dd>
+		          </dl>
+	        	{/notempty}
+        	{/volist}
+        </div>
+      </div>
+      <!--用于放置内容-->
+      <div class="article" >
+        <div class="show_iframe" id="iframe_box" style="background: #fff;margin: 0px auto 0px auto;width: 99%;overflow: auto; margin-top: 60px;">
+           <div class="Hui-breadcrumb">{$meta_title}</div>
+            {block name="body"}{/block}
+        </div>
+      </div>
+    </div>
+    <div id="kfk_straining">
+        <div id="kfk_straining-inner"></div>
+    </div>
+<script>
+
+</script>

@@ -1,0 +1,208 @@
+{extend name="Base/common" /}{block name="body"}
+<div class="">
+      <div class="zhxx">
+        <div class="pc_zhanghu_section">
+          <div class="pc_zhanghu_section_01">
+            <img class="media-object slideInUp animated" src="__IMG__/icon01_04.png" alt="...">
+             <div class="pc_zhanghu_section_01_01">
+               <h4 class="media-heading zhanghu_h">{empty name="money['unpaid']"}0{else/}{$money['unpaid']}{/empty}元</h4>
+                <p class="zhanghu_jine">未结算金额</p>
+             </div>
+          </div>
+        </div>
+        <div class="pc_zhanghu_section">
+          <div class="pc_zhanghu_section_01">
+           <img class="media-object slideInUp animated" src="__IMG__/icon02_01.png" alt="...">
+             <div class="pc_zhanghu_section_01_01">
+               <h4 class="media-heading zhanghu_h">{empty name="info['money']['realmoney']"}0{else/}{$info['money']['realmoney']}{/empty}元</h4>
+                <p class="zhanghu_jine">今日收益</p>
+             </div>
+          </div>
+        </div>
+        <div class="pc_zhanghu_section" style="min-width: 240px;">
+          <div class="pc_zhanghu_section_01">
+          <a href="/Center/account/index">
+           <img class="media-object slideInUp animated" src="__IMG__/icon03_04.png" alt="...">
+           </a>  
+             <div class="pc_zhanghu_section_01_01">
+               <h4 class="media-heading zhanghu_h">{empty name="money['paid']"}0{else/}{$money['paid']}{/empty}元</h4>
+                <p class="zhanghu_jine">已结算金额</p>
+             </div>
+          </div>
+        </div>
+        <div class="pc_zhanghu_section" style="min-width: 230px;">
+          <div class="pc_zhanghu_section_01">
+            <img class="media-object slideInUp animated" src="__IMG__/icon04_01.png" alt="...">
+             <div class="">
+               <h4 class="media-heading zhanghu_h">{empty name="info['paytime']"}暂无结算时间{else/}{$info['paytime']}{/empty}</h4>
+                <p class="zhanghu_jine">上次结算时间</p>
+             </div>
+          </div>
+        </div>
+      </div>
+      <div class="zhxx" style="padding-bottom: 50px;">
+        <div class="pc_zhanghu_section">
+          <div class="pc_zhanghu_section_01">
+           <img class="media-object slideInUp animated" src="__IMG__/icon05_01.png" alt="...">
+             <div class="pc_zhanghu_section_01_01">
+               <h4 class="media-heading zhanghu_h">{$info['totel']} 单</h4>
+                <p class="zhanghu_jine">总成交订单</p>
+             </div>
+          </div>
+        </div>
+        <div class="pc_zhanghu_section" style="min-width: 240px;">
+          <div class="pc_zhanghu_section_01">
+           <img class="media-object slideInUp animated" src="__IMG__/icon06_04.png" alt="...">
+             <div class="pc_zhanghu_section_01_01">
+               <h4 class="media-heading zhanghu_h">{$info['today']} 单</h4>
+                <p class="zhanghu_jine">今日成交订单</p>
+             </div>
+          </div>
+        </div>
+        
+        <div class="pc_zhanghu_section" style="min-width: 230px;">
+          <div class="pc_zhanghu_section_01">
+	      	<a href="/Center/Complain/index.html?is_state=0">
+	        	<img class="media-object slideInUp animated" src="__IMG__/icon07_05.png" alt="...">
+	      	</a>
+             <div class="pc_zhanghu_section_01_01">
+               <h4 class="media-heading zhanghu_h">{$complain['num']} 单</h4>
+                <p class="zhanghu_jine">投诉订单</p>
+             </div>
+          </div>
+        </div>
+        
+        <div class="pc_zhanghu_section" style="min-width: 200px;">
+          <div class="pc_zhanghu_section_01">
+           <img class="media-object slideInUp animated" src="__IMG__/icon07_06.png" alt="...">
+             <div class="pc_zhanghu_section_01_01">
+               <h4 class="media-heading zhanghu_h">{$complain['freezemoney']} 元</h4>
+                <p class="zhanghu_jine">冻结金额</p>
+             </div>
+          </div>
+        </div>
+        <!-- <div class="pc_zhanghu_section" style="min-width: 300px;">
+          <div class="pc_zhanghu_section_01">
+           <img class="media-object slideInUp animated" src="" alt="...">
+             <div class="pc_zhanghu_section_01_01">
+               <h4 class="media-heading zhanghu_h">自动结算<span class="zdjs">（满100元）</span></h4>
+                <p class="zhanghu_jine">结算模式</p>
+             </div>
+          </div>
+        </div> -->
+      </div>
+</div>
+<div class="show_iframe show_iframe_gggg" style="width:50%;min-width: 700px;display: inline-block;float: left;box-sizing: border-box;background: #fff; border-top: 5px solid #eee;">
+    <div class="Hui-breadcrumb">官方公告</div>
+
+    <div id="notice_info">
+    {hi:article limit="5" empty="暂无内容"}
+
+        <div class="notice">
+            <div class="notice-row">
+                <div class="ico"><img src="__IMG__/gonggao_{$key}.png"></div>
+                <div class="date">{$v['updatetime']|times}</div>
+                <a href="{$v['url']}" class="title" style="font-size: 14px;color: #666;" target="_block">{$v['title']}</a>
+            </div>
+        </div>
+    {/hi:article}
+  </div>
+</div>
+<style type="text/css">
+  .notice-row .ico{padding-left: 10px;width: 30px;}
+  .notice-row .watch{margin-right: 0px;}
+  .notice-row .date{position: relative;top: -1px;min-width: 160px;}
+  .show_iframe{margin-bottom: 6px;}
+  @media screen and (max-width: 1900px) {
+      .show_iframe_gggg{width: 100% !important;}
+      .show_iframe_xsbb{width: 100% !important;}
+  }
+.Hui-breadcrumb {
+    font-weight: bold;
+    padding-left: 15px;
+    line-height: 39px;
+    height: 39px;
+    background: #FFF;
+    margin-bottom: 10px;
+    text-align: left;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    font-size: 15px;
+    color: #666;
+    letter-spacing: 0.5px;
+}
+.zhxx {
+    overflow: hidden;
+	padding: 44px 30px;
+}
+.pc_zhanghu_section {
+    float: left;
+    margin-left: 2%;
+    width: 15%;
+    min-width: 230px;
+}
+.pc_zhanghu_section_01 img {
+    float: left;
+}
+.slideInUp {
+    animation-name: slideInUp;
+}
+.pc_zhanghu_section_01_01 {
+    float: left;
+    margin-left: 10px;
+}
+.zhanghu_h {
+    font-size: 22px;
+    color: #666666;
+    font-weight: bold;
+    font-family: 'Microsoft YaHei';
+}
+.media-heading {
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+.zhanghu_jine {
+    font-size: 18px;
+    margin-top: 8px;
+    color: #666666;
+}
+#notice_info .notice {
+    width: 100%;
+    border-bottom: 1px solid #f1f1f1;
+    padding: 25px 30px;
+    display: block;
+}
+.notice-row .ico {
+    padding-left: 10px;
+    width: 30px;
+    display: inline-block;
+    height: 20px;
+}
+img {
+    border: none;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+}
+.notice-row .date {
+    position: relative;
+    top: -1px;
+    min-width: 160px;
+	display: inline-block;
+    height: 20px;
+    width: 20%;
+}
+.notice-row .title {
+    display: inline-block;
+    height: 20px;
+    font-size: 14px;
+    color: #555;
+}
+</style>
+{/block}

@@ -1,0 +1,110 @@
+{extend name="Public/base" /}
+{block name="style"}<link href="__JS__/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="__CSS__/plugins/datapicker/datepicker3.css" rel="stylesheet">{/block}
+<!-- 子导航 -->
+{block name="body"}
+<div class="ibox-title ibox-title-border">
+        <div class="pull-left">
+        	<a class="btn btn-primary input-sm" href="{:U('add')}"><i class="fa fa-plus"> 新增</i></a>
+            <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1))}"><i class="fa fa-check"> 启用</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0))}"><i class="fa fa-ban"> 禁用</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del')}"><i class="fa fa-remove"> 删除</i></button>
+            {notempty name="pid"}
+            <button class="btn btn-primary input-sm"><i class="fa fa-reply" onclick="javascript:history.back(-1);return false;"> 返回</i></button>
+            {/notempty}
+        </div>
+    </div>
+    <div class="ibox-title ibox-title-border">
+        <div class="btn-group">
+            <form method="get" class="form-inline so-form">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" value="{:I('get.username')}" name="username" placeholder="用户名|手机|邮箱">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="{:U('inputlists')}"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>id</th>
+                        <th>接入商名称</th>
+                        <th>接入商编号</th>
+                        <th>邮箱账号</th>
+                        <th>接入ID</th>
+                        <th>接入秘钥</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.id}</td>
+                                <td class="title">{$vo.accessname}</td>
+                                <td>{$vo.accesstype}</td>
+                                <td>{$vo.email}</td>
+                                <td>{$vo.accessid}</td>
+                                <td>{$vo.accesskey}</td>
+                                <td>
+                                    <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                                    <a href="{:U('del',array('id'=>$vo['id']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+{/block}
+{block name="script"}
+<script src="__JS__/linkagesel/comm.js"></script>
+<script src="__JS__/linkagesel/linkagesel.min.js"></script>
+<script src="__JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+
+
+
+</script>{/block}

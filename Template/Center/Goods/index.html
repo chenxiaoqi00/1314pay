@@ -1,0 +1,107 @@
+{extend name="Base/common" /} {block name="body"}
+<div class="c-content">
+            <form action="{:U('index')}" method="get">
+            <div class="form-group">
+                <label for="price">商品分类</label>
+                <select class="form-control" name="catid" style="width: 18%;">
+                	<option value="0" {eq name="catid" value="0" }selected="selected"{/eq}>=商品分类=</option>
+                	{volist name="cate" id="cate" }
+                		<option value="{$cate['id']}" {eq name="catid" value="$cate['id']" }selected="selected"{/eq}>{$cate['catename']}</option>
+                	{/volist}
+                </select>
+                <label for="price">商品状态</label>
+         		<select class="form-control" name="is_state" >
+	         		<option value=""   {if condition="I('get.is_state') eq null"}selected="selected"{/if}>=商品状态=</option>
+	         		<option value="1" {if condition="I('get.is_state') eq '1'"}selected="selected"{/if}>售卖中</option>
+	         		<option value="0" {if condition="I('get.is_state') eq '0'"}selected="selected"{/if}>已下架</option>
+         		</select>
+                <label for="name">商品名称</label>
+                <input type="text" id="name" class="form-control" name="title" value="{:I('get.title')}" >
+                <label for="price">价格</label>
+                <input type="text" id="name" class="form-control width50" name="fprice" value="{:I('get.fprice')}" style="width: 50px;">
+                <span>~</span>
+                <input type="text" id="name" class="form-control width50" name="eprice" value="{:I('get.eprice')}" style="width: 50px;">
+                <button class="btn btn-success btn-middle">搜索</button>
+            </div>
+            </form>
+            <ul class="head-list">
+            	<li>
+                    <a href="{:U('add')}"  class="btn btn-success btn-middle " ><i class="fa fa-plus-square"></i>添加商品</a>
+                </li>
+                <li>
+                    <a href="javascript:;"  data-url="{:U('changeState',array('status'=>1))}" class="btn btn-primary btn-middle ajax-status confirm" target-form="ids"><i class="fa fa-long-arrow-up"></i>上架</a>
+                </li>
+                <li>
+                    <a href="javascript:;"  data-url="{:U('changeState',array('status'=>0))}" class="btn btn-warning btn-middle ajax-status confirm" target-form="ids"><i class="fa fa-long-arrow-down"></i>下架</a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-url="{:U('del')}" class="btn btn-danger btn-middle ajax-status confirm" target-form="ids"><i class="fa fa-trash"></i>批量删除</a>
+                </li>
+
+             
+            </ul>
+            <form class="ids">
+            <table class="list-table marginT30">
+                <caption></caption>
+                <thead>
+                    <tr>
+                    	<th >
+		                    <label class="blue-checkbox checkall">
+		                        <input name="checkbox" type="checkbox" class="radioclass">
+		                        <span>全选</span>
+		                    </label>
+                		</th>
+                        <th class="width150">商品名称</th>
+                        <th class="width150">所属分类</th>
+                        <th class="width50">销售价格</th>
+                        <th class="width50">排序</th>
+                        <th class="width50">库存卡</th>
+                        <th class="width50">已卖出</th>
+                        <th class="width150">添加时间</th>
+                        <th>状态</th>
+                       <!--  <th style="width: 30%;">购买链接</th> -->
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                {notempty name="list"}
+					{volist name="list" id="vo" key="k"}
+	                <tr>
+	                    <td>
+	                        <label class="blue-checkbox">
+	                            <input class="ids radioclass check" type="checkbox" name="ids[]" value="{$vo.id}">
+	                        </label>
+	                    </td>
+	                    <td>
+	                        <a href="javascript:;" class="title{$k}" target="_blank">{$vo['goodname']}</a>
+	                    </td>
+	                    <td>{$vo['goodCateName']|}</td>
+	                    <td>{$vo['price']}</td>
+	                    <td>{$vo['sortid']}</td>
+	                    <td>{$vo['stacks']}</td>
+	                    <td>{$vo['sales']}</td>
+	                    <td>{$vo['addtime']|times}</td>
+	                    <td>{$vo['is_state']|show_status_goods}</td>
+	                    <td class="pay-url{$k}" style="display:none; ">{$vo['payUrl']}</td>
+	                    <td class="shot-pay-url{$k}" style="display:none; ">{$vo['shotPayUrl']}</td>
+	                    <td>
+	                    	<a href="javascript:void(0);" class="btn btn-primary btn-small copy" data="{$k}" linkid="{$vo['linkid']}" action="product"> <i class="fa fa-link"></i>链接</a>
+	                        <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-small"> <i class="fa fa-edit"></i>修改</a>
+	                        <a href="javascript:;" data-url="{:U('del',array('ids'=>$vo['id']))}" data-title="删除地址{$vo['address']}" class="btn btn-danger btn-small confirm ajax-get"> <i class="fa fa-trash"></i>删除</a>
+	                    </td>
+	                </tr>
+				{/volist}
+		 	{else/}
+            <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+            {/notempty}
+            </table>
+             <div style="text-align: center;">
+      			{$_page}
+        	</div>
+        </form>
+        </div>
+   {include file="Base/copyurl"/}
+{/block}
+
+{block name="script"}
+<script src="__JS__/copyurl.js" type="text/javascript" charset="utf-8"></script>
+{/block}

@@ -1,0 +1,70 @@
+{extend name="Base/common" /}{block name="style"}<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+{/block}{block name="body"}
+<div class="c-content">
+    <div class="c-tip">
+        【重要通知】产品违规发布规则说明<a href="javascript:void">点击查看</a>
+    </div>
+    <div class="cd-wrap padding20">
+        <ul class="time-tab">
+            {volist name="shopmenu" id="v"}
+            <li {eq name="ACTION_NAME" value="$key"}class="current"{/eq}><a href="{:U($key)}">{$v}</a></li>
+            {/volist}
+        </ul>
+
+        <form  action="__SELF__" method="post" class="form marginT30">
+            <div class="form-group  marginT30">
+                <input type="radio" name="radio" data-labelauty="五证或三证合一" value="1">
+                <input type="radio" name="radio" data-labelauty="旧版证件" value="2">
+                <div class="clear"></div>
+            </div>
+            <div class="form-group hiUploder">
+                <label>营业执照</label>
+                <div class="queueList">
+                    <a class="hiPicker" limit="1" name="thumb" value=""><i class="fa fa-image"></i> 选择证件</a>
+                </div>
+            </div>
+            <div class="form-group hiUploder">
+                <label>税务登记</label>
+                <div class="queueList">
+                    <a class="hiPicker" limit="1" name="thumb" value=""><i class="fa fa-image"></i> 选择证件</a>
+                </div>
+            </div>
+            <div class="form-group hiUploder">
+                <label>组织机构代码</label>
+                <div class="queueList">
+                    <a class="hiPicker" limit="1" name="thumb" value=""><i class="fa fa-image"></i> 选择证件</a>
+                </div>
+            </div>
+            <div class="marginL100">
+                <input type="hidden" name="shopid" value="{$shop['shopid']}">
+                <input type="submit" value="保存" class="btn btn-success btn-large ajax-submit" target-form="form">
+                <a href="javascript:;" class="btn btn-default btn-large" onclick="javascript:history.back(-1);return false;">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__BASE_JS__/linkagesel/comm.js"></script>
+<script type="text/javascript" src="__BASE_JS__/linkagesel/linkagesel.min.js"></script>
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script>
+    var hi = {
+        //百度上传URL
+        'url_upload_picture': '{:U("center/upload/webUploader",array("session_id"=>session_id()))}',
+        //编辑器上传
+        'url_editor_upload': '{:U("center/upload/ueditor",array("session_id"=>session_id()))}',
+        //当前URL地址
+        'url_curr': '{:U()}',
+        //百度上传队列
+        'url_upload_list': '{:U("center/upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+    };
+    $(function(){
+        $(':input').labelauty();
+    });
+</script>
+{/block}
+{/block}

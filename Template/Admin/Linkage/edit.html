@@ -1,0 +1,35 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="ibox-title">
+        <h5>{$meta_title}</h5>
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                <!--名称 单行文本-->
+                {form:input name="title" title="名称" value="info['title']" cols="3" tips="用于显示的联动菜单名称" /}
+                {empty name="info['pid']"}
+                <!--标识 单行文本-->
+                {form:input name="name" title="标识" value="info['name']" tips="必须为英文,如:postion_news" cols="3" /}
+                {/empty}
+                {notempty name="info['pid']"}
+                <!--数值 单行文本-->
+                {form:input name="value" title="数值" value="info['value']" tips="只能为数字,如：99" cols="3" readonly='true' /}
+                {/notempty}
+                <!--是否锁定 开关效果-->
+                {form:switch name="islock" title="锁定" value="info['islock']" /}
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="type" value="{$info.type}">
+                        <input type="hidden" name="id" value="{$info.id|default=''}">
+                        <input type="hidden" name="pid" value="{$info.pid|default='0'}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}

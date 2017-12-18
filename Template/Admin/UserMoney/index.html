@@ -1,0 +1,229 @@
+{extend name="Public/base" /}
+{block name="style"}<link href="__JS__/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="__CSS__/plugins/datapicker/datepicker3.css" rel="stylesheet">{/block}
+
+<!-- 子导航 -->
+{block name="body"}
+    <div class="ibox-title ibox-title-border">
+        <div class="pull-left">
+            <a class="btn btn-primary input-sm" href="{:U('add')}"><i class="fa fa-plus"> 新增</i></a>
+            <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1))}"><i class="fa fa-check"> 启用</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0))}"><i class="fa fa-ban"> 禁用</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del',array('model'=>'Users'))}"><i class="fa fa-remove"> 删除</i></button>
+            {notempty name="pid"}
+            <button class="btn btn-primary input-sm"><i class="fa fa-reply" onclick="javascript:history.back(-1);return false;"> 返回</i></button>
+            {/notempty}
+        </div>
+    </div>
+    <div class="ibox-title ibox-title-border">
+        <div class="btn-group">
+            <form method="get" class="form-inline so-form">
+                <select name="account" class="form-control input-sm">
+                    <option value='' selected>是否申请结算</option>
+                    <option value="1">申请</option>
+                    <option value="0">未申请</option>
+                </select>
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" value="{:I('get.username')}" name="username" placeholder="用户名|手机|邮箱">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="{:U('index',array('catid'=>$catid))}"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>id</th>
+                        <th>商户名</th>
+                        <th>收款人</th>
+                        <th>申请结算</th>
+                        <th>收款方式</th>
+                        <th>结算方式</th>
+                        <th>总收入</th>
+                        <th>已结算</th>
+                        <th>未结算</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.userid}</td>
+                                <td class="title userName">{:getUsersName($vo['userid'])}</td>
+                                <td>{:userinfo($vo['userid'],realname)}
+                                <td>{eq name="vo.account" value="0"}未申请{else/} <span style="color:red" >申请结算</span>{/eq}</td>
+                                <td><font color="green"> {$vo.ptypetext}</font></td>
+                                <td>{$vo.ctypetext}</td>
+                                <td>{$vo.allmoney}</td>
+                                <td>{$vo.paid}</td>
+                                <td>{$vo.unpaid}</td>
+                                <td>
+                                <a href="javascript:void(0)" class="btn btn-info btn-xs account" userid="{$vo['userid']}" account="{$vo['account']}" unpaid="{$vo['unpaid']}"><i class="fa fa-calculator "></i>结算</a>
+                                    <a href="{:U('Payments/index',array('userid'=>$vo['userid']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 详单</a>
+                                    <a href="{:U('Orders/index',array('userid'=>$vo['userid']))}" class="btn btn-info btn-xs"><i class="fa fa-database"></i> 订单</a>
+                                    <a url="{:U('del',array('ids'=>$vo['id'],'model'=>'Usermoney'))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+    
+    
+
+{/block}
+{block name="script"}
+<script src="__JS__/linkagesel/comm.js"></script>
+<script src="__JS__/linkagesel/linkagesel.min.js"></script>
+<script src="__JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+
+var layerAccount = 0
+//总页面结算
+$(".account").click(function(){
+	var that = $(this);
+	var unpaid = that.attr("unpaid");
+	$("#unpaid-money").text("");
+	$("#unpaid-money").text(unpaid);
+	$("#apply-account").html("");
+	userid = that.attr("userid");
+	var account =  that.attr("account");
+	
+	var url   = "/Admin/UserMoney/account/userid/"+userid+"/unpaid/"+unpaid;
+	var title = "商家: "+$(this).parents("tr").children("td.userName").text();
+	layerAccount = layer.open({
+		type: 2,
+	    title:title,
+	    scrollbar: false,
+	   area: [ '60%', '65%'],
+	    btn: ['全部结算', '关闭'],
+	   // skin: 'layui-layer-rim', //加上边框
+	    yes: function(index, layero){
+	    	layer.msg("暂不支持全部结算！")
+	    	return false;
+	    	//调用子页面中的方法
+	/*     	var alert = layer.alert('确定要全部结算吗？', {
+			 // skin: 'layui-layer-molv' //样式类名 自定义样式
+			  closeBtn: 1  // 是否显示关闭按钮
+			  ,btn: ['确定','取消'] //按钮
+			  ,icon: 6  // icon
+			  ,yes:function(){
+				layer.close(alert)
+			 	var iframeWin = window[layero.find('iframe')[0]['name']];
+		    	var flag = iframeWin.accontAll();
+		    	if(flag==1){
+		    		setTimeout(function(){
+		    			layer.close(layerAccount)
+						location.reload();
+		    		},1200)
+		    	} 
+			  }}); */
+		  },
+		  btn2: function(index, layero){
+			  //这边用于判断是结算过，用于判断是否刷新页面
+			 var iframeWin = window[layero.find('iframe')[0]['name']];
+		     var unpaidMoney = iframeWin.getUnpaidMoney(); //弹框中的未结算金额
+		     if(parseInt(unpaidMoney) !=  parseInt(unpaid)){
+		    	 location.reload();
+		     }
+		  },
+		  end:function(index, layero){
+			var iframeWin = window[layero.find('iframe')[0]['name']];
+		    var unpaidMoney = iframeWin.getUnpaidMoney(); //弹框中的未结算金额
+		    if(parseInt(unpaidMoney) !=  parseInt(unpaid)){
+		    	 location.reload();
+		     }
+		  },
+		  content: url,
+		});
+})
+
+//查看投诉订单弹框
+function ordersComplain(url,title){
+	layerindex = layer.open({
+	  type: 2,
+	  title:title,
+	  area: ['70%', '70%'], //宽高
+	  btn: ['关闭'],
+	  btn1: function(index, layero){
+		  layer.close(layerindex);
+	  },
+	content: url
+	});
+}
+
+var layerRefund;
+//查看退款信息
+function refund(url,title){
+	layerindex = layer.open({
+		  type: 2,
+		  title:title,
+		  area: ['60%', '380px'], //宽高
+		  btn: ['退款', '关闭'],
+		  yes: function(index, layero){
+		  	//调用子页面中的方法
+		  	
+	    	var iframeWin = window[layero.find('iframe')[0]['name']];
+	    	var flag = iframeWin.refund();
+	    	if(flag==1){
+	    		setTimeout(function(){
+	    			layer.close(layerindex)
+					location.reload();
+	    		},1000)
+	    	}
+		  },
+		  content: url
+		});
+}
+
+//刷新结算订单的弹框
+function refleshAccount () {
+	var iframeId = 'layui-layer-iframe' + layerAccount;
+	document.getElementById(iframeId).contentWindow.location.reload(true);
+}
+
+</script>{/block}

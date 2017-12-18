@@ -1,0 +1,29 @@
+{extend name="Public/base" /}
+{block name="style"}<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">{/block}
+{block name="body"}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                {form:input name="title" title="广告名称" value="info['title']" cols="3" tips="图片标题alt显示的文字" /}
+                {form:input name="url" title="广告链接" value="info['url']" tips="广告链接地址 http://" /}
+                {form:image name="image" title="图片" value="info['image']" limit="1" button="选择图片" /}
+                {form:datepicker name="enddate" title="结束日期" value="info['enddate']|times='Y-m-d'" tips="广告结束日期,默认为当前3个月后" /}
+                {form:textarea name="extend" title="扩展" value="info['extend']" cols="6" rows="3" tips="广告扩展参数,根据实际需要扩展。每行一个参数,如：bgcolor:#000" /}
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="id" value="{$info['id']}">
+                        <input type="hidden" name="pos" value="{$info['pos']}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+<script src="__JS__/webuploader/webuploader.js" type="text/javascript"></script>
+<script src="__JS__/webuploader/upload.js" type="text/javascript"></script>
+{/block}

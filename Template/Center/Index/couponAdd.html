@@ -1,0 +1,124 @@
+{extend name="Base/common" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+{/block}
+{block name="body"}
+<div class="c-content">
+    <div class="c-tip">
+        【重要通知】产品违规发布规则说明<a href="javascript:void">点击查看</a>
+    </div>
+    <div class="c-detail">
+        <div class="cd-left">
+            <div class="manage cd-wrap ">
+                <h4>生成优惠券</h4>
+               <form action="__SELF__" method="post" class="form">
+                {center:input name="coupon" title="折扣面额" value="info['coupon']" tips="(批发的商户请选择“百分比”的折扣面额，单商品的建议选择“元”的面额)"/}
+                
+                {center:input name="quantity" title="生成数量:" value="info['quantity']" tips="张 (最多一次生成200张)"/}
+                
+                {center:select name="valid" title="有效期"  selected="info['valid']"  tips="天  (过期优惠券系统将自动清理)"/} 
+	            
+	            {center:select name="cateid" title="商品分类"  selected="info['cateid']" tips="(选择对应的商品分类进行优惠券的绑定)" /} 
+	            
+                {center:textarea name="remark" title="备注信息" value="info['remark']" /}
+                
+                
+                
+                
+                
+                
+                
+                {center:input name="username" title="商户名" value="info['username']" readonly="disabled" tips="(批发的商户请选择“百分比”的折扣面额，单商品的建议选择“元”的面额)"/}
+                
+                {center:input name="username" title="电子邮箱" value="info['username']" readonly="disabled"/}
+                
+                {center:input name="username" title="手机号码" value="info['username']" readonly="disabled"/}
+                
+                {center:input name="username" title="商户 QQ" value="info['username']" readonly="disabled"/}
+                
+                {center:input name="sitename" title="站点名称" value="info['sitename']" /}
+              
+                {center:input name="siteurl" title="站点网址" value="info['siteurl']" /}
+	           
+	            {center:radio name="is_getgood" title="自动取卡" data="array(1=>'是',0=>'否')" checked="info['is_getgood']" tips="订单付款完成后自动派卡，否则需要买家手动点击领取。" /}
+	            
+	            {center:radio name="is_invent" title="库存显示" data="array(1=>'实际库存数量',2=>'显示库存范围')" checked="info['is_invent']" /}
+	            
+	            {center:radio name="is_paytype" title="首显付款" data="array(1=>'网银支付',2=>'充值卡支付')" checked="info['is_paytype']" tips="设置购买页面默认显示的支付方式。" /}
+	            
+	            {center:select name="is_contact_limit" title="客户信息"  selected="info['is_contact_limit']" tips="客户下单时输入的联系方式或充值账号格式限制！" /} 
+	           <!--  data="array('1'=>'网银支付','0'=>'充值卡支付')" -->
+	            {center:select name="template" title="支付页面"  selected="info['template']" tips="设置购买页面风格样式！" /} 
+	             <div class="form-group">
+	                <label for="name">商户收款信息</label>
+	            </div>
+	            {center:select name="template" title="收款方式"  selected="info['template']"  /} 
+	            
+	            {center:input name="username" title="收款人姓名" value="info['username']" readonly="disabled"/}
+	            
+	            {center:input name="username" title="身份证号" value="info['username']" readonly="disabled"/}
+	            
+	            {center:input name="username" title="收款账号" value="info['username']" readonly="disabled"/}
+               </form>
+            </div>
+        </div>
+        
+        
+        <div class="cd-right">
+            <div class="cd-wrap">
+                <h4>今日必读</h4>
+                <ul class="tody-read">
+                    <li><a href="javascript:void">航运业如何拥抱大数据航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                </ul>
+            </div>
+            <div class="cd-wrap">
+                <h4>热门推荐</h4>
+                <ul class="hot-list">
+                    <li>
+                        <a href="javascript:void">
+                            <img src="__IMG__/img01.jpg" alt="">
+                        </a>
+                        <h5>￥面议</h5>
+                        <p><a href="javascript:void">第二条12.8m定置网渔船</a></p>
+                    </li>
+                    <li>
+                        <a href="javascript:void">
+                            <img src="__IMG__/img01.jpg" alt="">
+                        </a>
+                        <h5>￥面议</h5>
+                        <p><a href="javascript:void">第二条12.8m定置网渔船</a></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script>
+        var hi = {
+            //百度上传URL
+            'url_upload_picture': '{:U("center/upload/webUploader",array("session_id"=>session_id()))}',
+            //编辑器上传
+            'url_editor_upload': '{:U("center/upload/ueditor",array("session_id"=>session_id()))}',
+            //当前URL地址
+            'url_curr': '{:U()}',
+            //百度上传队列
+            'url_upload_list': '{:U("center/upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+        };
+        $(function(){
+            $(':input').labelauty();
+        });
+    </script>
+{/block}
+

@@ -1,0 +1,119 @@
+/*订单购买流程相关样式*/
+.addcart{overflow:hidden;margin-top: 20px;}
+.ac-product{float: left;width:630px;overflow:hidden;}
+.ac-product dt{float: left; width:200px;height:200px;border:solid 1px #f0f0f0;overflow:hidden;}
+.ac-product dt img{width: 200px;height: 200px;}
+.ac-product dd{float: left;margin-left: 20px;}
+.ac-product dd h3{font-size:16px;font-weight: bold;}
+.ac-product dd h3 a{color:#0c91e2;}
+.ac-product dd h3 a:hover{text-decoration: underline;}
+.ac-product dd p{color:#333;margin-top: 10px;}
+.ac-product dd p em{font-style: normal; color:#999999;}
+.ac-product dd p b{color:#ff712b;}
+.add-total{float: right;text-align: right;}
+.add-total a{display: inline-block;}
+.add-success{font-size:20px;color:#333333;background: url(../images/dui.png) 140px 0px no-repeat;padding-left: 50px;height: 30px;line-height: 30px;}
+.add-count{font-size:20px;color:#ff712b;margin-top: 60px;}
+.add-similar{border:solid 1px #f0f0f0;padding-bottom: 20px;margin:40px auto 65px auto; }
+.add-similar h2{height: 40px;background:#c7e4f6;line-height: 40px;padding-left: 12px;font-size:20px;color:#0085d7;font-weight:bold;margin-bottom: 10px;}
+.add-similar li{width:218px;overflow:hidden;margin:10px;}
+
+/*购物车*/
+.guide-map{width:885px;margin: 0 auto;}
+.guide-map ul{margin:50px 0px; background-image:url(../images/guide.png);background-repeat: no-repeat;height:50px;overflow:hidden;}
+.guide-map ul.pos01{background-position: 0px 0px;}
+.guide-map ul.pos02{background-position: 0px -60px;}
+.guide-map ul.pos03{background-position: 0px -120px;}
+.guide-map ul.pos04{background-position: 0px -180px;}
+.guide-map ul.pos05{background-position: 0px -240px;}
+.guide-map li{float: left;width: 177px;text-align: center;line-height: 50px;}
+.guide-map li.current{color:#fff;}
+.cart-head{overflow:hidden;}
+.cart-head .allcheck{margin-right:20px;}
+.cart-head li{float: left;margin-left: 10px;}
+.cart-detail{margin-top: 30px;}
+.cart-detail ul{margin-bottom: 20px;margin-left: 10px;}
+.cart-detail ul a{color:#0767c8;}
+.cart-detail table{border:solid 1px #dfdfdf;background: #fcfcfc;}
+.cart-detail td{text-align: center; padding:15px 0px;padding-left: 10px;}
+.cart-detail td b{color:#ff712b;}
+.cart-detail td a{color:#0767c8;}
+.cart-detail td a.op{color:#fff;}
+.cart-detail .table-detail dt{width:85px;height: 85px;}
+.cart-detail dd{width:270px;}
+.cart-detail .product-num input{width:40px;}
+.cart-detail .product-num a{color:#333;}
+.cart-detail .num-plus{left: 85px;}
+.cart-detail .kucun{display: none;}
+.cart-account{height: 50px;background:#f5f5f5;margin-top:30px;margin-bottom: 65px;}
+.cart-account ul{overflow:hidden;float: left;}
+.cart-account li{margin-right: 10px; float: left;line-height: 50px;position: relative;}
+.cart-account li .blue-checkbox{margin-top:15px;margin-left: 10px;}
+.cart-account li a{color:#0767c8;}
+.cart-account dl{float: right;}
+.cart-account dt{float:left;line-height: 50px;margin-right: 10px;}
+.cart-account dt b{font-size: 24px;color:#0767c8;}
+.cart-account dd{float:left;margin-top:12px;margin-right: 10px;}
+/*配送信息选择*/
+.cart-infor h2{font-size:18px;color:#333;font-weight: bold;}
+.ship-addr ul{overflow:hidden;}
+.ship-addr li{padding:20px 15px;margin-left:3px;margin-top: 20px; width:207px;height: 67px;background:url(../images/addr01.png) no-repeat;float: left;}
+.ship-addr li:hover{background:url(../images/addr02.png) no-repeat;}
+.ship-addr li.current{background:url(../images/addr03.png) no-repeat;}
+.ship-addr li dt{border-bottom: solid 1px #dddddd;padding-bottom: 5px;}
+.ship-addr li dd{line-height: 20px;margin-top: 5px;}
+.ship-addr a{display:inline-block;margin-top:20px;}
+.pay-way{margin-top: 35px;}
+.pay-way b{font-weight: normal;color:#0085d7;}
+.pay-way li{margin-top: 15px;}
+.order-check{margin-top: 35px;}
+.orc-detail dl{}
+.orc-detail dt{width:85px;height: 85px;}
+.orc-detail td{padding:20px 0px;text-align: center;}
+.orc-detail td b{color:#ff712b;font-size:16px;font-weight: normal;}
+.orc-detail dd{width:240px;text-align: left;}
+.orc-detail ul{margin-top: 10px;}
+.orc-detail ul a{color:#0085d7;}
+.order-head{overflow:hidden;border-bottom: solid 6px #7ecef4;padding-bottom: 10px;margin-top: 20px;}
+.order-head li{float: left;color:#666666;text-align: center;}
+.sum-wrap{overflow:hidden;margin-top: 20px;margin-bottom: 65px;}
+.sum-wrap .tip{float: left;}
+.tip span{display: block;float: left;}
+.tip textarea{width:400px;height: 100px;margin-left:10px;background:#fcfcfc;border:solid 1px #efefef;}
+.total-sum{float: right;}
+.total-sum li{margin-bottom:30px;text-align: right;}
+.total-sum li b,.total-sum li em{margin-left: 10px; display:inline-block;font-size:16px;color:#ff712b;}
+.total-sum li em{font-size:24px;text-align: center;font-style: normal;}
+/*确认订单页面*/
+.check-order{border:solid 1px #dfdfdf;}
+.check-order h2{background:#f5f5f5;height: 40px;border-bottom: solid 1px #dfdfdf;line-height: 40px;padding-left: 10px;font-size:18px;color:#333;font-weight: normal;}
+.check-detail{}
+.check-detail .table-detail tbody td{border:none;}
+.check-detail>li{padding:20px 10px;border-bottom: dashed 1px #e5e5e5;}
+.check-detail h3{font-size:16px;color:#333;font-weight: bold;}
+.check-detail h3 a{font-size:12px;color:#0767c8;font-family: simsun;font-weight: normal;color:#0767c8;padding-left: 10px;}
+.check-detail p{margin-top: 10px;color:#999;}
+.check-total{overflow:hidden;text-align: right;}
+.check-total dl{float: right;margin-bottom: 30px;}
+.check-total dl p{margin-top: 20px;}
+.check-total dl p b{color:#ff712b;font-size:24px;}
+.check-total dt{float: left;margin-right: 30px;}
+.check-total dd{float: right;margin-right: 20px;}
+.check-btn{margin-top: 30px;margin-bottom: 65px;text-align: right;}
+.check-btn a{display:inline-block;}
+/*支付页面*/
+.pay-wrap{width:1200px;margin: 0 auto;margin-bottom: 65px;}
+.pay-check li{line-height: 30px;font-weight: bold; border-bottom: dashed 1px #e5e5e5;padding:20px 10px;overflow:hidden;}
+.pay-check li span{font-size: 18px; display: block; float: left;margin-right: 10px;}
+.pay-btn{text-align: right;margin-right: 20px;}
+.pay-btn p{margin-top: 20px;}
+.pay-btn a{display:inline-block;margin:20px 0px;}
+.pay-btn b{font-size:24px;color:#ff712b;}
+.pay-end{overflow:hidden;}
+.pay-end img{float: left;margin-right: 10px;}
+.pay-end p b{font-weight: bold;font-size:18px;}
+.pay-end p a{color:#0767c8;}
+
+/* 购物车*/
+.cart-shop{float:left}
+.cart-coupon{float:right}

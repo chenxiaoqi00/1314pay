@@ -1,0 +1,77 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            {volist name="AuthType" id="v"}
+                <li {if condition="$key eq $type"}class="active"{/if}> <a href="{:U('index',array('type'=>$key))}" aria-expanded="true">{$v.title}</a></li>
+           {/volist}
+        </ul>
+    </div>
+    <div class="ibox-title m-t-0">
+        <div class="btn-group pull-right">
+            <form method="get" class="pull-right form-inline so-form">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" name="title" placeholder="{$title}">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="__SELF__"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="pull-left col-sm-6">
+            <a class="btn btn-primary input-sm" href="{:U('createGroup',array('type'=>$type))}"><i class="fa fa-plus"> 添加</i></a>
+            <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1,'model'=>'AuthGroup'))}"><i class="fa fa-check"> 启用</i></button>
+            <button  class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0,'model'=>'AuthGroup'))}"><i class="fa fa-ban"> 禁止</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del',array('model'=>'AuthGroup'))}"><i class="fa fa-remove"> 删除</i></button>
+            {notempty name="pid"}
+            <button class="btn btn-primary input-sm"><i class="fa fa-reply"  onclick="javascript:history.back(-1);return false;"> 返回</i></button>
+            {/notempty}
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal ids" action="" method="post">
+            <table class="table table-striped">
+                <thead>
+                    <th class="row-selected icheck">
+                        <input class="checkall" type="checkbox">
+                    </th>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </thead>
+                <tbody>
+                    {notempty name="_list"}
+                        {volist name="_list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.title}</td>
+                                <td><a href="{:U('Auth/access?group_id='.$vo['id'].'&type='.$type)}" class="btn btn-info btn-xs"><i class="fa fa-database"></i> 访问授权</a>
+                                    <a href="{:U('Auth/category?group_id='.$vo['id'].'&type='.$type)}" class="btn btn-info btn-xs"><i class="fa fa-navicon"></i> 分类授权</a>
+                                    <a href="{:U('Auth/user?group_id='.$vo['id'].'&type='.$type)}" class="btn btn-info btn-xs"><i class="fa fa-user"></i> 成员授权</a></td>
+                                <td>
+                                    <div class="onoffswitch-large">
+                                        <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-field="status" data-id="{$vo['id']}" data-model="AuthGroup" id="status{$vo['id']}" {notempty name="vo['status']"}checked{/notempty}>
+                                        <label class="onoffswitch-label" for="status{$vo['id']}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{:U('editGroup',array('id'=>$vo['id']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                                    <a url="{:U('del',array('ids'=>$vo['id'],'model'=>'AuthGroup'))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                        {else/}
+                        <td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+            {$data['page']}
+        </form>
+    </div>
+{/block}

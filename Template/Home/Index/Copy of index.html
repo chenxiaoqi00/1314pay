@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=1, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>318支付首页</title>
+	<!--引入样式库-->
+	<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/home-index-style.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/home-index-slide.css"/>
+
+</head>
+<body>
+	<div class="container-fluid" id="nav">
+		<div class="container">
+			<div class="logo"></div>
+			<div id="navbar">
+				<ul>
+					<li><a href="">网站首页</a></li>
+					<!-- <li><a href="/Template/Home/aboutus/aboutus.html">关于我们</a></li> -->
+					<li><a href="{:U('AboutUs/aboutus')}">关于我们</a></li>
+					<li><a href="">联系我们</a></li>
+					<li><a href="">帮助中心</a></li>
+					<li><a href="">企业资质</a></li>
+					<li><a href="">订单查询</a></li>
+				</ul>
+			</div>
+			<div class="btn-group">
+				<div class="login"><a href="">登陆</a></div>
+				<div class="register"><a href="">注册</a></div>
+			</div>
+		</div>
+	</div>
+
+	<div id="container-show" rel="autoPlay">
+		<div class="img">
+			<span>
+				<a href=""><img src="__IMG__/home/1.jpg" /></a>
+				<a href=""><img src="__IMG__/home/2.jpg" /></a>
+				<a href=""><img src="__IMG__/home/3.jpg" /></a>
+				<a href=""><img src="__IMG__/home/4.jpg" /></a>
+				<a href=""><img src="__IMG__/home/5.jpg" /></a>
+			</span>
+			<div class="masks mk1"></div>
+			<div class="masks mk2"></div>
+		</div>
+	</div>
+
+	<div class="container-fluid" id="box1">
+		<div class="container">
+			<ul>
+				<li>
+					<i class="icon icon-anquan"></i>
+					<h6>安全</h6>
+					<p>高防服务器 , 数据安全无忧</p>
+				</li>
+				<li>
+					<i class="icon icon-gaoxiao"></i>
+					<h6>高效</h6>
+					<p>极速发货 , 省时省心省力</p>
+				</li>
+				<li>
+					<i class="icon icon-bianjie"></i>
+					<h6>便捷</h6>
+					<p>自动发卡 , 实时结算</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid" id="box2">
+		<div class="container">			
+			<div class="title"><h1>平台优势</h1></div>
+			<div>
+				<ul>
+					<li><a href="">
+						<i class="icon icon-fuwuqianquan"></i>
+						<h6>服务器安全</h6>
+						<p>采用群集服务器，无论用户身在何处，均能获得流畅安全可靠的体验。</p>
+					</a></li>
+					<li><a href="">
+						<i class="icon icon-jisufahuo"></i>
+						<h6>极速发货</h6>
+						<p>自动发货1秒急速响应，省时省心省力，结算费率低，利润高</p>
+					</a></li>
+					<li><a href="">
+						<i class="icon icon-zijinbaozhang"></i>
+						<h6>资金保障</h6>
+						<p>24小时监视订单和资金安全，集群DDos防御部署,网站安全无忧。</p>
+					</a></li>
+					<li><a href="">
+						<i class="icon icon-yingjiqidong"></i>
+						<h6>应急启动</h6>
+						<p>多服务器负载及时容错,自如应对常见波动,全程无丢单。</p>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="box3">
+		<div class="container">
+			<div class="title"><h1>电脑、手机、PAD多端通用， 信息同步</h1></div>
+			<div class="computer">
+				<img src="__IMG__/home/computerMain.png"/>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="box4">
+		<div class="container">
+			<div class="title"><h1>合作流程</h1></div>
+			<div class="TheFlowChart">
+				<ul>
+					<li>
+						<div>1</div>
+						<span>注册账户</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>2</div>
+						<span>商务审核</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>3</div>
+						<span>签订合同</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>4</div>
+						<span>上架商品</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>5</div>
+						<span>小额测试</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>6</div>
+						<span>上线销售</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="box5">
+		<div class="container">
+			<div class="lside">
+				<h2>新闻动态</h2>
+				<ul>
+					<li>
+						<a href="">
+							<p>增加WAP手机支付业务</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<p>修复商户卖卡自动接收邮件服务</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<p>318发卡拒绝虚假卡密商户来注册使用</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<p>严厉打击发放虚假卡密商户，一经发现退款</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<p>支付宝支付接口在哪里设置？</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="line"></div>
+			<div class="rside">
+				<h2>常见问题</h2>
+				<ul>
+					<li>
+						<a href="">
+							<p>关于使用支付时“业务接口维护中”的说明</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<p>出现登陆错误、页面加载、操作等错误怎么</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<p>为什么我的商品分类不能删除，老提示错误</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<p>显示库存范围的具体数量说明！</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<p>付款超时、或已扣费显示未付款的说明！</p>
+							<span>2016-12-15</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="box6">
+		<div class="container">
+			<div class="title"><h1>支付渠道</h1></div>
+			<div class="title"><h2>接入318pay,给您的客户最便捷的的购卡体验</h2></div>
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid" id="footer">
+		<div class="container">
+			<div class="f-l">
+				<h2>关于我们</h2>
+				<ul>
+					<li><a href="">公司介绍</a></li>
+					<li><a href="">新闻公告</a></li>
+					<li><a href="">联系我们</a></li>
+					<li><a href="">企业资质</a></li>
+				</ul>
+			</div>
+			<div class="f-l">
+				<h2>商务合作</h2>
+				<ul>
+					<li><a href="">账号注册</a></li>
+					<li><a href="">投诉建议</a></li>
+					<li><a href="">服务协议</a></li>
+					<li><a href="">使用条款</a></li>
+				</ul>
+			</div>
+			<div class="f-l">
+				<h2>联系我们</h2>
+				<ul>
+					<li><a href="">客服电话：18069131930</a></li>
+					<li><a href="">电子邮箱：18069131930@163.com</a></li>
+					<li><a href=""><p>在线交谈：</p><i class="icon icon-qq"></i><p>31867677</p></a></li>
+				</ul>
+			</div>
+			<div class="f-l">
+				<h2>微信公众号</h2>
+				<img src="__IMG__/home/qrcode.png"/>
+			</div>
+			<div class="banquan">
+				<p>Copyright 2016-2020 www.318pay.com All rights reserved 浙ICP备16008939号-2    浙公网安备 33021202000401号</p>
+			</div>
+		</div>
+	</div>
+</body>
+	<!--引入组件库-->
+	<script src="__JS__/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__JS__/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<!-- <script src="js/functions.js" type="text/javascript" charset="utf-8"></script> -->
+	<script src="__JS__/slide.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+	$(function () {
+		var scrollTop = $(window).scrollTop()
+		onscroll = function () {
+			scrollTop = $(window).scrollTop()
+			if (scrollTop >= 800) {
+				$('#box3>.container .computer>img').css('opacity','1')
+			} else{
+				$('#box3>.container .computer>img').css('opacity','0')
+			}
+		}
+	})
+	</script>
+</html>

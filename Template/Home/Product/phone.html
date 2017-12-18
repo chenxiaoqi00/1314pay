@@ -1,0 +1,367 @@
+
+{extend name="base" /}
+
+{block name="style"}
+ 	<meta name="format-detection" content="telephone=no">
+  	<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">
+   	<meta http-equiv="Cache-Control" content="no-siteapp">
+   	<link rel="stylesheet" type="text/css" href="__CSS__/phone.css">
+	<link rel="stylesheet" href="__CSS__/phone-pay.css" id="layui_layer_skinlayercss">
+
+    <style type="text/css">
+      label{font-weight: 400;}
+      .not-pay-list{display: none;text-align: center;}
+      .div_favourable{font-size: 18px;border: 1px solid #f4f4f4;border-top: none;border-radius: 5px;}
+      #show_stock{letter-spacing: 1px;}
+      .span-contact-msg{font-size: 18px;position: relative;top: -5px;}
+      body{font-size: 18px;-ms-zoom: 1.3;}
+      .app_gmxx_lxmj {position: relative;top: -3px;vertical-align: middle;}
+      select {direction: rtl;}
+      select option {direction: ltr;}
+      /*公告样式*/
+      .app_txts {line-height: 25px;max-height:9999px;background: rgba(217, 235, 244, 0.27);font-size: 18px;}
+      .div_product_info>.title{font-size: 19px;}
+      .ground-discount{font-size: 18px;color: #2db7f5;}
+      .gmsl_input_val{border-bottom: 1px solid #f2f2f2;width: 100px;text-align: center;margin-right: 16px;padding-right: 0px;position: relative;top: 0px;height: 45px;}
+      body{background: #f1f1f1;}
+      .app_spgmxx{margin-bottom: 13px;}
+      .contact{border-bottom: 1px solid #f2f2f2;height: 46px;margin-top: 8px;}
+      .app_div_gmsl{margin-top: 12px;}
+      /*XIUG*/
+      div{display: block;}
+      .app_spgmxx{background: #fff;}
+      .app_spgmxx_section{background: #fff;}
+      .app_spgmxx{padding: 0px 20px;box-sizing: border-box;}
+      .app_spgmxx_section {margin-left: 0px!important;margin-right: 0px!important;}
+      .no_bg {margin: 5px 0px;}
+      .span-contact-msg{display: block!important;}
+      .app_div_tr {height: 70px;margin: 5px 0px;border-bottom: 1px solid #f8f8f8;}
+      select{position: relative;top: 3px;}
+      /*如果屏幕小于370*/
+      @media (max-width: 500px){
+          *{font-size: 14px!important;}
+      }
+      .app_zffs_section .app_div_tr{border-bottom: 1px solid #f9f9f9;}
+      .layui-layer-dialog{border-radius: 30px;background: #555;}
+      .layui-layer-dialog .layui-layer-content{border-radius: 30px;}
+      .layui-layer-hui .layui-layer-content{padding: 8px 25px;letter-spacing: 0.5px;}
+      .pay_img_1 {
+	    width: 260px;
+	    margin-left: 0px;
+      }
+      .pay_img_2 {
+		margin-left: 53px;
+	    margin-top: 6px;
+	    width: 161px;
+	    height: 64px;
+      }
+      .pay_img_3 {
+	    margin-left: 20px;
+      }
+      .pay_img_4 {
+	    margin-left: 8px;
+    	margin-top: -10px;
+      }
+    </style>
+{/block}
+
+{block name="body"}
+	<div class="kuaifaka_app" style="max-width: 100%;">
+    <div class="app_spgm_header section_bg" style="position: relative;">
+      <a href="/"><div class="zhifu_logo app_sytj_logo1"></div></a>
+     
+        <div class="app_mjxx_contact">
+          <div class="div-contact" data="0">商户：<span class="contact-value"></span></div>
+          <div class="header_show">商户站点：{$sitename}</div>
+          <div class="site">商户网站：{$siteurl}<span><a href=""></a></span></div>
+        </div>
+        <span style="display: inline-block;padding: 4px 15px;background: #fff;font-size: 18px;font-weight: bold;color: #777;border:none;border-radius: 5px;position: absolute;bottom: 15px;right: 13px;z-index: 100;letter-spacing: 1px;" onclick="location.href='http://www.1314fk.com/Orders/index.html';">订单查询</span>
+   </div>
+   <div class="app_txts">请选择好分类和商品直接下单,本系统将在您付款完成后自动发货!</div>
+   <form action="{:U('ajax/pay')}">
+   <div class="app_spgmxx" style="padding-bottom: 10px;">
+      <div class="app_spgmxx_section">
+          <div class="app_div_tr">
+            <label>选择分类</label>
+            	<select name="goodcate" onchange="getgoodcate(this)" class="app_select1 app_cate no_bg" >
+					{if condition="$goodcatesize >1 "}
+						<option value="">==请选择商品分类==</option>
+					{/if}
+					{volist name="goodcate" id="vo"}
+						<option value="{$vo['linkid']}">{$vo['catename']}</option>
+					{/volist}
+				</select>
+          </div>
+          <div class="app_div_tr" name="app_div_tr_product">
+            <label class="product_list">选择商品</label>
+            <select name="goodlist" onchange="getgoodlist(this)" class="app_select1 no_bg" >
+				{if condition="$goodlistsize >1 "}
+					<option value="">==请选择商品==</option>
+				{/if}
+				
+				{volist name="goodlist" id="vo"}
+					<option value="{$vo['linkid']}">{$vo['goodname']}</option>
+				{/volist}
+			</select>
+          </div>
+          <div class="app_div_tr">
+              <span style="max-height: 600px;">库存量</span><!-- <i class="yhj-msg" style="display: none;">(优惠券：立减10元)</i><i class="discount-msg" style="display: none;">(原价：25元,件满已享受9折)</i> -->
+              <label class="gmsl_input"><span class="inventory">0</span> 张</label>
+          </div>
+          <div class="app_div_tr">
+              <span style="max-height: 600px;">单价</span><!-- <i class="yhj-msg" style="display: none;">(优惠券：立减10元)</i><i class="discount-msg" style="display: none;">(原价：25元,件满已享受9折)</i> -->
+              <label class="gmsl_input"><span class="good-price">0.00</span> 元</label>
+          </div>
+          <div class="app_div_tr app_div_gmsl" style="margin-top: 10px;border-bottom: none;">
+              <span>购买数量<span id="show_stock" class="inventory">{present name="inventory"}({$inventory}){/present}</span></span><span style="float: right;position: relative;top: 1.3px;left: 1px;">张</span>
+              <input class="gmsl_input quantity" name="quantity" maxlength="4" type="tel" value="1" onkeypress="return event.keyCode>=48&&event.keyCode<=57" ng-pattern="/[^a-zA-Z]/" autocomplete="off">
+          </div>
+          <div class="app_div_tr div-sum-price">
+              <span style="max-height: 600px;">总价</span><!-- <i class="yhj-msg" style="display: none;">(优惠券：立减10元)</i><i class="discount-msg" style="display: none;">(原价：25元,件满已享受9折)</i> -->
+              <label class="gmsl_input"><span class="paymoney">0.00</span> 元</label>
+          </div>
+          <div class="app_div_tr" style="border: none;">
+              <span>请输入邮箱</span>
+              <input class="gmsl_input contact" name="email" id="input-contact" style="min-width: 280px;" maxlength="80" placeholder="用于发送邮件">
+          </div>
+          <span class="yhj-ts" style="display: none;">*</span>
+          <div class="app_div_tr" style="border: none;">
+              <span>请输入联系方式</span>
+              <input class="gmsl_input contact" name="contact" id="input-contact" style="min-width: 280px;" maxlength="80" placeholder="例如QQ、手机号等">
+          </div>
+          <span class="text_color3 span-contact-msg" id="span-contact">(联系方式用来查询订单;如填写邮箱,付款成功后将把商品发送到邮箱)</span>
+        
+        </div>
+   </div>
+   <div class="app_spgmxx">
+      <div class="app_xzzffs" style="max-height: 500px;height: 71px;padding-left: 0px;border-bottom: 1px solid #f8f8f8;">选择支付方式</div>
+      <div class="app_spgmxx_section no_bg app_zffs_section" id="app_zffs">
+          	
+          	<div class="app_div_tr no_bg select_pay_item" style="line-height:normal;position: relative;display: block;width: 100%;box-sizing: border-box;background: #fff;height: 76px;" data="1">
+                  <img class="pay_img pay_img_1" src="__IMG__/alipay.png" height="78" alt="支付宝">
+                  <div class="app_float_right app_zffsxz1" style="display: block;height: 40px;width: 40px;border-radius: 50%;top: 18px;position: static;margin-top: 0px;overflow: hidden;line-height: 40px;position: absolute;right: 10px;float: initial;"></div>
+              </div>
+              
+              <div class="app_div_tr no_bg select_pay_item" style="line-height:normal;position: relative;display: block;width: 100%;box-sizing: border-box;background: #fff;height: 76px;" data="2">
+                  <img class="pay_img pay_img_2" src="__IMG__/wxpay.png" height="68" alt="微信">
+                  <div class="app_float_right app_zffsxz" style="display: block;height: 40px;width: 40px;border-radius: 50%;top: 18px;position: static;margin-top: 0px;overflow: hidden;line-height: 40px;position: absolute;right: 10px;float: initial;"></div>
+              </div>
+              
+              <div class="app_div_tr no_bg select_pay_item" style="line-height:normal;position: relative;display: block;width: 100%;box-sizing: border-box;background: #fff;height: 76px;" data="3">
+                  <img class="pay_img pay_img_3" src="__IMG__/qqpay.png" height="78" alt="QQ钱包">
+                  <div class="app_float_right app_zffsxz" style="display: block;height: 40px;width: 40px;border-radius: 50%;top: 18px;position: static;margin-top: 0px;overflow: hidden;line-height: 40px;position: absolute;right: 10px;float: initial;"></div>
+              </div>
+          
+              <div class="app_div_tr no_bg select_pay_item" style="line-height:normal;position: relative;display: block;width: 100%;box-sizing: border-box;background: #fff;height: 76px;" data="4">
+                  <img class="pay_img pay_img_4" src="__IMG__/tenpay.png" height="78" alt="财付通">
+                  <div class="app_float_right app_zffsxz" style="display: block;height: 40px;width: 40px;border-radius: 50%;top: 18px;position: static;margin-top: 0px;overflow: hidden;line-height: 40px;position: absolute;right: 10px;float: initial;"></div>
+              </div>
+          
+          <span class="not-pay-list">暂无可用支付方式</span>
+      </div>
+   </div> 
+   <input type="hidden" name="userid" value="{$userid}">
+	<input type="hidden" name="goodlinkid" value="{$goodlist[0]['linkid']}">
+	<input type="hidden" name="paytype" value="zhifubao">
+	<input type="hidden" name="pid" value="ALIPAY">
+	<input type="hidden" name="price" value="">
+	<input type="hidden" name=orderid value="{$orderid}">
+   <div class="app_tj1 button_color">下一步</div>
+   </form>
+  </div>
+{/block}
+
+{block name="script"}
+	<script>
+		$(".app_div_tr").click(function () {
+			$(".app_spgmxx_section").find(".app_float_right").removeClass('app_zffsxz1');
+			$(".app_spgmxx_section").find(".app_float_right").addClass('app_zffsxz');
+			$(this).find(".app_float_right").removeClass('app_zffsxz');
+			$(this).find(".app_float_right").addClass('app_zffsxz1');
+			var type = $(this).attr("data");
+			if(type == 1){
+				$("input[name=paytype]").val("zhifubao");
+				$("input[name=pid]").val("ALIPAY");
+			}else if(type == 2){
+				$("input[name=paytype]").val("wechat");
+				$("input[name=pid]").val("WXPAY");
+			}else if(type == 3){
+				$("input[name=paytype]").val("QQpay");
+				$("input[name=pid]").val("QQPAY");
+			}else if(type == 4){
+				$("input[name=paytype]").val("caifutong");
+				$("input[name=pid]").val("TENPAY");
+			}
+		});
+		//改变商品分类
+        function getgoodcate(that){ 
+        	var linkid=$(that).children('option:selected').val();
+        	if(linkid){
+              	 $.get("/getcategory/"+linkid,
+                   	 function(result){
+                   		 if(result.status==1){
+                   			 var goodlist = '';
+                   			$.each(result.data,function(index,data){
+                   				goodlist += "<option value="+data['linkid']+">"+data['goodname']+"</option>"
+                   			}) 
+                   			 var _goodlist = "<option value=''>==请选择商品==</option>"+goodlist;
+                   			$("select[name='goodlist']").html("");
+                   			$("select[name='goodlist']").html(_goodlist);
+                   			$("input[name=couponcode]").parent().hide();
+                   		 }else{
+                   			layer.msg(result.info);
+                   		 }
+                   	 });
+              	 
+            	 $(".good-price").text("0.00");
+       			 $(".unit-price").text("0.00");
+       			 $(".total").text("0.00");
+       			 $(".inventory").text("");
+           	}else{
+           		$("select[name='goodlist']").html("");
+       			$("select[name='goodlist']").html("<option value=''>==请选择商品==</option>");
+           		 $(".good-price").text("0.00");
+       			 $(".unit-price").text("0.00");
+       			 $(".total").text("0.00");
+       			 $(".inventory").text("");
+           	}
+      }
+        //改变商品
+        function getgoodlist(that){
+        	var linkid=$(that).children('option:selected').val();
+        	if(linkid){
+           	 $.get("/getgood/"+linkid,
+                	 function(result){
+                		 if(result.status==1){
+                			 $(".inventory").text(result.count);
+                		      //如果原先购买量超过改变购买量
+                	         var inventory =  parseInt($(".inventory").text().split(":")[1]);
+                	         var quantity = parseInt($(".quantity").val());
+                	         if(quantity>inventory){
+                	 		   	$(".quantity").val(inventory);
+                	 		    $(".num").text(inventory)
+                	 	      }
+                	         
+                			 $(".good-price").text(result.price);
+                			 $(".unit-price").text(result.price);
+                	         var total = result.price*($("input[name=quantity]").val());
+                	         $(".total").text(total);
+                	         count();
+                	         $("input[name=goodlinkid]").val(linkid);
+                	         if(result.is_coupon == 1){
+                	        	 $("input[name=couponcode]").parent().show();
+                	         }else{
+                	        	 $("input[name=couponcode]").parent().hide();
+                	         }
+                		 }else{
+                   			layer.msg(result.info);
+                   		 }
+                	 });
+        	}else{
+        		 $(".good-price").text("0.00");
+    			 $(".unit-price").text("0.00");
+    			 $(".total").text("0.00");
+    			 count();
+    			 $(".inventory").text("");
+        	}
+
+    	}
+      //库存量输入框修改事件
+        $('input[name=quantity]').change(function(){
+        	var quantity = parseInt($(".quantity").val());
+            var inventory =  parseInt($(".inventory").text().substr(0,1));
+            console.log(inventory);
+            if(quantity<inventory){
+        	   	$(".quantity").val(quantity);
+        	   	inputCalculate(quantity);
+            }else{
+         	   layer.msg('数量不能大于库存数！', { icon: 5, time: 1500, anim: 6 },function(){
+         		   $('input[name=quantity]').val(inventory);
+         		  inputCalculate(inventory);
+         	   });
+            }
+           if(quantity > 0){
+            	$(".quantity").val(quantity);
+            	inputCalculate(quantity)
+            }else{
+            	layer.msg('数量必须大于0！', { icon: 5, time: 1500, anim: 6 },function(){
+            		$('input[name=quantity]').val(1);
+            		inputCalculate(1);
+            	});
+            }
+        });
+        //改变购买数量
+        $(".quantity").on("input propertychange",function(){
+            var num = $(this).val();
+            inputCalculate(num)
+        })
+      //改变购买数量时计算价格
+        function inputCalculate(){
+        	var num = $('input[name=quantity]').val();
+            var total = ($(".good-price").text())*num;
+            $(".total").text(total);
+            $("input[name=price]").val(total);
+            count();
+        }
+
+        // 计算实付金额
+        function count(){
+        	var num = $('input[name=quantity]').val();
+        	var total = ($(".good-price").text())*num;
+        	var coupon = $('.coupon').text();
+        	$("input[name=price]").val(total-coupon);
+        	$(".paymoney").text(total-coupon);
+        }
+     // 订单提交
+        $('.app_tj1').click(
+        		function(){
+        			// 提交验证
+        			var is = yanzheng();
+        			if(is == false){
+        				return false;
+        			}
+        			if($('input[name=pid]').val() == ''){
+        				alert('支付方式不能为空');
+        			}
+        			var data = $("form").serialize();
+                	var url   = "/ajax/pay.html?"+data;
+                	window.location.href = url;
+        		}	
+        );
+        // 表单提交验证
+      	 function yanzheng(){
+      		 // 产品分类
+      		 if($('select[name=goodcate]').val() == ''){
+      			alert('请选择商品分类！');
+      			$('select[name=goodcate]').focus();
+      			return false;
+      		 }
+      		// 选择产品
+      		 if($('input[name=goodlinkid]').val() == ''){
+      			alert('请选择具体商品！');
+      			$('select[name=goodlist]').focus();
+      			return false;
+      		 }
+      		// 产品数量
+      		 if($('input[name=quantity]').val() <= 0){
+      			alert('请选择产品数量！');
+      			$('input[name=quantity]').focus();
+      			return false;
+      		 }
+      		// 联系QQ
+      		 if($('input[name=contact]').val() == ''){
+      			alert('请填写联系信息！');
+      			$('input[name=contact]').focus();
+      			return false;
+      		 }
+      		 
+      		// 支付方式
+     		 if($('input[name=pid]').val() == ''){
+     			alert('请选择具体支付方式！');
+     			$('.payway-nav-name').focus();
+     			return false;
+     		 }
+      		
+      	 }
+	</script>
+{/block}

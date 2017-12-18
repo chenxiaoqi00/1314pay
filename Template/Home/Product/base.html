@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8" />
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>{$meta_title}-{:C('WEB_SITE_TITLE')}</title>
+	<link rel="shortcut icon" href="/logo.ico">
+	<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/home-index-style.css"/>
+	{block name="style"}{/block}
+</head>
+<body>
+	{block name="body"}{/block}
+</body>	
+<script src="__JS__/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/plugins/layer/layer.js"></script>
+<script src="__JS__/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/functions.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/iCheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+ 	//举报模态框
+   	 	$("#complain").click(function(){
+   	 	var userid = $("input[name='userid']").val();
+		var url = "/Home/Complain/index/userid/"+userid;
+		var title = "举报投诉";
+		layerindex = layer.open({
+			  type: 2,
+			  title:title,
+			  area: ['50%', '75%'], //宽高
+			  btn: ['确定', '关闭'],
+			  yes: function(index, layero){
+				var iframeWin = window[layero.find('iframe')[0]['name']];
+			    var flag = iframeWin.complainSubmit();
+			    layer.msg(flag.info);
+			    if(flag.status==1){
+					setTimeout(function(){
+		    			layer.close(layerindex)
+		    		},1200)
+				}
+			  },
+			content: url
+			});
+   	 	})
+</script>
+	{block name="script"}{/block}
+</html>

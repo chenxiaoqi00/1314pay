@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{$meta_title}-{:C('WEB_SITE_TITLE')}管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="{:C('WEB_SITE_TITLE')}">
+    <meta name="description" content="HiCMS是基于THINKPHP3.23开发。">
+    <link href="__CSS__/font-awesome.min.css" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/style.css" rel="stylesheet">
+    <link href="__CSS__/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="__CSS__/plugins/icheck/flat/green.css" rel="stylesheet">
+    <script type="text/javascript" src="__JS__/jquery.min.js"></script>
+    <style>
+    select {
+        float: left;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+    </style>
+    <script>
+    var hi = {
+        //快速编辑URL
+        'url_quick': '{:U("quick")}',
+        //百度上传URL
+        'url_upload': '{:U("upload/webUploader",array("session_id"=>session_id()))}',
+        //编辑器上传
+        'url_editor_upload': '{:U("upload/ueditor",array("session_id"=>session_id()))}',
+        //当前URL地址
+        'url_curr': '{:U()}',
+        //百度上传队列
+        'url_upload_list': '{:U("Upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+    };
+    </script>
+</head>
+
+<body>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t" action="__SELF__" method="post">
+            <div class="form-group">
+                <div class="col-sm-8 icheck">
+                    {volist name="position" id="vo"}
+                    <label for="pos{$vo['id']}" class="checkbox-inline"><input type="checkbox" value="{$vo['id']}" name="posid[]" id="pos{$vo['id']}" /> {$vo['title']}</label>
+                    {/volist}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <input type="hidden" name="model">
+                    <input type="hidden" name="ids">
+                    <button class="btn btn-primary btn-block btn-lg btn-position" type="button" data-loading-text="数据操作中..."> 推荐</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/linkagesel/comm.js"></script>
+    <script src="__JS__/linkagesel/linkagesel.min.js"></script>
+    <script src="__JS__/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__JS__/editable/js/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="__JS__/plugins/layer/layer.js"></script>
+    <script src="__JS__/common.js"></script>
+    <script>
+    $(".btn-position").on('click', function() {
+        var $url = "__SELF__";
+        var $data = $('form').serialize();
+        var $btn = $(this).button('loading');
+        var index = parent.layer.getFrameIndex(window.name); // 当前iframe层的索引
+        $.post($url, $data, function(res) {
+            if (res.status) {
+                layer.msg('信息推荐成功！', {
+                    icon: 6,
+                    time: 1500
+                }, function() {
+                    parent.location.reload(); // 刷新父窗口
+                });
+            } else {
+                layer.msg(res.info, {
+                    icon: 5,
+                    time: 1500,
+                    anim: 6
+                });
+                $btn.button('reset');
+            }
+        }, 'json');
+    });
+    </script>
+</body>
+
+</html>

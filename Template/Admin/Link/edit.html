@@ -1,0 +1,57 @@
+{extend name="Public/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<style>
+#showlogo{display: hidden;}
+</style>{/block}
+{block name="body"}
+    <div class="ibox-title">
+        <h5>{$meta_title}</h5>
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                <!--网址 单行文本-->
+                {form:input name="title" title="网站" value="info['title']" cols="3" tips="所链接的网站名称" /}
+                <!--链接 单行文本-->
+                {form:input name="url" title="链接" value="info['url']" tips="网站地址,必须加http://" /}
+                <!--描述 网站描述简介-->
+                {form:textarea name="description" title="描述" value="info['description']" cols="6" rows="3" tips="网站简单介绍" /}
+                <!--链接 单行文本-->
+                {form:input name="sort" title="排序" value="info['sort']" tips="排序越大越靠前" cols="2" /}
+                <!--类型 单选框-->
+                {form:radio name="show" title="展示" data="showType" checked="info['show']" /}
+                <div id="showlogo" {notempty name="info['logo']"}style="display:block"{/notempty}>
+                <!--图片 上传-->
+                {form:image name="logo" title="缩略图" value="info['logo']" limit="1" button="选择图片" /}
+                </div>
+                <!--是否追踪 开关效果-->
+                {form:switch name="nofollow" title="nofollow" value="info['nofollow']" tips="搜索引擎是否追踪此网站" /}
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="type" value="{$info.type}">
+                        <input type="hidden" name="id" value="{$info.id|default=''}">
+                        <input type="hidden" name="pid" value="{$info.pid|default='0'}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript" charset="utf-8">
+$("input[name='show']").click(function() {
+    if ($(this).attr("value") == "1") {
+        $("#showlogo").show();
+    } else {
+        $("#showlogo").hide();
+    }
+});
+</script>
+{/block}

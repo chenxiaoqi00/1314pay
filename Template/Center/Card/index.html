@@ -1,0 +1,88 @@
+{extend name="Base/common" /} {block name="body"}
+<div class="c-content">
+            <form action="{:U('index')}" method="get">
+            <div class="form-group">
+                <label for="price">商品名称</label>
+                <select class="form-control" name="catid" >
+                	<option value="0" {eq name="catid" value="0" }selected="selected"{/eq}>=商品名称=</option>
+                	{volist name="cate" id="cate" }
+                		<option value="{$cate['id']}" {eq name="catid" value="$cate['id']" }selected="selected"{/eq}>{$cate['goodname']}</option>
+                	{/volist}
+                </select>
+                <label for="price">商品状态</label>
+         		 <select class="form-control" name="is_state" >
+	         		<option value=""  {if condition="I('get.is_state') eq null"}selected="selected"{/if}>=商品状态=</option>
+	         		<option value="1" {if condition="I('get.is_state') eq '1'"}selected="selected"{/if}>已出售</option>
+	         		<option value="0" {if condition="I('get.is_state') eq '0'"}selected="selected"{/if}>未出售</option>
+         		</select> 
+                <label for="name">卡号</label>
+                <input type="text" id="name" class="form-control" name="title" value="{:I('get.title')}" >
+                <button class="btn btn-success btn-middle">搜索</button>
+            </div>
+            </form>
+            <ul class="head-list">
+            <!--     <li>
+                    <label class="blue-checkbox checkall">
+                        <input name="checkbox" type="checkbox" class="radioclass">
+                        <span>全选</span>
+                    </label>
+                </li> -->
+                <li>
+                    <a href="{:U('add')}"  class="btn btn-success btn-middle " ><i class="fa fa-plus-square"></i>添加卡密</a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-url="{:U('del')}" class="btn btn-danger btn-middle ajax-status confirm" target-form="ids"><i class="fa fa-trash"></i>批量删除</a>
+                </li>
+            </ul>
+            <form class="ids">
+            <table class="list-table">
+                <caption></caption>
+                <thead>
+                    <tr>
+                     	<th> 
+	                     	<label class="blue-checkbox checkall">
+	                        <input name="checkbox" type="checkbox" class="radioclass">
+	                        <span>全选</span>
+	                    	</label>
+                    	</th>
+                        <th class="width130">商品名称</th>
+                        <th class="width250">库存卡信息</th>
+                        <th class="width50">价格</th>
+                        <th class="width250">添加时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                {notempty name="list"}
+				{volist name="list" id="vo"}
+                <tr>
+                    <td>
+                        <label class="blue-checkbox">
+                            <input class="ids radioclass check" type="checkbox" name="ids[]" value="{$vo.id}">
+                        </label>
+                    </td>
+                    <td>
+                        {:good($vo['goodid'],'goodname')}
+                    </td>
+                    <td>卡号：{$vo['cardnum']}</td>
+                    <td>{:good($vo['goodid'],'price')}</td>
+                    <td>{$vo['addtime']}</td>
+                    <td>{$vo['is_state']|show_status_card}</td>
+                    <td>
+                        <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-small"> <i class="fa fa-edit"></i>修改</a>
+                        <!-- <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-primary btn-small"> <i class="fa fa-edit"></i>加卡</a> -->
+                        <a href="javascript:;" data-url="{:U('del',array('ids'=>$vo['id']))}" data-title="删除地址{$vo['address']}" class="btn btn-danger btn-small confirm ajax-get"> <i class="fa fa-trash"></i>删除</a>
+                    </td>
+                </tr>
+			{/volist}
+			{else/}
+            <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+            {/notempty}
+            </table>
+               <div style="text-align: center;">
+	        	{$_page}
+	        </div>
+        </form>
+	     
+        </div>
+{/block}

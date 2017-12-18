@@ -1,0 +1,282 @@
+{extend name="Public/base" /}
+{block name="style"}<link href="__JS__/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="__CSS__/plugins/datapicker/datepicker3.css" rel="stylesheet">
+{/block}
+
+<!-- 子导航 -->
+{block name="body"}
+    <div class="ibox-title ibox-title-border">
+        <div class="pull-left">
+            <a class="btn btn-primary input-sm" href="{:U('add')}"><i class="fa fa-plus"> 新增</i></a>
+            <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1))}"><i class="fa fa-check"> 启用</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0))}"><i class="fa fa-ban"> 禁用</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del',array('model'=>'Users'))}"><i class="fa fa-remove"> 删除</i></button>
+            {notempty name="pid"}
+            <button class="btn btn-primary input-sm"><i class="fa fa-reply" onclick="javascript:history.back(-1);return false;"> 返回</i></button>
+            {/notempty}
+        </div>
+    </div>
+    <div class="ibox-title ibox-title-border">
+        <div class="btn-group">
+            <form method="get" class="form-inline so-form">
+                <select name="is_state" class="form-control input-sm">
+                    <option value='' selected>状态</option>
+                    <option value="0">已冻结</option>
+                    <option value="1">已审核</option>
+                    <option value="2">待审核</option>
+                </select>
+                <select name="is_invite" class="form-control input-sm">
+                    <option value='' selected>全部商户</option>
+                    <option value="1">特约商户</option>
+                </select>
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" value="{:I('get.username')}" name="username" placeholder="用户名|手机|邮箱">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="{:U('index',array('catid'=>$catid))}"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>id</th>
+                        <th>商户名</th>
+                        <th>收款人</th>
+                        <th>上次登录IP</th>
+                        <th>注册时间</th>
+                        <th>联系方式</th>
+                       <!--  <th>状态</th> -->
+                        <th>账户信息</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.id}</td>
+                                <td >{$vo.username}{if condition="$vo.is_invite eq 1"}<a href="javascript:void(0);" class="invite" userid="{$vo.id}" style="color:#DC143C">[特约商户]</a>{/if}</td>
+                                <td>{$vo['Userinfo']['realname']}</td>
+                                <td>{$vo.last_ip|long2ip}</td>
+                                <td>{$vo.addtime}</td>
+                                <td>{empty name="vo.tel"}{$vo.qq}{else /}{$vo.tel}{/empty}   </td>
+                               <!--  <td>{$vo.is_state_text}</td> -->
+                                 <td>  <div class="onoffswitch-large">
+                                        <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-url="{:U('changeAccount')}" data-field="is_account" data-id="{$vo['id']}" id="status{$vo['id']}" {eq name="vo['Userinfo']['is_account']" value="1"}checked{/eq}>
+                                        <label class="onoffswitch-label" for="status{$vo['id']}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                	<a href="javascript:void(0);" username="{$vo['username']}" password="{$vo['password']}" class="btn btn-info btn-xs login" ><i class="fa fa-edit"></i> 登录</a>
+                                    <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                                    <a href="javascript:void(0);" class="btn btn-info btn-xs userprice" id="" data="{$vo['id']}" username="{$vo['username']}"><i class="fa fa-edit"></i> 分成</a>
+                                    <a url="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1,'model'=>'Users'))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+    
+            
+ <!-- 模态框（Modal）设置分成-->
+		<div class="modal fade" id="user-price-modal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true" data-backdrop="false" style="margin-top: 32px;">
+			<div class="modal-dialog" style="width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="demoModalLabel"></h4>
+					</div>
+					<div class="modal-body" style="height: 450px; overflow:auto;">
+				<!-- 这部分是用于特约商户的，分成的弹框没用到 -->
+				<label>月份: </label>
+					<select name="date" onchange="getinvite(this)" class="form-control" style="width:30%; display: inline-block;">
+					<option value="">选择月份</option>
+					<option value="1">一月份</option>
+					<option value="2">二月份</option>
+					<option value="3">三月份</option>
+					<option value="4">四月份</option>
+					<option value="5">五月份</option>
+					<option value="6">六月份</option>
+					<option value="7">七月份</option>
+					<option value="8">八月份</option>
+					<option value="9">九月份</option>
+					<option value="10">十月份</option>
+					<option value="11">十一月份</option>
+					<option value="12">十二月份</option>
+				</select>
+			<table class="table table-striped ">
+			 <caption></caption>
+			 <thead>
+			     <tr>
+			         <th class="width20">商户名称</th>
+			         <th class="width50">月份</th>
+			         <th class="width20">提交总额</th>
+			         <th class="width20">商户收入</th>
+			         <th class="width20">结算金额</th>
+			         <th class="width20">平台收入</th>
+			         <th class="width20">是否已结算</th>
+			     </tr>
+			 </thead>
+			 <tbody class="modal-tbody">
+
+			</tbody>
+			</table>
+			<!-- 这部分是用于特约商户的，分成的弹框没用到  结束-->
+			
+					</div><!-- /.modal-body -->
+					<input class="userid" type="hidden" value=''>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		
+{/block}
+{block name="script"}
+<script src="__JS__/linkagesel/comm.js"></script>
+<script src="__JS__/linkagesel/linkagesel.min.js"></script>
+<script src="__JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+
+//点击分成时的弹框
+$(".userprice").click(function(){
+	$title = $(this).attr("username");
+	$(".modal-title").text($title);
+	var userid =parseInt( $(this).attr("data"));
+	var url = "userPayChannel/userid/"+userid;
+	$.ajax({
+	    url:url,  
+	    type:"GET",   //请求方式 get 或者post  
+	    success:function(result){
+		$(".modal-body").html("");
+	    $(".modal-body").html(result);
+		$('#user-price-modal').modal('show');
+	    }
+	},"JSON");
+  
+})
+
+ var hi = {
+    //快速编辑URL
+    'url_quick': '{:U("quick")}',
+        };
+        
+//查看特约商户 
+$(".invite").click(function(){
+	var title = $(this).parent().text();
+	$(".modal-title").text(title);
+ 	var userid=$(this).attr("userid");
+ 	$(".userid").val(userid);
+ //console.log($invite_id);
+	var url = "/Admin/Business/getInvite/userid/"+userid;
+	$.ajax({
+	    url:url,  
+	    type:"GET",   //请求方式 get 或者post  
+	    success:function(result){
+		/* 选择上当前月份 */
+		var myDate = new Date();
+		var nowMonth = myDate.getMonth()+1;
+		$("select[name='date'] option").each(function(){
+			if($(this).val()==nowMonth)
+				$(this).prop('selected',true);
+		})
+		
+		$(".modal-tbody").html("");
+	    $(".modal-tbody").html(result);
+		$('#user-price-modal').modal('show');
+
+	    }
+	},"JSON");
+ 
+})
+
+//特约商户根据月份查询
+function getinvite(that){
+	  var month=$(that).children('option:selected').val();
+	  var userid = $(".userid").val();
+	  var url = '/Admin/Business/getInvite/date/'+month+"/userid/"+userid;
+	  var html = '';
+		$.ajax({
+		    url:url,  
+		    type:"GET",   //请求方式 get 或者post  
+		    success:function(result){
+		    	if(result){
+		    		$(".modal-tbody").html(result);
+		    		$(".onoffswitch-checkbox").each(function(){
+		    			//  console.log($(this).attr("data-url"));
+		    			  $(this).attr("data-url","changeinvite/date/"+month+"/userid/"+userid);
+		    		  })
+		    	}
+		    }
+		},"JSON");
+}
+  
+  
+  //登录商户后台
+  $(".login").click(function(){
+	  var username = $(this).attr("username");
+	  var password = $(this).attr("password");
+	  var url="/Admin/Business/centerLogin"
+	  $.post(url,{username:username,password:password},function(result){
+		  if(result.status == 1){
+			  layer.msg(result.info);
+			  window.open(result.url);   
+		  }else{
+			  layer.msg(result.info);
+		  }
+	  })
+  })
+	
+</script>
+
+
+{/block}

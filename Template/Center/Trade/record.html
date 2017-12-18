@@ -1,0 +1,96 @@
+{extend name="Base/common" /} {block name="body"}
+<div class="c-content">
+            <form action="{:U('record')}" method="get">
+            <div class="form-group form-inline so-form">
+               <!--  <label for="time">起始时间</label> -->
+                    <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class=" form-control" value="{:I('get.start_date')}" id="start" name="start_date" placeholder="开始日期" />
+                    <span class="input-group-addon">~</span>
+                    <input type="text" class=" form-control" value="{:I('get.end_date')}" id="end" name="end_date" placeholder="结束日期" />
+                </div>
+                 <!-- <label for="is_status">支付状态</label> -->
+                 <select name="is_status" class="form-control ">
+                    <option value='' selected>==支付状态==</option>
+                    <option value="0" {eq name="is_status" value="0" }selected{/eq}>未付款</option>
+                   <!--  <option value="2" {eq name="is_status" value="2" }selected{/eq}>部分付款</option> -->
+                    <option value="1" {eq name="is_status" value="1" }selected{/eq}>已付款</option>
+                  <!--   <option value="4" {eq name="is_status" value="4" }selected{/eq}>已退款</option> -->
+                </select>
+                <!-- <label for="is_status">结算状态</label> -->
+               <select name="is_ship" class="form-control">
+                    <option value='' selected>==结算状态==</option>
+                    <option value="1" {eq name="is_ship" value="1" }selected{/eq}>已结算</option>
+                    <option value="0" {eq name="is_ship" value="0" }selected{/eq}>未结算</option>
+                </select>
+                
+                <input type="text" class="form-control" value="{:I('get.title')}" name="title" placeholder="商品名称、订单号" />
+                <button class="btn btn-success btn-middle">搜索</button>
+            </div>
+            </form>
+          
+            <form class="ids">
+            <table class="list-table marginT30">
+               <!--  <caption></caption> -->
+                <thead>
+                    <tr>
+                    	<!-- <th >
+		                    <label class="blue-checkbox checkall">
+		                        <input name="checkbox" type="checkbox" class="radioclass">
+		                        <span>全选</span>
+		                    </label>
+                		</th> -->
+                        <th class="">交易时间</th>
+                        <th class="">订单编号</th>
+                        <th class="width100">商品名称</th>
+                        <th class="width30">数量</th>
+                        <th class="width30">商品总额</th>
+                        <th class="width30">提交金额</th>
+                        <th class="width100">商家收入</th>
+                        <th class="width80">支付方式</th>
+                        <th class="width80">购买者信息</th>
+                        <th class="width80">支付状态</th>
+                        <th class="width80">结算状态</th>
+                       <!--  <th class="width150">购买者信息</th> -->
+                       <!--  <th style="width: 30%;">购买链接</th> -->
+                        <!-- <th>操作</th> -->
+                    </tr>
+                </thead>
+                {notempty name="list"}
+					{volist name="list" id="vo" key="k"}
+	                <tr>
+	                  <!--   <td>
+	                        <label class="blue-checkbox">
+	                            <input class="ids radioclass check" type="checkbox" name="ids[]" value="{$vo.id}">
+	                        </label>
+	                    </td> -->
+	                    <td>{$vo['addtime']|}</td>
+	                    <td><a href="/Orders/order/orderid/{$vo['orderid']}" target="_blank">{$vo['orderid']}</a></td>
+	                    <td>{:good($vo['goodid'],'goodname')}</td>
+	                    <td>{$vo['quantity']}</td>
+	                    <td>{:orderlist($vo['orderid'],money)}</td>
+	                    <td>{:orderlist($vo['orderid'],realmoney)}</td>
+	                    <td>{:get_price($vo['orderid'])}</td>
+	                    <td>{:channel($vo['channelid'],channelname)}</td>
+	                    <td>{$vo['contact']}</td>
+	                    <td>{:get_pay_status($vo['is_status'])}</td>
+	                    <td>{:get_pay_ship($vo['is_ship'])}</td>
+	                   <!--  <td>{$vo['contact']}</td> -->
+	                   <!--  <td>
+	                        <a href="javascript:;" data-url="{:U('del',array('ids'=>$vo['id']))}" data-title="删除该记录" class="btn btn-danger btn-small confirm ajax-get"> <i class="fa fa-trash"></i>删除</a>
+	                    </td> -->
+	                </tr>
+				{/volist}
+		 	{else/}
+            <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+            {/notempty}
+            </table>
+             <div style="text-align: center;">
+      			{$_page}
+        	</div>
+        </form>
+        </div>
+{/block}
+
+{block name="script"}
+<script src="__JS__/copyurl.js" type="text/javascript" charset="utf-8"></script>
+{/block}

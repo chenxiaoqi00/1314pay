@@ -1,0 +1,94 @@
+{extend name="Base/common" /}{block name="style"}<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+{/block}{block name="body"}
+<div class="c-content">
+    <div class="cd-wrap padding20">
+        <form action="__SELF__" method="post" class="form">
+            <div class="form-group">
+                <label for="title">产品名称</label>
+                <input type="text" name="title" class="form-control width200" value="{$info['title']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 产品名称，最多80个字符</span>
+            </div>
+            <div class="form-group">
+                <label for="select">产品分类</label>
+                <select name="catid" class="form-control">
+                    <option value="0">===请选择分类===</option>
+            		{volist name="category" id="v"}
+                		<option value="{$key}" {eq name="key" value="$info['catid']"}selected="selected"{/eq}>{$v}</option>
+                	{/volist}
+                </select>
+                <span class="help-block"><i class="fa fa-info-circle"></i> 请选择产品分类</span>
+            </div>
+            <div class="form-group">
+                <label for="name">产品库存</label>
+                <input type="text" name="stock" class="form-control width50" value="{$info['stock']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 填写产品库存数量</span>
+            </div>
+            <div class="form-group">
+                <label for="name">产品单价</label>
+                <input type="text" name="price" class="form-control width50" value="{$info['price']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 填写数字单位“元”</span>
+            </div>
+            <div class="form-group">
+                <label for="name">产品型号</label>
+                <input type="text" name="model" class="form-control width150" value="{$info['model']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 请填写产品型号</span>
+            </div>
+            <div class="form-group">
+                <label for="name">产品编码</label>
+                <input type="text" name="code" class="form-control width200" value="{$info['code']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 请填写产品编码</span>
+            </div>
+            <div class="form-group">
+                <label for="name">产品品牌</label>
+                <input type="text" name="brand" class="form-control width200" value="{$info['brand']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 请填写产品品牌</span>
+            </div>
+            <div class="form-group hiUploder">
+                <label>缩略图</label>
+                <div class="queueList">
+                    <a class="hiPicker" limit="5" name="picture" value="{$info['picture']}">选择图片</a>
+                </div>
+            </div>
+            <div class="form-group">
+                    <label class="col-sm-2 control-label">详细内容</label>
+                    <div class="col-sm-10">
+                        <textarea name="content" id="content">{$info['ProductData']['content']}</textarea>{$tips}
+                    </div>
+            </div>
+            <div class="form-group marginL100">
+            	<input type="hidden" name="id" value="{$info.id|default=''}">
+                <input type="submit" value="保存" class="btn btn-success btn-large ajax-submit" target-form="form">
+                <a href="javascript:;" class="btn btn-default btn-large" onclick="javascript:history.back(-1);return false;">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script src="__BASE_JS__/ueditor/ueditor.config.mini.js"></script>
+<script src="__BASE_JS__/ueditor/ueditor.all.min.js"></script>
+<script>
+        var hi = {
+            //百度上传URL
+            'url_upload_picture': '{:U("center/upload/webUploader",array("session_id"=>session_id()))}',
+            //编辑器上传
+            'url_editor_upload': '{:U("center/upload/ueditor",array("session_id"=>session_id()))}',
+            //当前URL地址
+            'url_curr': '{:U()}',
+            //百度上传队列
+            'url_upload_list': '{:U("center/upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+        };
+        $(function(){
+        	var ue = UE.getEditor('content',{
+                serverUrl :hi.url_editor_upload,
+                initialFrameHeight:350,
+              });
+            $(':input').labelauty();
+        });
+        
+        
+    </script>
+{/block}

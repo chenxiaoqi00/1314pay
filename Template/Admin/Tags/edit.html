@@ -1,0 +1,44 @@
+{extend name="Public/base" /} {block name="style"}
+<link href="__CSS__/plugins/iconpicker/bootstrap-iconpicker.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">{/block} {block name="body"}
+<div class="tabs-container">
+    <div class="ibox-title">
+        <h5>TAG编辑</h5>
+    </div>
+    <div class="ibox-content float-e-margins tab-content">
+        <form class="form-horizontal m-t" action="__SELF__" method="post">
+            <div id="base" class="tab-pane active">
+                <!--名称 单行文本-->
+                {form:input name="tag" title="Tags标签" value="info['tag']" cols="3" tips="显示的栏目名称" /}
+                <!--名称 单行文本-->
+                {form:input name="seo_title" title="SEO标题" value="info['seo_title']" cols="3" /}
+                <!--描述 单行文本-->
+                {form:input name="seo_keyword" title="SEO关键词" value="info['seo_keyword']" tips="网站关键词以,号分割" /}
+                <!--描述 多行文本框-->
+                {form:textarea name="seo_description" title="SEO描述" value="info['seo_description']" cols="6" rows="3" /}
+                <!--附加样式 单行文本-->
+                {form:input name="style" title="附加样式" value="info['style']" cols="3" tips="用于前台调用" /}
+                <!--附加样式 单行文本-->
+                {form:input name="hits" title="点击数" value="info['hits']" cols="3" tips="前台的点击次数" /}
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <input type="hidden" name="id" value="{$info.id|default=''}">
+                    <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/plugins/iconpicker/iconset/iconset-fontawesome-4.2.0.min.js"></script>
+<script type="text/javascript" src="__JS__/plugins/iconpicker/bootstrap-iconpicker.min.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript">
+        setFormValue("model", {$info.model|default=2});
+    </script>
+{/block}

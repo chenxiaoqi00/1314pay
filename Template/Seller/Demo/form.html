@@ -1,0 +1,76 @@
+{extend name="Base/common" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+{/block}{block name="body"}
+<div class="c-content">
+    <div class="cd-wrap padding20">
+        <form action="__SELF__" method="post" class="form">
+            <div class="form-group">
+                <label for="name">文本框</label>
+                <input type="text" name="text" class="form-control width200" value="{$info['mobile']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i> 这里是描述</span>
+            </div>
+            <div class="form-group">
+                <label for="radio">单选框</label>
+                <input type="radio" name="radio" data-labelauty="选型一" value="1">
+                <input type="radio" name="radio" data-labelauty="选型二" value="2">
+                <input type="radio" name="radio" data-labelauty="选型三" value="3">
+                <input type="radio" name="radio" disabled data-labelauty="不可用">
+                <div class="clear"></div>
+                <span class="help-block"><i class="fa fa-info-circle"></i> 这里是描述</span>
+            </div>
+            <div class="form-group">
+                <label for="checkbox">复选框</label>
+                <input type="checkbox" name="checkbox[]" data-labelauty="HTML" value="HTML">
+                <input type="checkbox" name="checkbox[]" data-labelauty="CSS" value="CSS">
+                <input type="checkbox" name="checkbox[]" data-labelauty="JavaScript" value="JavaScript">
+                <input type="checkbox" name="checkbox[]" checked data-labelauty="SEO" value="SEO">
+                <input type="checkbox" name="checkbox[]" data-labelauty="PHP" value="PHP">
+                <input type="checkbox" name="checkbox[]" data-labelauty="JAVA" value="JAVA">
+                <input type="checkbox" name="checkbox[]" data-labelauty="NET" value="NET">
+                <div class="clear"></div>
+                <span class="help-block"><i class="fa fa-info-circle"></i> 这里是描述</span>
+            </div>
+            <div class="form-group">
+                <label for="select">下拉框</label>
+                <select name="select" class="form-control">
+                    <option value="1">选项一</option>
+                    <option value="2">选项二</option>
+                    <option value="3">选项三</option>
+                </select>
+                <span class="help-block"><i class="fa fa-info-circle"></i> 这里是描述</span>
+            </div>
+            <div class="form-group hiUploder">
+                <label>缩略图</label>
+                <div class="queueList">
+                    <a class="hiPicker" limit="5" name="thumb" value=""><i class="fa fa-image"></i> 选择图片</a>
+                </div>
+            </div>
+            <div class="form-group marginL100">
+                <input type="submit" value="保存" class="btn btn-success btn-large ajax-submit" target-form="form">
+                <a href="javascript:;" class="btn btn-default btn-large" onclick="javascript:history.back(-1);return false;">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script>
+        var hi = {
+            //百度上传URL
+            'url_upload_picture': '{:U("center/upload/webUploader",array("session_id"=>session_id()))}',
+            //编辑器上传
+            'url_editor_upload': '{:U("center/upload/ueditor",array("session_id"=>session_id()))}',
+            //当前URL地址
+            'url_curr': '{:U()}',
+            //百度上传队列
+            'url_upload_list': '{:U("center/upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+        };
+        $(function(){
+            $(':input').labelauty();
+        });
+    </script>
+{/block}

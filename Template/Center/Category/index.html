@@ -1,0 +1,80 @@
+{extend name="Base/common" /} {block name="body"}
+<div class="c-content">
+            <form action="{:U('index')}" method="get" class="targetform">
+            <div class="form-group">
+                <label for="name">分类名称</label>
+                <input type="text" id="name" class="form-control " name="title" value="{:I('get.title')}" >
+                
+                <button class="btn btn-success btn-middle">搜索</button>
+            </div>
+            </form>
+            <ul class="head-list">
+             	<li>
+                    <a href="{:U('add')}"  class="btn btn-success btn-middle " ><i class="fa fa-plus-square"></i>添加分类</a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-url="{:U('del')}" class="btn btn-danger btn-middle ajax-status confirm" target-form="ids"><i class="fa fa-trash"></i>批量删除</a>
+                </li>
+            </ul>
+            <form class="ids">
+            <table class="list-table marginT30">
+                <caption></caption>
+                <thead>
+                    <tr>
+	                    <th>    
+		                    <label class="blue-checkbox checkall" >
+		                        <input name="checkbox" type="checkbox" class="radioclass">
+		                        <span>全选</span>
+		                    </label>
+	                    </th>
+                        <th class="" style="width: 25%;">名称</th>
+                        <th class="" style="width: 10%;">排序</th>
+                        <!--  <th class="" style="width: 40%;">购买链接</th>  -->
+                         <th class="" style="width: 40%;">添加时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {notempty name="list"}
+					{volist name="list" id="vo" key="k"}
+	                <tr>
+	                    <td>
+	                        <label class="blue-checkbox" >
+	                            <input class="ids check radioclass" type="checkbox" name="ids[]" value="{$vo.id}">
+	                        </label>
+	                    </td>
+	                    <td>
+	                        <a href="javascript:;" class="title{$k}" target="_blank">{$vo.catename}</a>
+	                    </td>
+	                    <td>{$vo.sortid}</td>
+	                    <td class="pay-url{$k}" style="display:none; ">{$vo.payUrl}</td> 
+	                   <!--  <td class="shot-pay-url{$k}" style="display:none; ">{$vo['shotPayUrl']}</td> -->
+	                    <td >{$vo.addtime|times}</td> 
+	                    <td>
+	                    	<a href="javascript:void(0);" class="btn btn-primary btn-small copy" data="{$k}" linkid="{$vo['linkid']}" action="category"> <i class="fa fa-link"></i>链接</a>
+	                    	<!-- <a href="javascript:void(0);" class="btn btn-primary btn-small copy" id="copy{$k}" data="{$k}"> <i class="fa fa-edit"></i>复制链接</a> -->
+	                        <!-- <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-warning btn-small" id=""> <i class="fa fa-edit"></i>卡价值</a> -->
+	                        <a href="{:U('Goods/index',array('catid'=>$vo['id']))}" class="btn btn-success btn-small"> <i class="fa fa-cubes"></i>商品</a>
+	                       <!--  <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-small"> <i class="fa fa-edit"></i>库存卡</a> -->
+	                        <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-small"> <i class="fa fa-edit"></i>修改</a>
+	                        <a href="javascript:;" data-url="{:U('del',array('ids'=>$vo['id']))}" data-title="删除分类{$vo['catname']}" class="btn btn-danger btn-small confirm ajax-get"> <i class="fa fa-trash"></i>删除</a>
+	                    </td>
+	                </tr>
+				{/volist}
+			{else/}
+            <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+            {/notempty}
+			</tbody>
+            </table>
+            <div style="text-align: center;">
+	        	{$_page}
+	        </div>
+        </form>
+   
+      </div>
+	{include file="Base/copyurl"/}
+{/block}
+
+{block name="script"}
+<script src="__JS__/copyurl.js" type="text/javascript" charset="utf-8"></script>
+{/block}

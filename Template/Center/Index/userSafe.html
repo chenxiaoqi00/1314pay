@@ -1,0 +1,22 @@
+{extend name="Base/common" /}{block name="body"}
+<div class="c-content">
+    <div class="cd-wrap padding20">
+        <form  action="__SELF__" method="post" class="form">
+        	{center:input name="userpwd" title="登陆密码:" value="info['userpwd']" /}
+        	
+        	{center:input name="safepwd" title="安全密码" value="info['safepwd']"  /}
+        	
+        	{center:input name="confirmsafepwd" title="重新输入安全密码" value="info['confirmsafepwd']"  /}
+                
+            {center:select name="question" title="选择问题"  selected="info['question']"  /} 
+            
+            {center:input name="answer" title="问题答案" value="info['answer']"  /}
+            
+            {center:radio name="is_login" title="唯一登陆" data="array(1=>'开启',2=>'关闭')" checked="info['is_login']" tips="开启后,同一账号多台电脑或同一台电脑多个浏览器只能登陆一个,且最后一次登陆有效！" /}
+            <div class="form-group">
+                <input type="submit" value="保存设置" class="btn btn-success ajax-submit button_bg"  target-form="form">
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

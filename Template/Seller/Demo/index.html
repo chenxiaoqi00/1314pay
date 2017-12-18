@@ -1,0 +1,79 @@
+{extend name="Base/common" /} {block name="body"}
+<div class="c-content">
+            <div class="c-tip">
+                【重要通知】产品违规发布规则说明<a href="javascript:void">点击查看</a>
+            </div>
+            <div class="form-group">
+                <label for="name">产品名称</label>
+                <input type="text" id="name" class="form-control">
+                <label for="price">价格</label>
+                <input type="text" id="name" class="form-control width50">
+                <span>~</span>
+                <input type="text" id="name" class="form-control width50">
+                <label for="price">价格</label>
+                <select name="select" class="form-control">
+                    <option value="">选项一</option>
+                    <option value="">选项二</option>
+                    <option value="">选项三</option>
+                </select>
+                <button class="btn btn-success btn-middle">搜索</button>
+            </div>
+            <ul class="head-list">
+                <li>
+                    <label class="blue-checkbox checkall">
+                        <input name="checkbox" type="checkbox" class="radioclass">
+                        <span>全选</span>
+                    </label>
+                </li>
+                <li>
+                    <a href="javascript:;" class="btn btn-danger btn-small ajax-status confirm">删除</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="btn btn-warning btn-small ajax-status confirm">下架</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="btn btn-success btn-small ajax-status">推荐</a>
+                </li>
+            </ul>
+            <form class="targetform">
+            <table class="list-table marginT30">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th colspan="3" class="width400">名称</th>
+                        <th class="width50">价格</th>
+                        <th class="width50">库存</th>
+                        <th class="width50">销量</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tr>
+                    <td>
+                        <label class="blue-checkbox">
+                            <input class="ids radioclass" type="checkbox" name="ids[]" value="{$vo.id}">
+                        </label>
+                    </td>
+                    <td>
+                        <a href="javascript:;" target="_blank" class="p-head">
+                            <img src="" alt="">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="javascript:;" class="title" target="_blank">这里是产品名称这里是产品名称这里是产品名称</a>
+                    </td>
+                    <td>28000</td>
+                    <td>30</td>
+                    <td>2</td>
+                    <td>2017-06-03 09:31</td>
+                    <td>
+                        <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-small"> <i class="fa fa-edit"></i>修改</a>
+                        <a href="javascript:;" data-url="{:U('delete',array('ids'=>$vo['id']))}" data-title="删除地址{$vo['address']}" class="btn btn-danger btn-small confirm ajax-get"> <i class="fa fa-trash"></i>删除</a>
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+        </div>
+{/block}

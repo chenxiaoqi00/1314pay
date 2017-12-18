@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>pay to bank</title>
+</head>
+ 
+<body onLoad="document.bank.submit();">
+ 
+<form name="bank" action="{$data['apiurl']}" method="post">
+<input type="hidden" name="customerid" value="{$data['customerid']}">
+<input type="hidden" name="superid" value="{$data['superid']}">
+<input type="hidden" name="sdcustomno" value="{$data['sdcustomno']}">
+<input type="hidden" name="orderAmount" value="{$data['orderAmount']}">
+<input type="hidden" name="cardno" value="{$data['cardno']}">
+<input type="hidden" name="noticeurl" value="{$data['noticeurl']}">
+<input type="hidden" name="backurl" value="{$data['backurl']}">
+<input type="hidden" name="sign" value="{$data['sign']}">
+<input type="hidden" name="mark" value="{$data['mark']}">
+</form>
+</body>
+</html>

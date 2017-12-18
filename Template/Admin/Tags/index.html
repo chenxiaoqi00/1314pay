@@ -1,0 +1,92 @@
+{extend name="Public/base" /} {block name="style"}
+<link href="__CSS__/plugins/datapicker/datepicker3.css" rel="stylesheet"> {/block} {block name="body"}
+<div class="ibox-title">
+    <div class="btn-group pull-right">
+        <form method="get" class="pull-right form-inline so-form">
+            <div class="input-group">
+                <input type="text" class="form-control input-sm so-input" name="title" placeholder="{$title}">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-sm btn-primary so-btn" url="__SELF__"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="pull-left col-sm-6">
+        <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del')}"><i class="fa fa-remove"> 删除</i></button>
+        <button class="btn btn-primary input-sm dorepair" data-url="{:U('dorepair')}"><i class="fa fa-refresh"> TAGS数据重建</i></button>
+    </div>
+</div>
+<div class="ibox-content">
+    <form class="form-horizontal m-t ids">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="row-selected icheck">
+                        <input class="checkall" type="checkbox">
+                    </th>
+                    <th>ID</th>
+                    <th>Tags标签</th>
+                    <th>总数</th>
+                    <th>最后使用时间</th>
+                    <th>点击</th>
+                    <th>最近访问时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {notempty name="list"} {volist name="list" id="vo"}
+                <tr>
+                    <td class="icheck">
+                        <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                    </td>
+                    <td class="title">{$vo.id}</td>
+                    <td>{$vo.tag}</td>
+                    <td>{$vo.usetimes}</td>
+                    <td>{$vo.lastusetime|times}</td>
+                    <td>{$vo.hits}</td>
+                    <td>{$vo.lasthittime|times}</td>
+                    <td>
+                        <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                        <a url="{:U('del',array('ids'=>$vo['id']))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                    </td>
+                </tr>
+                {/volist} {else/}
+                <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                {/notempty}
+            </tbody>
+        </table>
+    </form>
+    <!-- 分页 -->
+    <ul class="pagination">
+        {$_page}
+    </ul>
+</div>
+{/block} {block name="script"}
+<script src="__JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+</script>> {/block}

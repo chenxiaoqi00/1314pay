@@ -1,0 +1,85 @@
+/*个人中心nav部分*/
+.cnav-wrap{width: 100%;height: 60px;background: #0085d7;margin-bottom: 20px;}
+.cnav h2{float: left;}
+.cnav ul{float: left; margin-left: 100px;}
+.cnav li{float: left;line-height: 60px;font-size: 16px;padding: 0px 20px;}
+.cnav li a{color: #fff;display: block;}
+.cnav .current{background: url(../images/arrow-up.png) center bottom no-repeat;}
+.con-wrap{position: relative;margin-top: 20px;}
+/*个人中心右侧导航*/
+.c-sidebar{float: left; overflow:hidden; margin-bottom: 30px;width: 210px;border: solid 1px #e0e0e0;}
+.c-sidebar h3{height: 50px;border-bottom: solid 1px #e0e0e0;line-height: 50px;padding-left: 20px;font-size: 16px;background: #f5f5f5;font-weight: normal;}
+.c-sidebar dl{margin-left: 20px;overflow:hidden;}
+.c-sidebar dt{color: #0085d7;font-size: 16px;margin-top: 20px;margin-bottom: 10px;}
+.c-sidebar dd{float: left;margin-right: 10px;line-height: 28px;font-size: 14px;}
+.c-sidebar dd a{color:#333;}
+.c-sidebar dd a.current{color:#ff5400;}
+.c-sidebar dd a:hover{color:#ff5400;}
+/*个人中心首页内容部分*/
+.c-content{/* margin-left:230px; */width: 970px;float: left; margin-left: 18px;}
+.c-tip{height: 40px;border: dashed 1px #e0e0e0;background: #fafafa;line-height: 40px;padding-left: 10px;}
+.c-tip a{color: #0085d7;}
+.c-detail{overflow:hidden;}
+.c-detail h4{height: 40px;background: #ecedef;border-bottom:solid 1px #e0e0e0;line-height: 40px;font-size: 18px;font-weight: bold;padding-left: 15px; }
+.c-detail h4 a{font-size: 14px;color: #333;font-weight: normal;margin-left: 10px;}
+.c-detail h4 a:hover{text-decoration: underline;color: #0085d7;}
+.c-detail h4 a em{font-style: normal;padding-left: 6px;color: #ff5400;}
+.cd-wrap{border-radius: 2px;border:solid 1px #e0e0e0;margin-top: 20px;}
+.cd-left{float: left;width: 720px;}
+.basic-infor{overflow:hidden;padding: 15px;}
+.basic-infor dt{float: left;}
+.basic-infor dd{float: left;margin-left: 20px;}
+.basic-infor dd h3{font-size: 16px;font-weight: bold;}
+.basic-infor dd p{margin:10px 0px;}
+.basic-infor dd p a{color: #999999;font-size:12px;}
+.basic-infor dd p a:hover{color:#0085d7;}
+.basic-infor dd p b{color:#ff5400;font-size: 12px;font-weight: normal;}
+.basic-infor b a{color:#ff5400;}
+.manage{overflow:hidden;}
+.manage dl{float: left;margin:15px 20px; }
+.manage dt{font-size: 16px;font-weight: bold;}
+.manage dd{margin-top: 10px;font-size: 14px;}
+.manage dd a{color: #999999;display: inline-block;margin-right: 10px;}
+.manage dd em{font-style: normal;color: #0085d7;}
+.buyp-list{overflow:hidden;padding-bottom: 20px;}
+.buyp-list li{float: left;margin-left: 20px;margin-top: 20px;}
+.buyp-list li a{display: block;}
+.buyp-list li a img{width: 155px;height: 130px;}
+.cd-right{float: right;width: 230px;}
+.tody-read{padding: 10px 0px;}
+.tody-read li{padding:0px 15px ;line-height: 30px;overflow:hidden;text-overflow:ellipsis;
+white-space: nowrap;}
+.tody-read li a{color: #333;}
+.hot-list{margin:0px 10px;}
+.hot-list li{margin:10px 0px;}
+.hot-list li a{display: block;}
+.hot-list h5{font-size: 14px;font-weight: normal;color: #ff5400;}
+.hot-list p a{color: #0085d7;display: block;}
+.hot-list p a:hover{text-decoration: underline;}
+
+/*time-tab tab切换*/
+.padding20{padding: 20px 15px;}
+.time-tab{background: url(../images/line.jpg) 0px bottom repeat-x; overflow:hidden;}
+.time-tab li{float: left;font-size: 16px;color: #333;padding: 0px 15px;padding-bottom: 10px;}
+.time-tab .current{border-bottom: solid 4px #0085d7;}
+.time-tab li a{display: block;color: #333333;}
+.time-tab .current a{color: #0085d7;}
+
+.basic-btn{margin-top: 20px;}
+.basic-btn a{display: inline-block;margin-right: 15px;}
+
+/*个人资料-收货地址*/
+.addr-tip{font-size: 14px;color: #999;margin: 20px 0px;}
+.addr-tip b{font-size: 16px;font-weight: bold;color: #0085d7;padding-right: 20px;}
+.addr-form label{line-height: 36px;}
+.addr-form input[type=text],.addr-form input[type=password]{width: 400px;height: 24px;}
+.addr-form em{color:#f91a1a;padding-right: 2px;font-style: normal;}
+
+/*产品列表*/
+.head-list{padding: 10px 0px;margin-top: 20px;}
+.head-list li{float: left;margin-right: 8px;}
+.head-list .blue-checkbox{margin-right:10px;}
+.pr-search{overflow:hidden;margin-top: 30px;}
+.pr-search li{float: left;margin-right: 20px;}
+.pr-search label{display: block;float: left;line-height: 32px;margin-right: 10px;width:60px}
+table .pro-title{width:390px;}

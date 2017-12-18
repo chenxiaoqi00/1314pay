@@ -1,0 +1,90 @@
+{extend name="Base/common" /} {block name="body"}
+<div class="c-content">
+            <div class="c-tip">
+                【重要通知】产品违规发布规则说明<a href="javascript:void">点击查看</a>
+            </div>
+            <form action="{:U('index')}" method="post">
+            <div class="form-group">
+                <label for="name">产品名称</label>
+                <input type="text" id="title" name="title" class="form-control">
+                <label for="price">价格</label>
+                <input type="text" id="tprice" name="tprice" class="form-control width50">
+                <span>~</span>
+                <input type="text" id="fprice" name="fprice" class="form-control width50">
+                <label for="price">分类</label>
+                <select name="catid" class="form-control">
+                		<option value="0">===请选择分类===</option>
+            		{volist name="category" id="v"}
+                		<option value="{$key}">{$v}</option>
+                	{/volist}
+            	</select>
+                <button class="btn btn-success btn-middle">搜索</button>
+            </div>
+            
+            </form>
+            <ul class="head-list">
+                <li>
+                    <label class="blue-checkbox checkall">
+                        <input name="checkbox" type="checkbox" class="radioclass">
+                        <span>全选</span>
+                    </label>
+                </li>
+                <li>
+                    <a url="{:U('setStatus',array('status'=>-1))}" target-form="ids" class="btn btn-danger btn-small ajax-status confirm">删除</a>
+                </li>
+                <li>
+                    <a url="{:U('setStatus',array('status'=>0))}" target-form="ids" class="btn btn-warning btn-small ajax-status confirm">下架</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="btn btn-success btn-small ajax-status">推荐</a>
+                </li>
+            </ul>
+           <form class="targetform ids">
+            <table class="list-table marginT30">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th colspan="3" class="width400">名称</th>
+                        <th class="width50">价格（元）</th>
+                        <th class="width50">库存</th>
+                        <th class="width50">销量</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                {volist name="list" id="vo"}
+                <tr>
+                    <td>
+                        <label class="blue-checkbox">
+                            <input class="ids radioclass" type="checkbox" name="ids[]" value="{$vo.id}">
+                        </label>
+                    </td>
+                    <td>
+                        <a href="javascript:;" target="_blank" class="p-head">
+                            <img src="{$vo['picture']|getPicture}" alt="{$vo['title']}">
+                        </a>
+                    </td>
+                    <td class="pro-title">
+                        <a href="javascript:;" class="title" target="_blank">{$vo['title']}</a>
+                    </td>
+                    <td>{$vo['price']}</td>
+                    <td>{$vo['stock']}</td>
+                    <td>{$vo['sales']}</td>
+                    <td>{$vo['inputtime']|Times}</td>
+                    <td>
+                        <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-small"> <i class="fa fa-edit"></i>修改</a>
+                        <a href="javascript:;" data-url="{:U('setStatus',array('ids'=>$vo['id'],'status'=>-1))}" data-title="删除产品{$vo['title']}" class="btn btn-danger btn-small confirm ajax-get"> <i class="fa fa-trash"></i>删除</a>
+                    </td>
+                </tr>
+				{/volist}
+
+            </table>
+      </form>
+        </div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+
+</script>
+{/block}

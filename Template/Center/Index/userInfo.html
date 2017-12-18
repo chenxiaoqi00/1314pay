@@ -1,0 +1,194 @@
+{extend name="Base/common" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/switch.css">
+{/block}
+{block name="body"}
+<div class="c-content">
+    <div class="c-detail">
+        <div class="cd-left">
+            <div class="manage cd-wrap ">
+               <!--  <h4>商户信息修改</h4> -->
+               <form action="__SELF__" method="post" class="form">
+                 <div class="form-group">
+	                <h5 style="red">商户基本信息</h5>
+	            </div> 
+                {center:input title="商户名" value="info['username']" readonly="disabled" important="important"/}
+                
+                {if condition="empty($info['email'])"}
+                {center:input name="email" title="电子邮箱" value="info['email']" important="important" tips="填写后不能更改"/}
+                {else/}
+                {center:input title="电子邮箱" value="info['email']" important="important" readonly="disabled"/}
+                {/if}
+                
+                {if condition="empty($info['email'])"}
+                {center:input name="tel" title="手机号码" value="info['tel']"  tips="填写后不能更改"/}
+                {else/}
+                {center:input title="手机号码" value="info['tel']" readonly="disabled"/}
+                {/if}
+                
+                {if condition="empty($info['qq'])"}
+                {center:input name="qq" title="商户 QQ" value="info['qq']"/}
+                {else/}
+                {center:input title="商户 QQ" value="info['qq']" readonly="disabled"/}
+                {/if}
+                
+                <div class="form-group" style="">
+	                <label class="label-control" for="">我的邀请码：</label>
+	                <input type="text" name="invite_num"  value="{$info['invite_code']}" class="form-control width200" disabled>
+	                <span class="pay-url1" style="display:none">{$info['invite_code']}</span> <!-- 用于复制 -->
+            		<a href="javascript:void(0);" class="btn btn-primary btn-small copy" id="btn-invite">复制邀请码</a>
+            	</div>
+                
+                {center:input name="sitename" title="站点名称" value="info['sitename']" /}
+              
+                {center:input name="siteurl" title="站点网址" value="info['siteurl']" /}
+                {center:select name="theme" title="支付页面" data="theme" selected="info['theme']" /}
+	          <!--   <div class="form-group" style="">
+	                <label class="label-control" for="shorturl">短网址：</label>
+	                <span>{$server}/</span><input type="text" name="shorturl" id="shorturl" value="{$info['shorturl']}" class="form-control width50"><span>.html</span>
+           		</div> -->
+           		 
+           		<!-- {center:radio name="goods_mail" title="发卡通知" data="send_mail" checked="info['goods_mail']" tips="若填写正确邮箱,发卡后将通过邮件通知。" /}
+           		
+           		{center:radio name="complain_mail" title="投诉通知" data="send_mail" checked="info['complain_mail']" tips="若填写正确邮箱,被投诉后将通过邮件通知。" /} -->
+	            
+	            {center:radio name="is_getgood" title="自动取卡" data="is_getgood" checked="info['is_getgood']" tips="订单付款完成后自动派卡，否则需要买家手动点击领取。" /}
+	            
+	            {center:radio name="is_invent" title="库存显示" data="is_invent" checked="info['is_invent']" tips="选择库存范围后将不显示实际数量，当小于20张时显示少量, 20-50时显示中等 ,多余50张时显示充足。"/}
+	           <!--  data="array('1'=>'网银支付','0'=>'充值卡支付')" -->
+	           <div class="form-group">
+	            <hr>
+	           </div>
+	          
+	             <div class="form-group">
+	                <h5 style="display: inline-block">商户收款信息</h5><span class="help-block" style="display: inline-block"><i class="fa fa-info-circle"></i>为保证账户安全,收款信息保存后将无法修改，如需修改请联系客服</span>
+	            </div>
+	            <!--状态设置 选择框-->
+	            {eq name="info.Userinfo.is_account" value="1"}
+	           		{center:select name="ptype-select" title="收款方式" data="ptype" selected="info['Userinfo']['ptype']" /}
+	                {center:input title="支付宝账号" name="alipay" value="info['Userinfo']['alipay']" id="alipay"  cols="3" style="display:none"/}
+	                {center:input title="财付通账号" name="tenpay" value="info['Userinfo']['tenpay']" id="tenpay"  cols="3" style="display:none"/}
+	            	<div id="bank">
+	            	<div class="form-group">
+	            		<label class="label-control">银行名称</label>
+	            		<div class="col-sm-2">
+	            		<select name="bank" class="form-control">
+	            			{volist name="bank" id="bank"}
+	            			<option value="{$bank}" {eq name="info['Userinfo'][bank]" value="$bank"}selected="selected"{/eq}>{$bank}</option>
+	            			{/volist}
+	            		</select>
+	            		</div>
+	            	</div>
+	            	<div class="form-group">
+	            		<label class="col-sm-2 label-control">银行账号</label>
+	            		<div class="col-sm-4">
+	            		<input name="card" id="card" class="form-control" value="{$info['Userinfo']['card']}">
+	            		</div>
+	            	</div>
+	            	<div class="form-group">
+	            		<label class="col-sm-2 label-control">开户地址</label>
+	            		<div class="col-sm-3">
+	            		<input name="addr" id="addr" class="form-control" value="{$info['Userinfo']['addr']}">
+	            		</div>
+	            	</div>
+	            	</div>
+		            {center:input name="realname" title="收款人姓名" value="info['Userinfo']['realname']" /}
+	            {else/}
+	            	{center:select name="ptype-select" title="收款方式" data="ptype" selected="info['Userinfo']['ptype']" disabled="disabled"/}
+	                {center:input title="支付宝账号"  value="info['Userinfo']['alipay']" id="alipay"  cols="3" style="display:none" readonly="disabled"/}
+	                {center:input title="财付通账号"  value="info['Userinfo']['tenpay']" id="tenpay"  cols="3" style="display:none" readonly="disabled"/}
+	            	<div id="bank">
+	            	<div class="form-group">
+	            		<label class="label-control">银行名称</label>
+	            		<div class="col-sm-2">
+	            		<select  class="form-control" disabled>
+	            			{volist name="bank" id="bank"}
+	            			<option value="{$bank}" {eq name="info['Userinfo'][bank]" value="$bank"}selected="selected"{/eq}>{$bank}</option>
+	            			{/volist}
+	            		</select>
+	            		</div>
+	            	</div>
+	            	<div class="form-group">
+	            		<label class="col-sm-2 label-control">银行账号</label>
+	            		<div class="col-sm-4">
+	            		<input  id="card" class="form-control" value="{$info['Userinfo']['card']}" readonly="readonly">
+	            		</div>
+	            	</div>
+	            	<div class="form-group">
+	            		<label class="col-sm-2 label-control">开户地址</label>
+	            		<div class="col-sm-3">
+	            		<input  id="addr" class="form-control" value="{$info['Userinfo']['addr']}" readonly="readonly">
+	            		</div>
+	            	</div>
+	            	</div>
+		            {center:input  title="收款人姓名" value="info['Userinfo']['realname']" readonly="disabled"/}
+	            {/eq}
+                
+	            
+	            {center:input name="idcard" title="身份证号" value="info['Userinfo']['idcard']" /}
+	            <div class="form-group ">
+            		<input type="hidden" name="id" value="{$info.id|default=''}">
+            		<input type="hidden" name="ptype" value="{$info['Userinfo']['ptype']|default=''}">
+                	<input type="submit" value="保存设置" class="btn btn-success ajax-submit button_bg"  target-form="form">
+                	<!-- <a href="javascript:;" class="btn btn-default btn-large" onclick="javascript:history.back(-1);return false;">返回</a> -->
+            	</div>
+               </form>
+            </div>
+        </div>
+        
+      <!--   {include file="Base/left"/} -->
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script src="__JS__/copyurl.js" type="text/javascript" charset="utf-8"></script>
+<script>
+        var hi = {
+            //百度上传URL
+            'url_upload_picture': '{:U("center/upload/webUploader",array("session_id"=>session_id()))}',
+            //编辑器上传
+            'url_editor_upload': '{:U("center/upload/ueditor",array("session_id"=>session_id()))}',
+            //当前URL地址
+            'url_curr': '{:U()}',
+            //百度上传队列
+            'url_upload_list': '{:U("center/upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+        };
+        $(function() {
+            $(':input[class="form-radio"], input[class="form-checkbox"]').labelauty();
+            if($("select[name='ptype-select']").val()==2){
+            	$("#bank").hide();
+                $("#tenpay").parent().hide();
+                $("#alipay").parent().show();
+            }
+            if($("select[name='ptype-select']").val()==3){
+            	$("#bank").hide();
+                $("#tenpay").parent().show();
+                $("#alipay").parent().hide();
+            }
+        });
+        $("select[name='ptype-select']").change(function() {
+        	$("input[name='ptype']").val($(this).val());
+            if ($(this).val()==1){
+                $("#bank").show();
+                $("#tenpay").parent().hide();
+                $("#alipay").parent().hide();
+            } 
+            if($(this).val()==2){
+            	$("#bank").hide();
+                $("#tenpay").parent().hide();
+                $("#alipay").parent().show();
+            }
+            if($(this).val()==3){
+            	$("#bank").hide();
+                $("#tenpay").parent().show();
+                $("#alipay").parent().hide();
+            }
+        });
+    </script>
+{/block}
+

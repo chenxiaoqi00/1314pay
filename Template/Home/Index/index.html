@@ -1,0 +1,236 @@
+{extend name="Public/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__CSS__/home-index-style.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/home-index-slide.css"/>
+
+{/block}
+{block name="body"}
+	<style>
+	.img-responsive{
+		height:450px !important;
+		width: 100%;
+	}
+</style>
+	<div class="ibox-content">
+        <div class="carousel slide" id="carousel1">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img alt="image" class="img-responsive" src="__IMG__/home/banner1.jpg">
+                </div>
+                <div class="item">
+                    <img alt="image" class="img-responsive" src="__IMG__/home/banner2.jpg">
+                </div>
+            </div>
+            <a data-slide="prev" href="carousel.html#carousel1" class="left carousel-control">
+                <span class="icon-prev"></span>
+            </a>
+            <a data-slide="next" href="carousel.html#carousel1" class="right carousel-control">
+                <span class="icon-next"></span>
+            </a>
+        </div>
+    </div>
+
+	<div class="container-fluid" id="box1">
+		<div class="container-title">
+			<div class="container-title-item">
+				<div>
+					<i class="icon icon-anquan"></i>
+					<h6>安全</h6>
+					<p>高防服务器 , 数据安全无忧</p>
+				</div>
+			</div>
+			<div class="container-title-item">
+				<div>
+					<i class="icon icon-gaoxiao"></i>
+					<h6>高效</h6>
+					<p>极速发货 , 省时省心省力</p>
+				</div>
+			</div>
+			<div class="container-title-item">
+				<div>
+					<i class="icon icon-bianjie"></i>
+					<h6>便捷</h6>
+					<p>自动发卡 , 实时结算</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="box2">
+		<div class="container">			
+			<div class="title"><h1>平台优势</h1></div>
+			<div class="container-footer">
+				<div class="container-footer-item">
+					<a href="">
+						<i class="icon icon-fuwuqianquan"></i>
+						<h6>服务器安全</h6>
+						<p>采用群集服务器，无论用户身在何处，均能获得流畅安全可靠的体验。</p>
+					</a>
+				</div>
+				<div class="container-footer-item">
+					<a href="">
+						<i class="icon icon-jisufahuo"></i>
+						<h6>极速发货</h6>
+						<p>自动发货1秒急速响应，省时省心省力，结算费率低，利润高</p>
+					</a>
+				</div>
+				<div class="container-footer-item">
+					<a href="">
+						<i class="icon icon-zijinbaozhang"></i>
+						<h6>资金保障</h6>
+						<p>24小时监视订单和资金安全，集群DDos防御部署,网站安全无忧。</p>
+					</a>
+				</div>
+				<div class="container-footer-item">
+					<a href="">
+						<i class="icon icon-yingjiqidong"></i>
+						<h6>应急启动</h6>
+						<p>多服务器负载及时容错,自如应对常见波动,全程无丢单。</p>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="box3">
+		<div class="container">
+			<div class="title"><h1>电脑、手机、PAD多端通用， 信息同步</h1></div>
+			<div class="computer">
+				<img src="__IMG__/home/computerMain.png"/>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="box4">
+		<!-- <div class="container">
+			<div class="title"><h1>合作流程</h1></div>
+			<div class="TheFlowChart">
+				<ul>
+					<li>
+						<div>1</div>
+						<span>注册账户</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>2</div>
+						<span>商务审核</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>3</div>
+						<span>签订合同</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>4</div>
+						<span>上架商品</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>5</div>
+						<span>小额测试</span>
+					</li>
+					<li class="jt"></li>
+					<li>
+						<div>6</div>
+						<span>上线销售</span>
+					</li>
+				</ul>
+			</div>
+		</div> -->
+		<div id="occasion" class="occasion">
+	        <h1 class="h2">行业解决方案</h1>
+	        <ul>
+	            <li class="left">
+	                <div class="img img1"></div>
+	                <h3>激活码解决方案</h3>
+	                <div class="start">
+	                    <label class="iconfont"></label>
+	                </div>
+	                <p>
+	                    软件解决方案为企业及开发者提供灵活弹性自动化的全自动发卡服务、自动发卡服务模式及低成本的运维服务体系，帮助客户推动企业核心业务创新发展。
+	                </p>
+	            </li>
+	            <li class="middle">
+	                <div class="img img2"></div>
+	                <h3>账号解决方案</h3>
+	                <div class="start">
+	                    <label class="iconfont"></label>
+	                </div>
+	                <p>
+	                    账号类交易为客户提供量身定制的账号自动交易，24小时无人值守，全自动销售，高品质保障的售后服务机制，帮助需求用户业务放心稳定发展。
+	                </p>
+	            </li>
+	            <li class="right">
+	                <div class="img img3"></div>
+	                <h3>CDK解决方案</h3>
+	                <div class="start">
+	                    <label class="iconfont"></label>
+	                </div>
+	                <p>
+	                    适用于各类游戏CDK交易，游戏礼包CDK交易，游戏激活码交易，全天24小时任意购买，省心，省事，收益瞬间提高。满足需求用户的要求。
+	                </p>
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+	
+	<div class="container-fluid" id="box5">
+		<div class="container">
+			<div class="lside">
+				<h2>站点公告</h2>
+				<ul>
+				 {volist name="notice" id="vo"}
+				 	<li>
+						<a href="{$vo['url']}">
+							<p>{$vo['title']}</p>
+							<span>{:times($vo['inputtime'])}</span>
+						</a>
+					</li>
+				 {/volist}
+				</ul>
+			</div>
+			<div class="line"></div>
+			<div class="rside">
+				<h2>帮助中心</h2>
+				<ul>
+				{volist name="help" id="vo"}
+					<li>
+						<a href="/News/help">
+							<p>{$vo['title']}</p>
+							<span>{:times($vo['inputtime'])}</span>
+						</a>
+					</li>
+				{/volist}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" id="box6">
+		<div class="container">
+			<div class="title"><h1>支付渠道</h1></div>
+			<div class="title"><h2>接入1314发卡,给您的客户最便捷的的购卡体验</h2></div>
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</div>
+{/block}
+{block name="script"}	
+	<!--引入组件库-->
+
+	<script src="__JS__/slide.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+	$(function () {
+		var scrollTop = $(window).scrollTop()
+		onscroll = function () {
+			scrollTop = $(window).scrollTop()
+			if (scrollTop >= 800) {
+				$('#box3>.container .computer>img').css('opacity','1')
+			} else{
+				$('#box3>.container .computer>img').css('opacity','0')
+			}
+		}
+	})
+	</script>
+{/block}

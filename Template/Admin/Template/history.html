@@ -1,0 +1,42 @@
+{extend name="Public/base" /} {block name="body"}
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        {volist name="ModuleType" id="v"}
+        <li {if condition="$v['name'] eq $module" }class="active" {/if}> <a href="{:U('index',array('module'=>$v['name']))}" aria-expanded="true">{$v.title}</a></li>
+        {/volist}
+    </ul>
+</div>
+<div class="ibox-content ibox-noborder">
+    <form class="form-horizontal m-t ids" action="{:U('update')}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>文件路径</th>
+                    <th>用户</th>
+                    <th>备份时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {notempty name="list"}{volist name="list" id="vo"}
+                <tr>
+                    <td class="title"><i class="fa fa-file"></i> {$vo['file']}</td>
+                    <td>{$vo['uid']|getUserName}</td>
+                    <td>{$vo['time']|times}</td>
+                    <td>
+                        <a url="{:U('restore',array('id'=>$vo['id']))}" class="btn btn-xs btn-warning confirm ajax-get" title="还原当前时间的备份模板"><i class="fa fa-history"></i> 还原</a>
+                        <a url="{:U('del',array('ids'=>$vo['id']))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.file}的备份模板"><i class="fa fa-trash"></i> 删除</a>
+                    </td>
+                </tr>
+                {/volist} {else/}
+                <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                {/notempty}
+            </tbody>
+        </table>
+    </form>
+    <!-- 分页 -->
+    <ul class="pagination">
+        {$_page}
+    </ul>
+</div>
+{/block}

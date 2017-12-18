@@ -1,0 +1,44 @@
+{extend name="Public/base" /}
+{block name="style"}<style>
+.showtype{display: none;}
+</style>{/block}
+{block name="body"}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                <!--标题 单行文本-->
+                {form:input name="title" title="名称" value="info['title']" cols="3" /}
+                <!--标识 单行文本-->
+                {form:input name="name" title="标识" value="info['name']" cols="3" tips="调用碎片的唯一英文标识" /}
+                <!--类型 单选框-->
+                {form:radio name="type" title="类型" data="BlockType" checked="info['type']" /}
+                <div class="showtype" id="content_1" {eq name="info['type']" value="1"}style="display:block"{/eq}>
+                <!--描述 选择框-->
+                {form:textarea name="content[1]" title="内容" value="info['content']" cols="8" rows="10" /}
+                </div>
+                <div class="showtype" id="content_2" {eq name="info['type']" value="2"}style="display:block"{/eq}>
+                <!--文章内容-->
+                {form:editor name="content[2]" title="内容" value="info['content']" /}
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="id" value="{$info.id|default=''}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+$("input[name='type']").click(function() {
+    var value = $(this).attr("value");
+    $('.showtype').hide();
+    $('#content_' + value).show();
+});
+</script>
+{/block}

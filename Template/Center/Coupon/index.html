@@ -1,0 +1,92 @@
+{extend name="Base/common" /} {block name="body"}
+<div class="c-content">
+            <form action="{:U('index')}" method="get">
+            <div class="form-group">
+                <label for="price">绑定分类</label>
+                <select class="form-control" name="cateid" >
+                	<option value=""  {if condition="I('get.cateid') eq null"}selected="selected"{/if}>=绑定分类=</option>
+                	{volist name="cate" id="cate" }
+                		<option value="{$cate['id']}" {if condition="I('get.cateid') eq $cate['id']"}selected="selected"{/if}>{$cate['goodname']}</option>
+                	{/volist}
+                </select>
+                <label for="price">状态</label>
+         		 <select class="form-control" name="is_state" >
+	         		<option value=""  {if condition="I('get.is_state') eq null"}selected="selected"{/if}>=商品状态=</option>
+	         		<option value="0" {if condition="I('get.is_state') eq '0'"}selected="selected"{/if}>未使用</option>
+	         		<option value="1" {if condition="I('get.is_state') eq '1'"}selected="selected"{/if}>已使用</option>
+	         		<option value="2" {if condition="I('get.is_state') eq '2'"}selected="selected"{/if}>已过期</option>
+         		</select> 
+                <button class="btn btn-success btn-middle">搜索</button>
+            </div>
+            </form>
+            <ul class="head-list">
+                <li>
+                    <a href="javascript:;" data-url="{:U('del')}" class="btn btn-danger btn-middle ajax-status confirm" target-form="ids"><i class="fa fa-trash"></i>批量删除</a>
+                </li>
+            </ul>
+            <form class="ids">
+            <table class="list-table marginT30">
+                <caption></caption>
+                <thead>
+                    <tr>
+                     	<th> 
+	                     	<label class="blue-checkbox checkall">
+	                        <input name="checkbox" type="checkbox" class="radioclass">
+	                        <span>全选</span>
+	                    	</label>
+                    	</th>
+                        <th class="width130">优惠券号码</th>
+                        <th class="width250">绑定分类</th>
+                        <th class="width50">面额</th>
+                        <th class="width250">生成时间</th>
+                        <th>有效期</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+				{notempty name="list"}
+					{volist name="list" id="vo"}
+	                <tr>
+	                    <td>
+	                        <label class="blue-checkbox">
+	                            <input class="ids radioclass check" type="checkbox" name="ids[]" value="{$vo.id}">
+	                        </label>
+	                    </td>
+	                    <td>
+	                        {$vo['couponcode']}
+	                    </td>
+	                    
+	                    <td>
+		                    {if condition="$vo.cateid eq 0"}
+		                    	 全部
+		                    {else /}
+		                    	{:good($vo['cateid'],'goodname')}
+		                    {/if}
+	                    </td>
+	                    <td>
+	                          {if condition="$vo.ctype eq 1"}
+		                    	{$vo['coupon']}元
+		                    {else /}
+		                    	{$vo['coupon']}%
+		                    {/if}
+	                    </td>
+	                    <td>{$vo['addtime']}</td>
+	                    <td>{:show_status_coupon($vo['is_state'],$vo['deadline'])}</td>
+	                   <!--  <td>{$vo['is_state']|show_status_coupon}</td> -->
+	                    <td>
+	                        <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-small"> <i class="fa fa-edit"></i>修改</a>
+	                        <!-- <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-primary btn-small"> <i class="fa fa-edit"></i>加卡</a> -->
+	                        <a href="javascript:;" data-url="{:U('del',array('ids'=>$vo['id']))}" data-title="删除地址{$vo['address']}" class="btn btn-danger btn-small confirm ajax-get"> <i class="fa fa-trash"></i>删除</a>
+	                    </td>
+	                </tr>
+				{/volist}
+            {else/}
+            <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+            {/notempty}
+            </table>
+              <div style="text-align: center;">
+	       	 {$_page}
+	         </div>
+        </form>
+      
+        </div>
+{/block}

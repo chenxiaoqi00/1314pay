@@ -1,0 +1,108 @@
+{extend name="Base/common" /}{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/switch.css">
+{/block}{block name="body"}
+<div class="c-content ">
+    <div class="cd-wrap padding20">
+        <form action="__SELF__" method="post" class="form">
+        	<!-- 名称 -->
+			<div class="form-group">
+               	<label class="col-sm-2 label-control"><i style="color:#f00">*</i>折扣面额</label>
+               	<input type="text" id="coupon" name="coupon" class="form-control">
+               	<select id="ctype" name="ctype" class="form-control">
+               		<option value="1">元</option>
+               		<option value="100">%</option>
+               	</select>
+            </div>
+           	<div class="form-group">
+               	<label class="col-sm-2 label-control"><i style="color:#f00">*</i>生成数量</label>
+               	<input type="text" id="quantity" name="quantity"  value="1" class="form-control">
+               	<span> 张 (最多一次生成200张)</span>
+            </div>
+            
+            <div class="form-group">
+               	<label class="col-sm-2 label-control"><i style="color:#f00">*</i>有效期</label>
+             	<select id="valid" name="valid" class="form-control">
+               		<option value="1">1</option>
+               		<option value="2">2</option>
+               		<option value="3">3</option>
+               		<option value="4">4</option>
+               		<option value="5">5</option>
+               		<option value="6">6</option>
+               		<option value="7">7</option>
+               		<option value="8">8</option>
+               		<option value="9">9</option>
+               		<option value="10">10</option>
+               		<option value="15">15</option>
+               		<option value="30">30</option>
+               		<option value="60">60</option>
+               		<option value="100">100</option>
+               	</select>
+               	<span>天</span>
+            </div>
+           
+           <div class="form-group">
+               	<label class="col-sm-2 label-control"><i style="color:#f00">*</i>商品分类</label>
+             	<select id="cateid" name="cateid" class="form-control">
+               		{volist name="goodlist" id="vo"}
+               			<option value="{$vo['id']}">{$vo['catename']}</option>
+               		{/volist}
+               	</select>
+               	<span>(选择对应的商品分类进行优惠券的绑定)</span>
+            </div>
+            
+              <div class="form-group">
+               	<label class="col-sm-2 label-control"><i style="color:#f00">*</i>备注信息</label>
+             	<textarea id="remark" rows="5" cols="50" name="remark"></textarea>
+            </div>
+            <div class="form-group">
+            	<input type="hidden" name="id" value="{:I('get.id')}">
+                <input type="submit" value="保存设置" class="btn btn-success button_bg ajax-submit" target-form="form">
+            </div>
+        </form>
+    </div>
+</div>
+{/block} 
+
+{block name="script"}
+<script>
+$(document).ready(function(){
+	var id =$("input[name='id']").val();
+	if(id !=''){
+		var url = "edit/id/"+id;
+		$.get(url,function(resolut){
+			//面额
+			$("#coupon").val(resolut.coupon)
+			$("#ctype option").each(function(id,data){
+				if($(this).val()==resolut.ctype){
+					$(this).attr("selected", "selected");
+				}
+			})
+			
+			// 有效期
+			$("#valid option").each(function(){
+				
+				if($(this).val()==resolut.valid){
+					$(this).attr("selected", "selected");
+				}
+			})
+
+			//商品分类
+			var goodlist="";
+			$.each(resolut.goodlist,function(id,data){
+				goodlist += "<option value="+data.id+(data.id==resolut.cateid?" selected":"")+">"+data.goodname+"</option>";
+			})
+			$("#cateid").append(goodlist);
+			
+			//备注
+			$("#remark").val(resolut.remark)
+			
+			$(".title").text(resolut.title)
+			
+		})
+	}
+})
+</script>
+
+{/block}

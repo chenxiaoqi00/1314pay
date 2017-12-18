@@ -1,0 +1,113 @@
+{extend name="Base/common" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__BASE_JS__/editable/css/bootstrap-editable.css"/>
+<link rel="stylesheet" type="text/css" href="__BASE_CSS__/style.css"/>
+{/block}
+
+ {block name="body"}
+<div class="c-content">
+          
+	<div class="">
+		<div style="margin-top: 15px;">
+			<label>月份: </label>
+			<select name="date" onchange="getinvite(this)" class="form-control" style="width:15%; display: inline-block;">
+				<option value="">选择月份</option>
+				<option value="1">一月份</option>
+				<option value="2">二月份</option>
+				<option value="3">三月份</option>
+				<option value="4">四月份</option>
+				<option value="5">五月份</option>
+				<option value="6">六月份</option>
+				<option value="7">七月份</option>
+				<option value="8">八月份</option>
+				<option value="9">九月份</option>
+				<option value="10">十月份</option>
+				<option value="11">十一月份</option>
+				<option value="12">十二月份</option>
+			</select>
+		</div>	
+            <table class="list-table">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th class="width150">商户名称</th>
+                        <th class="width50">月份</th>
+                        <th class="width50">交易额</th>
+                        <th class="width50">状态</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+	                {notempty name="invite"}
+						{volist name="invite" id="vo" key="k"}
+			                <tr >
+			                    <td>{$vo['username']}</td>
+			                    <td>{$vo['month']}月份</td>
+			                    <td>{$vo['money']['money']}</td>
+			                    <td>{$vo['settle']}|show_account_card</td>
+			                </tr>
+						{/volist}
+					{else /} 
+						 <tr >
+						 <td colspan=4>还没有邀请客户，快去邀请哦!</td>
+						 </tr>
+					{/notempty}
+				</tbody>
+            </table>
+               <div style="text-align: center;">
+	        	{$_page}
+	        </div>
+		</div>
+  </div>          
+{/block}
+
+{block name="script"}
+<script src="__BASE_JS__/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__BASE_JS__/editable/js/bootstrap-editable.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$(function(){
+	var myDate = new Date();
+	var nowMonth = myDate.getMonth()+1;
+	inviteHtml(nowMonth)
+	$("select[name='date'] option").each(function(){
+		if($(this).val()==nowMonth)
+			$(this).prop('selected',true);
+	})
+	
+})
+
+
+
+  function getinvite(that){
+	  var month=$(that).children('option:selected').val();
+	  inviteHtml(month)
+  } 
+  
+function inviteHtml(month){
+	var url = 'invite/date/'+month;
+	  var html = '';
+		$.ajax({
+		    url:url,  
+		    type:"GET",   //请求方式 get 或者post  
+		    success:function(result){
+		    	if(result){
+		    		var settle = "";
+		    		$.each(result,function(index,data){
+		    			settle = data.settle=="1"?"<span class='label label-primary'>已结算</span>":"<span class='label label-danger'>未结算</span>";
+			    		html += '<tr >'+
+				                    '<td>'+data.username+'</td>'+
+				                    '<td>'+data.month+'月份</td>'+
+				                    '<td>'+data.money.money+'</td>'+
+				                    '<td>'+settle+'</td>'+
+			                	'</tr>';
+			    	}) 
+				    	
+		    	}else{
+		    		html =	"<tr ><td colspan=4>还没有邀请客户，快去邀请哦!</td></tr>";
+		    	}
+	     	$(".tbody").html(html);
+	
+		    }
+		},"JSON");
+}
+</script>
+{/block}

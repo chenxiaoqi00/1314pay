@@ -1,0 +1,85 @@
+{extend name="Base/common" /}{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/switch.css">
+{/block}{block name="body"}
+<div class="c-content tabs-container">
+	<!-- <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#base" aria-expanded="true">基本设置</a></li>
+        <li><a data-toggle="tab" href="#ship" aria-expanded="false">额外信息</a></li>
+    </ul> -->
+    <div class="cd-wrap padding20 tab-content">
+        <form action="__SELF__" method="post" class="form">
+        	<!-- 名称 -->
+			<div class="form-group">
+                	<label class="col-sm-2 label-control"><i style="color:#f00">*</i>选择商品</label>
+                	<select id="cateid" name="cateid" class="form-control"></select>
+                	<select id="goodid" name="goodid" class="form-control"></select>
+            	</div>
+            	{center:radio name="upload" title="上传方式" data="upload" checked="info['upload']" tips="卡密格式：卡号+空格+密码，一行一张卡，如：A1B2C3D4F5E8 9876543210" /}
+            	{center:radio name="is_deff" title="去掉重复" data="is_deff" checked="info['is_deff']" tips="重复卡密将不会加入到库存中" /}
+            <div id="textarea" style="display: none;"> 
+				{center:textarea name="content" title="内容" value="info['upload']" width="500" rows="20" tips="输入框添加卡密最多一次添加50张(50行)，TXT文件上传最多支持10kb。"/}
+			</div> 
+			<div id="filearea" >
+			{center:file name="file" title="上传文件" value="info['file']" limit="1" button="上传文件" /}
+            </div>
+            <div class="form-group">
+            	<input type="hidden" name="id" value="{$info.id|default=''}">
+                <input type="submit" value="保存设置" class="btn btn-success button_bg ajax-submit" target-form="form">
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/fileupload.js"></script>
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script src="__BASE_JS__/plugins/layer/layer.js"></script>
+<script src="__BASE_JS__/linkagesel/comm.js"></script>
+<script src="__BASE_JS__/bootstrap.min.js"></script>
+<script src="__BASE_JS__/linkagesel/linkagesel.min.js"></script>
+<script>
+var hi = {
+        //快速编辑URL
+        'url_quick': '/Center/Card/quick.html',
+        //百度上传URL
+        'url_upload_picture': '/center/upload/webUploader/session_id/3sqoe3666mgq1svau7jt8eh9p3.html',
+        //编辑器上传
+        'url_editor_upload': '/center/upload/ueditor/session_id/3sqoe3666mgq1svau7jt8eh9p3.html',
+        //当前URL地址
+        'url_curr': '/Center/Card/add.html',
+      	//百度上传URL
+        'url_upload_file': '/center/upload/fileUploader/session_id/3sqoe3666mgq1svau7jt8eh9p3.html',
+        //百度上传队列
+        'url_upload_list': '/center/upload/getPicture/ids/ids/index/index.html',
+    };
+
+setFormValue("type", {$info['type']|default=1});
+setFormValue("upload", {$info['upload']|default=1});
+$(function() {
+    $(':input[class="form-radio"], input[class="form-checkbox"]').labelauty();
+});
+
+$('input[name=upload]').click(function(){
+	var val = $(this).val();
+	if(val == 1){
+		$('#textarea').hide();
+		$('#filearea').show();
+	}else{
+		$('#filearea').hide();
+		$('#textarea').show();
+	}
+});
+
+var opts = {
+	    ajax: '{:U("ajax/gatgoods")}',
+	    selStyle: 'margin-left: 3px;',
+	    select:[ '#cateid', '#goodid'],
+	    head: '=请选择商品=',
+	    level:2,
+	    defVal:[]
+	};
+var linkageSel = new LinkageSel(opts);
+    </script>
+{/block}

@@ -1,0 +1,92 @@
+{extend name="Public/base" /} {block name="style"}
+<link href="__CSS__/plugins/datapicker/datepicker3.css" rel="stylesheet"> {/block} {block name="body"}
+<div class="ibox-title">
+    <div class="btn-group col-sm-10">
+        <form method="get" class="form-inline so-form">
+            <select name="status" class="form-control input-sm">
+                <option value=''  {if condition="I('get.status') eq ''"}selected{/if}>不限状态</option>
+                <option value="0" {if condition="I('get.status') eq '0'"}selected{/if}>操作失败</option>
+                <option value="1" {if condition="I('get.status') eq '1'"}selected{/if}>操作成功</option>
+            </select>
+            <div class="form-group">
+                <input type="text" class="form-control input-sm" name="ip" width="20" placeholder="IP">
+            </div>
+            <div class="input-daterange input-group" id="datepicker">
+                <input type="text" class="input-sm form-control" id="start" name="start_date" placeholder="开始日期" />
+                <span class="input-group-addon">~</span>
+                <input type="text" class="input-sm form-control" id="end" name="end_date" placeholder="结束日期" />
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control input-sm so-input" name="uid" placeholder="UID">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-sm btn-primary so-btn" url="__SELF__"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="ibox-content">
+    <form class="form-horizontal m-t ids">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户</th>
+                    <th>状态</th>
+                    <th>说明</th>
+                    <th>GET</th>
+                    <th>时间</th>
+                    <th>IP</th>
+                </tr>
+            </thead>
+            <tbody>
+                {notempty name="list"} {volist name="list" id="vo"}
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td class="title">{$vo.uid|user='username'}</td>
+                    <td>{$vo.status|show_status_op}</td>
+                    <td>{$vo.info}</td>
+                    <td>{$vo.get}</td>
+                    <td>{$vo.time|times}</td>
+                    <td>{$vo.ip|long2ip}</td>
+                </tr>
+                {/volist} {else/}
+                <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                {/notempty}
+            </tbody>
+        </table>
+    </form>
+    <!-- 分页 -->
+    <ul class="pagination">
+        {$_page}
+    </ul>
+</div>
+{/block} {block name="script"}
+<script src="__JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+</script>> {/block}

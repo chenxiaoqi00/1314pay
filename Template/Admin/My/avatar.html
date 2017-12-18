@@ -1,0 +1,60 @@
+{extend name="Public/base" /} {block name="style"}
+<link href="__JS__/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+<link href="__CSS__/animate.min.css" rel="stylesheet">{/block} {block name="body"}
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="m-t m-b">
+            <div id="myAvatar"></div>
+        </div>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/plugins/fullavatareditor/scripts/swfobject.js"></script>
+<script type="text/javascript" src="__JS__/plugins/fullavatareditor/scripts/fullAvatarEditor.js"></script>
+<script type="text/javascript">
+swfobject.addDomLoadEvent(function() {
+    var swfFullAvatar = new fullAvatarEditor("myAvatar", {
+        id: 'swf',
+        src_url: "{$avatar}",
+        upload_url: '{:U("upload/avatar")}',
+        avatar_sizes: "256*256|128*128|64*64",
+        avatar_sizes_desc: "256*256像素|128*128像素|64*64像素",
+        src_upload: 1,  //默认为0；是否上传原图片的选项，有以下值：0:不上传；1:上传；2 :显示复选框由用户选择
+        src_box_width: "380", //原图编辑框的宽度
+        src_box_height: "350", //原图编辑框的高度
+        browse_box_align: 'left', //头像选择框对齐方式
+        webcam_box_align: 'left', //头像拍照框对齐方式
+        src_size: "2MB", //选择的本地图片文件所允许的最大值，必须带单位，如888Byte，88KB，8MB
+        isShowUploadResultIcon: false,//在上传完成时（无论成功和失败），是否显示表示上传结果的图标
+        //avatar_field_names:'img_1|img_2|img_3'//上传过去的file变量的名称
+    }, fullAvatarCallback);
+});
+//头像上传回调
+function fullAvatarCallback(msg) {
+    switch (msg.code) {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            if (msg.type == 0) {} else if (msg.type == 1) {
+                layer.msg("摄像头已准备就绪但用户未允许使用！", { icon: 5, time: 1500, shift: 6});
+            } else {
+                layer.msg("摄像头被占用！", { icon: 5, time: 1500, shift: 6});
+            }
+            break;
+        case 4:
+            layer.msg("图像文件过大！", { icon: 5, time: 1500, shift: 6});
+            break;
+        case 5:
+            if (msg.type == 0) {
+                layer.msg('上传成功！', { icon: 6, time: 1500 });
+                //$('#my-avatar').attr('src', "http://www.lvyecms.com/index.php?g=Api&m=Avatar&uid=2726213&size=180");
+            } else {
+                layer.msg(msg.content.msg, { icon: 5, time: 1500, shift: 6});
+            }
+            break;
+    }
+}
+</script>
+{/block}

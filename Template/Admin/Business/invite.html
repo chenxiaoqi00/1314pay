@@ -1,0 +1,26 @@
+
+		{volist name="invite" id="vo" key="k"}
+     	<tr>
+            <td>{$vo['username']}</td>
+            <td>{$vo['month']}月份</td>
+            <td>{$vo['realmoney']|default=0}</td>
+            <td>{$vo['price']|default=0}</td>
+            <td>{$vo['paid']|default=0}</td>
+            <td>{$vo['platformprice']|default=0}</td>
+           
+            <td>
+              <div class="onoffswitch-large">
+                 <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-url="changeinvite/userid/{$vo['userid']}"  data-field="month" data-id="{$vo['inviteid']}" id="status{$k}" {eq name="vo['settle']" value="1"}checked{/eq}>
+                 <label class="onoffswitch-label" for="status{$k}">
+                     <span class="onoffswitch-inner"></span>
+                     <span class="onoffswitch-switch"></span>
+                 </label>
+             </div>
+            </td>
+        </tr>
+{/volist}
+
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+<script>
+ 
+</script>

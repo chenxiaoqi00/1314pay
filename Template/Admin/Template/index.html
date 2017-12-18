@@ -1,0 +1,86 @@
+{extend name="Public/base" /} {block name="body"}
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        {volist name="ModuleType" id="v"}
+        <li {if condition="$v['name'] eq $module" }class="active" {/if}> <a href="{:U('index',array('module'=>$v['name']))}" aria-expanded="true">{$v.title}</a></li>
+        {/volist}
+    </ul>
+</div>
+<div class="ibox-title m-t-0">
+    <div class="pull-left col-sm-6">
+        <button class="btn btn-primary input-sm dopost" data-url="{:U('update', array('module'=>$module))}"><i class="fa fa-refresh"> 更新</i></button>
+        <button class="btn btn-primary input-sm"><i class="fa fa-reply" onclick="javascript:history.back(-1);return false;"> 返回</i></button>
+    </div>
+</div>
+<div class="ibox-content">
+    <form class="form-horizontal m-t ids" action="{:U('update')}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>目录列表</th>
+                    <th>说明</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {notempty name="list"}{volist name="list" id="vo"}
+                {if condition="is_dir($vo['path'])"}
+                <tr>
+                    <td class="title"><a href="{:U('',array('module'=>$module, 'dir'=>$vo['filename']))}"><i class="fa fa-folder"> </i> {$vo['filename']}</a></td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm" name="{$local}[{$vo['filename']}]" value="{$fileinfo[$local][$vo['filename']]}">
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                {else/}
+                {if condition="substr($vo['filename'],-4,4) eq 'html'"}
+                <tr>
+                    <td class="title"><a href="javascript:;"><i class="fa fa-file"> </i> {$vo['filename']}</a></td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm" name="{$local}[{$vo['filename']}]" value="{$fileinfo[$local][$vo['filename']]}">
+                        </div>
+                    </td>
+                    <td>
+                        <a href="{:U('history',array('module'=>$module, 'file'=>$vo['urlcode']))}" class="btn btn-danger btn-xs"><i class="fa fa-history"></i> 历史版本</a>
+                        <a href="{:U('edit',array('file'=>$vo['urlcode']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                    </td>
+                </tr>
+                {/if}
+                {/if}
+                {/volist} {else/}
+                <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                {/notempty}
+            </tbody>
+        </table>
+    </form>
+    <!-- 分页 -->
+    <ul class="pagination">
+        {$_page}
+    </ul>
+</div>
+{/block} {block name="script"}
+<script>
+$(".dopost").on('click', function() {
+    var self = this;
+    var $url = $(this).data('url');
+    var $data = $('form').serialize();
+    //$(self).addClass('disabled').prop('disabled', true);
+    layer.msg('模板配置更新中...请稍候！', {
+        icon: 4,
+        shade : 0.5,
+        scrollbar:false,
+    });
+    $.post($url,$data, function(res) {
+        if (res.status) {
+            layer.msg(res.info, { icon: 6, time: 1500 });
+        } else {
+            layer.msg(res.info, { icon: 8, time: 1500, shift: 6 });
+        }
+        //$(self).removeClass('disabled').prop('disabled', false);
+    }, 'json');
+});
+</script>
+{/block}

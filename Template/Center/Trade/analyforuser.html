@@ -1,0 +1,116 @@
+{extend name="Base/common" /}
+{block name="style"}
+<script type="text/javascript" src="__BASE_JS__/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/center.css">	
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+{/block}
+
+ {block name="body"}
+<div class="c-content">
+<form action="__SELF__" method="post">
+<div class="form-group form-inline so-form">
+ <label for="time">起始时间</label>
+    <div class="input-daterange input-group" id="datepicker">
+	    <input type="text" class=" form-control" value="{$start_time}" id="start" name="start_time" placeholder="开始日期" />
+	    <span class="input-group-addon">~</span>
+	    <input type="text" class=" form-control" value="{$end_time}" id="end" name="end_time" placeholder="结束日期" />
+	</div>
+<!-- <div class="search-date">
+	{center:daterange startname="start_time" endname="end_time" title="起始日期" startvalue="info['start_time']" endvalue="info['end_time']"/}
+</div> -->
+<button class="btn btn-success btn-middle" style="margin-top: 6px;">搜索</button>
+</div>
+</form>
+	<div class="echart-breadcrumb"><strong>用户收益统计</strong> </div>
+          
+    	<div id="order-echart" style="width: 400px;height:400px;float:left;margin-left: 50px"></div>
+		
+		<div id="money-echart" style="width: 400px;height:400px;float: right;margin-right:50px"></div>
+  </div>          
+{/block}
+
+{block name="script"}
+<script src="__BASE_JS__/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script type="text/javascript">
+
+	//基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('order-echart'));
+	var order = eval({$order});
+	option = {
+		    title : {
+		        text: '订单统计',
+		        //subtext: '纯属虚构',
+		        x:'center'
+		    },
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+		    legend: {
+		        orient: 'vertical',
+		        left: 'left',
+		        data: ['未完成订单','已完成订单']
+		    },
+		    series : [
+		        {
+		            name: '访问来源',
+		            type: 'pie',
+		            radius : '55%',
+		            center: ['50%', '60%'],
+		            data:order,
+		            itemStyle: {
+		                emphasis: {
+		                    shadowBlur: 10,
+		                    shadowOffsetX: 0,
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+		                }
+		            }
+		        }
+		    ]
+		};
+	
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+	
+	//基于准备好的dom，初始化echarts实例
+	var myChart1 = echarts.init(document.getElementById('money-echart'));
+	var price = eval({$price});
+	option1 = {
+		    title : {
+		        text: '收益统计',
+		        //subtext: '纯属虚构',
+		        x:'center'
+		    },
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+		    legend: {
+		        orient: 'vertical',
+		        left: 'left',
+		        data: ['扣除金额','实际收益']
+		    },
+		    series : [
+		        {
+		            name: '访问来源',
+		            type: 'pie',
+		            radius : '55%',
+		            center: ['50%', '60%'],
+		            data:price,
+		            itemStyle: {
+		                emphasis: {
+		                    shadowBlur: 10,
+		                    shadowOffsetX: 0,
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+		                }
+		            }
+		        }
+		    ]
+		};
+	
+	// 使用刚指定的配置项和数据显示图表。
+	myChart1.setOption(option1);
+</script>
+{/block}

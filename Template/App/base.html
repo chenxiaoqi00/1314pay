@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="utf-8">
+	    <title>{$meta_title}-{:C('WEB_SITE_TITLE')}</title>
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+	    <meta name="viewport" content="width=640, user-scalable=no">
+	    <meta name="keywords" content="{:C('WEB_SITE_KEYWORD')}">
+	    <meta name="description" content="{:C('WEB_SITE_DESCRIPTION')}">
+	    <meta name="format-detection" content="telephone=no">
+	    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	    <!-- uc强制竖屏 -->
+	    <meta name="screen-orientation" content="portrait">
+	    <!-- QQ强制竖屏 -->
+	    <meta name="x5-orientation" content="portrait">
+	    <link rel="Shortcut Icon" href="/logo.ico">
+	    <link rel="stylesheet" type="text/css" href="__CSS__/app.css">
+		{block name="style"}{/block}
+		
+</head>
+<body>
+	{block name="body"}{/block}
+	  	<div class="lfooter">
+		  <ul>
+		    <li><a href="{:U('Index/index')}"><img src="__IMG__/home/dbsy.png" width="50" height="50"><br>网站首页</a></li>
+		    <li><a href="{:U('Index/service')}"> <img src="__IMG__/home/zhuce.png"width="50" height="50"><br>服务项目</a></li>
+		    <li><a href="{:U('Center/Index/index')}"><img src="__IMG__/home/houtai.png" width="50" height="50"><br>会员中心</a></li>
+		    <li><a href="{:U('Index/connect')}"><img src="__IMG__/home/dblx.png" width="50" height="50"><br>联系我们</a></li>
+		  </ul> 
+		</div>
+</body>
+	<script src="__JS__/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__JS__/plugins/layer/layer.js"></script>
+	{block name="script"}{/block}
+</html>

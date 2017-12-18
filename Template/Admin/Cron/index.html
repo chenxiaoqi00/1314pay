@@ -1,0 +1,96 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="ibox-title m-t-0">
+        <div class="btn-group pull-right">
+            <form method="get" class="pull-right form-inline so-form">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" name="title" placeholder="{$title}">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="__SELF__"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="pull-left col-sm-6">
+            <a class="btn btn-primary input-sm" href="{:U('add')}"><i class="fa fa-plus"> 添加</i></a>
+            <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1))}"><i class="fa fa-check"> 启用</i></button>
+            <button  class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0))}"><i class="fa fa-ban"> 禁止</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del')}"><i class="fa fa-remove"> 删除</i></button>
+            <button class="btn btn-primary input-sm dobuild" data-url="{:U('build')}"><i class="fa fa-refresh"> 生成定时任务</i></button>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>任务名称</th>
+                        <th>任务名</th>
+                        <th>初始执行时间</th>
+                        <th>上次执行时间</th>
+                        <th>间隔时间</th>
+                        <th>已执行次数</th>
+                        <th>排序</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck"><input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}"></td>
+                                <td class="title">{$vo.title}</td>
+                                <td>{$vo.cron}</td>
+                                <td>{$vo.runtime|times}</td>
+                                <td>{$vo.lastruntime|times}</td>
+                                <td>{$Intervals[$vo['intervals']]}</td>
+                                <td>{$vo.times}</td>
+                                <td><a href="javascript:;" class="edit-text" data-placeholder="请输入排序" data-type="text" data-pk="{$vo.id}" data-name="sort">{$vo.sort}</a></td>
+                                <td>
+                                    <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                                    <a url="{:U('del',array('ids'=>$vo['id'], 'model'=>'Adpos'))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__JS__/editable/js/bootstrap-editable.min.js"></script>
+<script>
+$(".dobuild").on('click', function() {
+    var self = this;
+    var $url = $(this).data('url');
+    $(self).addClass('disabled').prop('disabled', true);
+    layer.confirm('请确定任务是否正确配置?', function(){
+        layer.msg('定时任务生成中...请稍候！', {
+            icon: 4,
+            shade : 0.5,
+            scrollbar:false,
+        });
+        $.post($url, function(res) {
+            if (res.status) {
+                layer.msg(res.info, { icon: 6, time: 1500 });
+            } else {
+                layer.msg(res.info, { icon: 8, time: 1500, shift: 6 });
+            }
+            $(self).removeClass('disabled').prop('disabled', false);
+        }, 'json');
+    }, function(){
+        $(self).removeClass('disabled').prop('disabled', false);
+    });
+});
+</script>
+{/block}

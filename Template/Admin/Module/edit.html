@@ -1,0 +1,51 @@
+{extend name="Public/base" /}
+{block name="style"}<style>
+#show_html_on{display: none;}
+</style>{/block}
+{block name="body"}
+    <div class="ibox-title">
+        <h5>{$meta_title}</h5>
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                <!--名称 单行文本-->
+                {form:input name="title" title="名称" value="info['title']" tips="用于显示的模块名称" /}
+                <!--标识 单行文本-->
+                {form:input name="name" title="标识" value="info['name']" tips="必须为英文" cols="2" /}
+                <!--URL路由配置 开关效果-->
+                {form:switch name="isauth" title="权限控制" value="info['isauth']" tips="后台、会员中心等模块菜单需进行此设置" /}
+                <!--列表每页记录数 单行文本-->
+                {form:input name="list_rows" title="列表条数" value="info['list_rows']" tips="每页显示条数" cols="2" /}
+                <!--静态缓存 开关效果-->
+                {form:switch name="html_cache_on" title="静态缓存" value="info['html_cache_on']" tips="开启后必须设置路由规则" /}
+                <div id="show_html_on" {notempty name="info['html_cache_on']"}style="display:block"{/notempty}>
+                    <!--缓存时间 单行文本-->
+                    {form:input name="html_cache_time" title="缓存时间" value="info['html_cache_time']" tips="单位：小时" cols="2" /}
+                    <!--文件后缀 单行文本-->
+                    {form:input name="html_file_suffix" title="文件后缀" value="info['html_file_suffix']" tips="如：html" cols="2" /}
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="id" value="{$info.id|default=''}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+    <script type="text/javascript" charset="utf-8">
+    $("input[name='html_cache_on']").change(function() {
+        if ($(this).prop('checked')){
+            $("#show_html_on").show();
+        } else {
+            $("#show_html_on").hide();
+        }
+    });
+    </script>
+{/block}

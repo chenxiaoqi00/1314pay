@@ -1,0 +1,99 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="ibox-title ibox-title-border">
+		<div class="btn-group">
+			<form method="get" class="form-inline so-form">
+                <input type="text" name="title" class="input-sm form-control" value="{:I('get.title')}" placeholder="商户名" />
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="{:U('useranalyse')}"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <!--   <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th> -->
+                        <th>商户ID</th>
+                        <th>商品名称</th>
+                        <th>提交订单</th>
+                        <th>已付订单</th>
+                        <th>未付订单</th>
+                        <th>提交金额</th>
+                        <th>实付金额</th>
+                        <th>商户收入</th>
+                        <th>结算金额</th>
+                        <th>平台收入</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                               <!--  <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td> -->
+                                <td>{$vo.userid}</td>
+								<td>{$vo.username}</td>
+                                <td>{$vo.orders}</td>
+                                <td>{$vo.pay}</td>
+                                <td>{$vo.unpayorders}</td>
+                                <td>{$vo[money]|default=0}</td>
+                                <td>{$vo[realmoney]|default=0}</td>
+                                <td>{$vo[price]|default=0}</td>
+                                <td>{$vo[paid]|default=0}</td>
+                                <td>{$vo[platformprice]|default=0}</td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+{/block}
+{block name="script"}
+<script src="__JS__/linkagesel/comm.js"></script>
+<script src="__JS__/linkagesel/linkagesel.min.js"></script>
+<script src="__JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+
+
+
+</script>{/block}

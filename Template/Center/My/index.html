@@ -1,0 +1,31 @@
+{extend name="Base/common" /}{block name="body"}
+<div class="c-content">
+    <div class="c-tip">
+        【重要通知】产品违规发布规则说明<a href="javascript:void">点击查看</a>
+    </div>
+    <div class="cd-wrap">
+        <form  action="__SELF__" method="post" class="form">
+            <p>
+                <label for="name">手机：</label>
+                <input type="text" name="mobile" class="ipt-text" value="{$info['mobile']}">（手机号码,可做登陆用）
+            </p>
+			<p>
+                <label for="username">用户名：</label>
+                <input type="text" name="username" class="ipt-text" value="{$info['username']}">（用户名只能为英文或和数字组合）
+            </p>
+            <p>
+                <label for="email">邮箱：</label>
+                <input type="text" name="email" class="ipt-text" value="{$info['email']}">（会员的邮箱,可做登陆用）
+            </p>
+            <p>
+                <label for="passwrod">密码：</label>
+                <input type="text" name="password" class="ipt-text">（登陆密码）
+                <input type="hidden" name="id" class="ipt-text" value="{:UID}">
+            </p>
+            <p class="marginL100">
+                <input type="submit" value="保存" class="ipt-submit ajax-submit" target-form="form">
+            </p>
+        </form>
+    </div>
+</div>
+{/block}

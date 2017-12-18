@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册-{:C('WEB_SITE_TITLE')}</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link href="/Public/statics/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Public/statics/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/Public/statics/css/animate.css" rel="stylesheet">
+    <link href="/Public/statics/css/style.css" rel="stylesheet">
+    <link href="/Public/statics/js/ladda/ladda-themeless.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>
+    if (window.top !== window.self) {
+        window.top.location = window.location;
+    }
+    </script>
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen   animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">318</h1>
+        </div>
+        <p>创建一个318新账户</p>
+        <form class="m-t" role="form" method="post">
+            <div class="form-group input-group">
+            	<span class="input-group-addon" id="basic-addon1">用户账户</span>
+                <input type="text" name="tel" class="form-control" placeholder="请输入用户名">
+            </div>
+            <div class="form-group input-group">
+            	<span class="input-group-addon" id="basic-addon1">登录密码</span>
+                <input type="password" name="password" class="form-control" placeholder="请输入密码">
+            </div>
+            <div class="form-group input-group">
+            	<span class="input-group-addon" id="basic-addon1">确认密码</span>
+                <input type="password" name="repassword" class="form-control" placeholder="再次输入密码">
+            </div>
+            <div class="form-group input-group">
+            	<span class="input-group-addon" id="basic-addon1">联系手机</span>
+                <input type="text" name="tel" class="form-control" placeholder="请输入手机号">
+            </div>
+            <div class="form-group input-group">
+            	<span class="input-group-addon" id="basic-addon1">邮箱地址</span>
+                <input type="text" name="email" class="form-control" placeholder="请输入邮箱">
+            </div>
+            <button type="button" class="btn btn-primary block full-width m-b" id="btn-reg"> 注册</button>
+            <p class="text-muted text-center">
+                <small>已经有账户了？</small>
+                <a href="{:U('login')}">点此登录</a>
+            </p>
+        </form>
+    </div>
+</div>
+<script src="__BASE_JS__/jquery.min.js"></script>
+    <script src="__BASE_JS__/bootstrap.min.js"></script>
+    <script src="__BASE_JS__/plugins/layer/layer.js"></script>
+    <script>
+    $("#tabperson").on('click', function() {
+        $('form').find('input[name="company"]').parent().hide();
+        $('form').find('input[name="modelid"]').val(3);
+    });
+    $("#tabcompany").on('click', function() {
+        $('form').find('input[name="company"]').parent().show();
+        $('form').find('input[name="modelid"]').val(4);
+    });
+    $("#btn-reg").on('click', function() {
+        var $url  = "__SELF__";
+        var $data = $('form').serialize();
+        var $btn  = $(this).button('loading');
+        $.post($url, $data, function(res) {
+            if(res.status){
+                layer.msg('注册成功！', {icon: 6, time: 1500 },function(){
+                    window.location.href = res.url;
+                });
+            } else {
+                layer.msg(res.info, {icon: 5, time: 1500 , anim: 6});
+                $btn.button('reset');
+            }
+        }, 'json');
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<div class="header" style="position: fixed;top: 0px;height: 50px;background: #fff;box-sizing: border-box;width: 100%;z-index: 1000;box-shadow: 0 2px 5px #e8e8e8;">
+    <div style="width: 130px;height: 50px;display: inline-block;box-sizing: border-box;">
+        <div style="position: relative;box-sizing: border-box;">
+         <a href="/Index/index"> <img class="logo_zdy bounce animated" src="__BASE_IMG__/logo.png"  style="margin: 8px -2px;cursor: pointer;width: 100px;position: relative;left: 15px;width: 90%;" alt="1314支付logo"></a>
+        </div>
+    </div>
+    <div class="query" style="display: inline-block;position: absolute;margin-left: 10px;text-align: center;">
+        <a style="color: #fff;background: #2b9cf2;background-image: url();background-size: 100px;padding: 0px 15px;letter-spacing: 0.5px;font-size: 14px;height:50px;position: absolute;line-height: 50px;font-weight: 600;width: 120px; " target="_blank" href="/Orders/index">订单查询</a>
+    </div>
+    <div class="user slideInDown animated" style="position: absolute;top: 10px;right: 1%;"></div>
+  	<div style="font-family: Microsoft YaHei; line-height: 60px; color: #337ab7; height: 60px; float: right;margin-right: 23px;">
+		{present name="username"}
+	       	{$username} 您好！[ <a  href="{:U('Center/Index/index')}" rel="nofollow">会员中心</a> ]  <span  style="cursor:pointer" class='ajax-get' id="login-out" rel="nofollow">[ 退出 ]</span> 
+	       {else/}
+	       	<div class="btn-group"><!-- {:U('Center/Public/login')} -->
+				<div class="login"><a  target="_blank" href="{:U('Center/Public/login')}">商户登陆</a></div>
+				<div class="register"><a target="_blank" href="{:U('Center/Public/register')}">商户注册</a></div>
+			</div>
+	    {/present}
+    </div>
+</div>

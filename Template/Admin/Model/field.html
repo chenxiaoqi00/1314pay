@@ -1,0 +1,50 @@
+{extend name="Public/base" /} {block name="body"}
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <form class="form-horizontal m-t" action="{:U('update')}" method="post">
+            {form:input name="name" title="字段名" value="info['name']|default=''" cols="3" tips="英文字母开头" /}
+            {form:input name="title" title="字段标题" value="info['title']|default=''" cols="3" tips="用于表单显示" /}
+            <div class="form-group">
+                <label class="col-sm-2 control-label">字段类型：</label>
+                <div class="col-sm-2">
+                    <select name="type" id="data-type" class="form-control">
+                        <option value="">----请选择----</option>
+                        {volist name="fieldType" id="vo"}
+                        <option value="{$key}" rule="{$vo[1]}">{$vo[0]}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            {form:input name="field" title="字段定义" value="info['field']|default=''" tips="SQL属性定义，如：int(11) unsigned NOT NULL" /} {form:textarea name="options" title="参数" value="info['options']" cols="6" rows="3" tips="单选|多选|开关等类型需要配置此项" /}
+            {form:input name="value" title="默认值" value="info['value']|default=''" cols="3" tips="字段默认值" /}
+            {form:input name="tip" title="提示" value="info['tip']|default=''" tips="用于表单中的提示" /}
+            {form:select name="isshow" title="是否显示" data="isshow" selected="info['isshow']" /}
+            {form:switch name="ismust" title="是否必填" value="info['ismust']" /}
+            {form:switch name="isposition" title="推荐位调用" value="info['isposition']" /}
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <input type="hidden" name="type" value="{$info.type}">
+                    <input type="hidden" name="id" value="{$info.id}"/>
+                    <input type="hidden" name="modelid" value="{$info.modelid}"/>
+                    <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+setFormValue('type', "{$info.type|default=''}");
+{empty name="info['id']"}
+$(function(){
+    $('select[name="type"]').change(function(){
+        $('input[name="field"]').val($(this).find('option:selected').attr('rule'));
+    });
+})
+{/empty}
+</script>
+{/block}

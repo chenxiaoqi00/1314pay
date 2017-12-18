@@ -1,0 +1,84 @@
+{extend name="Public/base" /}
+{block name="style"}
+    <link href="__JS__/ztree/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css">
+{/block}
+{block name="body"}
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            <li><a href="{:U('access',array('group_id'=> I('group_id')))}">访问授权</a></li>
+            <li class="active"><a href="javascript:;">分类授权</a></li>
+            <li><a href="{:U('user',array('group_id'=> I('group_id')))}">成员授权</a></li>
+        </ul>
+    </div>
+    <div class="ibox-content ibox-noborder float-e-margins">
+            <form class="form-horizontal m-t">
+            <ul id="Rules" class="ztree"></ul>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <button class="btn btn-primary btn-block btn-lg" type="button" onClick="GetCheckedAll()" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                </div>
+            </div>
+          </form>
+    </div>
+{/block}
+{block name="script"}
+<script src="__JS__/ztree/jquery.ztree.core.min.js"></script>
+<script src="__JS__/ztree/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var setting = {
+        check: {
+            enable: true,
+            chkboxType:{ "Y" : "ps", "N" : "ps" }
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pid",
+            }
+        },
+        callback: {
+            onClick: onClick
+        }
+    };
+    var zNodes ={$json};
+    $(function(){
+        $.fn.zTree.init($("#Rules"), setting, zNodes);
+        zTree = $.fn.zTree.getZTreeObj("Rules");
+        zTree.expandAll(false);
+    });
+
+    function onClick(e,treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("Rules");
+        zTree.expandNode(treeNode);
+    }
+
+    //获取所有选中节点的值
+    function GetCheckedAll(gid) {
+        var treeObj = $.fn.zTree.getZTreeObj("Rules");
+        var nodes = treeObj.getCheckedNodes(true);
+        var rules = "";
+        for (var i = 0; i < nodes.length; i++) {
+            rules += nodes[i].id+",";
+        }
+        if(!rules){layer.msg("请选择栏目！",{icon:0,time:1000});return false;}
+        rules = (rules.substring(rules.length-1)==',')?rules.substring(0,rules.length-1):rules;
+        $.ajax({
+            url : "{:U('addToCategory')}",
+            type : "post",
+            dataType : "json",
+            data: {cid:rules, group_id:{$this_group.id}},
+            success : function(res) {
+                if(res.status) {
+                    layer.msg(res.info, {icon:1,time:1000});
+                } else {
+                    layer.alert(res.info,{title:'错误提示',icon:0});
+                }
+            }
+        });
+    }
+</script>
+{/block}

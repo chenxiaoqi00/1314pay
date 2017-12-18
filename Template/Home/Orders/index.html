@@ -1,0 +1,135 @@
+{extend name="Public/base" /}
+{/block}
+
+{block name="style"}
+<link href="__CSS__/order.css" rel="stylesheet" type="text/css">
+{/block}
+
+{block name="body"}
+<div style="position:relative;min-height:680px" class="mt30">
+	<div class="container">
+    <div class="row">
+      <div class="tbg">
+        <div class="tit" ><span class="glyphicon glyphicon-search"></span> 订单查询</div>
+        <div class="tc">
+          <div id="order-search" class="form-inline" >
+           <!--  <select name="st" class="form-control">
+              <option value="orderid">订单号</option>
+              <option value="contact">联系方式</option>
+              <option value="cardnum">充值卡号</option>
+            </select>&nbsp; -->
+            <input  type="text" style="width:200px" class="form-control" placeholder="请输入订单号或联系方式" value="">&nbsp;
+            <button class="btn btn-success"><span class="glyphicon glyphicon-search"></span> 立即查询</button>
+          </div>
+        </div>
+      </div>
+      
+	   <div class="tbg mt30">
+		   <div class="tit" id="search-title"><span class="glyphicon glyphicon-question-sign"></span> 查询说明</div>
+	        <div class="tc" id="order-list">
+	        {present name="content"}
+				{$content}
+          		{else/}
+          		<div class="text-left">
+          			<p><span>订单号查询：</span>订单号是您在提交支付的时候，系统自动分配的一个交易凭证，输入对应的订单号即可查询该订单的详情。</p>
+          			<p><span>支付卡号查询：</span>支付卡号是您选择使用<strong style="color:green"> 充值卡支付 </strong>方式进行付款的<strong style="color:green"> 充值卡卡号</strong>。</p>
+          			<p><span>联系方式查询：</span>订单提交时您所预留的联系方式（QQ号码、手机号码、E-mail）订单查询凭证信息。<strong style="color:red">（推荐使用此方式查询）</strong></p>
+          			<p><span>备注：</span>订单查询仅能查询最近30天的数据，通过<strong style="color:#0279c1;"> 联系方式 </strong>可以查询到该订单的所有交易记录。</p>
+          		</div>
+          		{/present}
+	        </div>
+ 	 </div>
+   </div>
+   
+   	<!-- 模态框（订单详情）-->
+	<div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog" style="width: 1000px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="demoModalLabel"></h4>
+				</div>
+			      <div id="order-id">
+			      
+			      </div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+</div>
+{/block}
+{block name="script"}
+<script>
+	    $(".btn-success").on('click', function() {
+	    	var data = $("#order-search input").val();
+	    	if(data == ""){
+	    		layer.msg("请先输入订单号或联系方式！", {icon: 5, time: 1500 , anim: 6});
+	    	}else{
+    		   contact(data);
+	    	};
+	  
+	 });
+	    
+	    //根据订单号查询
+	 function orderid(data){
+		 var url = "/Home/Orders/index/orderid/"+data
+		 ajaxPage(url);
+	 }
+	    
+	 //根据联系方式查询
+	 function contact(data){
+		var url  = "/Home/Orders/index/contact/"+data;
+		ajaxPage(url);
+	 }    
+	    
+
+	//翻页
+	$(document).delegate('#page a', 'click', function() {
+		if($(this).attr("href").indexOf("Orders/order/contact")==-1){ //单纯的查询订单和支付页跳转查询订单用了两种方式，单纯查询时用js加载de
+			var url = $(this).attr("href");
+			ajaxPage(url);
+			return false;
+		}
+		
+	});
+	
+	
+	function ajaxPage(url){
+	    $.get(url, function(result) {
+            if(result.status){
+           	var order = result.data;
+           	$("#order-list").html("");
+           	$("#order-list").html(order);
+           	var myDate = new Date();
+           	var mytime=myDate.toLocaleString();     //获取当前时间
+            $("#search-title").text('查询结果 查询时间：'+mytime) 
+           } else {
+               layer.msg(result.info, {icon: 5, time: 1500 , anim: 6});
+           } 
+       },"json"); 
+	}    
+	 //查看订单弹出详情模态框
+	$(document).delegate('#detail', 'click', function() {
+		var data = $(this).parent().siblings("td.orderid").text();
+		var userid = $(this).attr("data");
+		var url = "/Home/Orders/index/orderid/"+data+"/userid/"+userid;
+		$.ajax({
+		    url:url,  
+		    type:"GET",   //请求方式 get 或者post  
+		    success:function(result){
+				 $("#order-id").html("");
+				 $(".modal-title").html("");
+				 $("#order-id").html(result.data);
+				 $(".modal-title").html("查询结果") ;
+				 $('#demoModal').modal('show');
+		    }
+		});
+	})
+
+
+    </script>
+{/block}

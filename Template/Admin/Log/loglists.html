@@ -1,0 +1,106 @@
+{extend name="Public/base" /}
+{block name="style"}<link href="__JS__/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="__CSS__/plugins/datapicker/datepicker3.css" rel="stylesheet">{/block}
+<!-- 子导航 -->
+{block name="body"}
+<!--     <div class="ibox-title ibox-title-border">
+        <div class="pull-left">
+          
+        </div>
+    </div> -->
+    <div class="ibox-title ibox-title-border">
+        <div class="btn-group">
+            <form method="get" class="form-inline so-form">
+                
+                <input type="text" name="ip" class="input-sm form-control" value="{:I('get.ip')}" placeholder="IP" />
+                <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="input-sm form-control" value="{:I('get.start_date')}" id="start" name="start_date" placeholder="开始日期" />
+                    <span class="input-group-addon">~</span>
+                    <input type="text" class="input-sm form-control" value="{:I('get.end_date')}" id="end" name="end_date" placeholder="结束日期" />
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" value="{:I('get.username')}" name="username" placeholder="用户名|手机|邮箱">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="{:U('loglists')}"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>id</th>
+                        <th>商户名</th>
+                        <th>登录IP</th>
+                        <th>登录时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.id}</td>
+                                <td class="title">{$vo.username}</td>
+                                <td>{$vo['logip']}</td>
+                                <td>{$vo.logtime}</td>
+                                <td>
+                                    <a url="{:U('del',array('ids'=>$vo['id'],'model'=>'Userlogs'))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+{/block}
+{block name="script"}
+<script src="__JS__/linkagesel/comm.js"></script>
+<script src="__JS__/linkagesel/linkagesel.min.js"></script>
+<script src="__JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+
+
+
+</script>{/block}

@@ -1,0 +1,22 @@
+ <div class="header wrap ">
+    <h1><a href="/Home/Index/index" target="_blank"><img src="__IMG__/logo.gif" alt="318pay"></a></h1>
+    <ul class="tip-list" id="login_panel">
+	    {present name="uinfo"}
+	    <li>{$uinfo['userid']|getUsersName}</li>
+	    <li><a class="confirm ajax-get" href="javascript:;" data-title="退出" data-url="{:U('center/public/out')}">退出</a></li>
+	    {else/}
+	    <li><a href="{:U('Center/Public/register')}">注册</a>/<a href="{:U('Center/Public/login')}">登录</a></li>
+	    {/present}
+	    <li><b id="my_avatar"><img src="{:avatar(UID,64)}" width="30" height="30" alt=""></b></li>
+    </ul>
+</div> 
+<div class="cnav-wrap">
+    <div class="cnav wrap">
+        <ul>
+            <li class="current"><a href="/Center/Index/index.html">账户信息</a></li>
+            <li class=""><a href="/Center/goods/index.html">商品管理</a></li>
+            <li class=""><a href="/Center/trade/index.html">交易管理</a></li>
+            <li class=""><a href="/Center/coupon/index.html">商家助手</a></li>
+		</ul>
+    </div>
+</div>

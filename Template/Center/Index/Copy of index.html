@@ -1,0 +1,75 @@
+{extend name="Base/common" /}{block name="body"}
+<div class="c-content">
+    <div class="c-detail">
+        <div class="cd-left">
+            <div class="manage cd-wrap">
+                <h4>订单信息状况</h4>
+                <dl>
+                    <dt>产品管理</dt>
+                    <dd>
+                        <a href="javascript:" target="_blank">
+              出售中的商品: <em>{$info['isgoods']|default=0}</em>
+              </a>
+                        <a href="javascript:" target="_blank">
+              仓库中的商品: <em>{$info['ungoods']|default=0}</em>
+              </a>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>订单提醒</dt>
+                    <dd>
+                        <a href="javascript:" target="_blank">
+              总订单数: <em>{$info['totel']|default=0}</em>
+              </a>
+                        <a href="javascript:" target="_blank">
+              待结算订单: <em>{$info['unover']|default=0}</em>
+              </a>
+                        <a href="javascript:" target="_blank">
+              已结算订单: <em>{$info['over']|default=0}</em>
+              </a>
+                    </dd>
+                </dl>
+            <dl>
+                    <dt>近日概况</dt>
+                    <dd>
+                        <a href="javascript:" target="_blank">
+              今日订单: <em>{$info['today']|default=0}</em>
+              </a>
+                        <a href="javascript:" target="_blank">
+              昨日订单: <em>{$info['yestoday']|default=0}</em>
+              </a>
+                    </dd>
+                </dl>
+            </div>
+            <div class="manage cd-wrap">
+                <h4>
+                          账户信息
+                        </h4>
+               <dl>
+                    <dt>金额信息</dt>
+                    <dd>
+                        <a href="javascript:" target="_blank">
+              当前余额: <em>{$money['price']|default=0}</em>
+              </a>
+                        <a href="javascript:" target="_blank">
+              今日收入: <em>{$money['price']|default=0}</em>
+              </a>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>结算信息</dt>
+                    <dd>
+                        <a href="javascript:" target="_blank">
+              上次结算金额: <em>{$last['money']|default=0}</em>
+              </a>
+                        <a href="javascript:" target="_blank">
+              上次结算时间: <em>{$last['addtime']}</em>
+              </a>
+                    </dd>
+                </dl>
+                </div>
+        </div>
+        {include file="Base/left"/}
+    </div>
+</div>
+{/block}

@@ -1,0 +1,103 @@
+<style>
+/* .complain-content {
+	margin: 10px 40px;
+}
+.complain-content > div {
+	margin: 10px;
+}
+.complain-content > div > label {
+	margin-right: 10px;
+}
+.complain-content > div > input {
+	width: 50%;
+}
+.complain-textarea {
+	width: 100%;
+}
+.complain-content .modal-footer {
+	padding: 5px 15px;
+} */
+.complain-content {
+	padding: 10px 40px;
+}
+.form-horizontal .form-group label {
+    float: left;
+    width: 100px;
+}
+.form-horizontal .form-group .col-sm-7 {
+    float: left;
+	width: calc(100% - 350px);
+}
+</style>
+<link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+<form class="complain-content form-horizontal" >
+	<div class="form-group">
+		<label class="col-sm-3 control-label">订单号: </label>
+		<div class="col-sm-7">
+			<input type="text" name="orderid" class="form-control orderid" value="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">举报原因: </label>
+		<div class="col-sm-7">
+			<select name="reason" class="form-control reason" >
+				<option value="">==请选择==</option>
+				<option value="无效卡密">无效卡密</option>
+				<option value="虚假商品">虚假商品</option>
+				<option value="非法商品">非法商品</option>
+				<option value="侵权商品">侵权商品</option>
+				<option value="不能购买">不能购买</option>
+				<option value="恐怖色情">恐怖色情</option>
+				<option value="其他投诉">其他投诉</option>
+			</select>
+			<input type="hidden" class="userid" name="userid" value="{:I('get.userid')}">
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="col-sm-3 control-label">联系方式: </label>
+		<div class="col-sm-7">
+			<input type="text" name="contact" class="form-control contact">
+		</div>
+		(手机,QQ,Email)
+	</div>
+	
+	<div>
+		<label>补充说明: </label>
+	</div>
+	<div>
+		<textarea class="form-control complain-textarea supplement" name="supplement" rows="5" cols=""></textarea>
+	</div>
+
+</form>
+<script src="__JS__/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/plugins/layer/layer.js"></script>
+<script>
+	function complainSubmit(){
+		var orderid = $(".orderid").val();
+		var userid = $('.userid').val();
+		var reason =$('.reason option:selected').val();
+		var supplement = $(".supplement").val();
+		var contact = $(".contact").val();
+		console.log(orderid+"|"+userid+"|"+reason+"|"+supplement+"|"+contact);
+		var data={};
+		if( reason && supplement && contact && (orderid || userid)){
+			var url = "/Home/Complain/complaint";
+			$.ajax({
+			    url:url,  
+			    type:"POST",   //请求方式 get 或者post  
+			    cache:false, 
+			    async:false, //异步转同步
+			    data:$(".complain-content").serialize(),
+			    success:function(result){
+			    	data = result;
+			    }
+			});
+		}else{
+		//	layer.msg("请填写完信息！");
+		//	 return "0|请填写完信息！";
+		data = {status:0,info:'请填写完信息！',url:''};
+		}
+		return data;
+	}
+</script>

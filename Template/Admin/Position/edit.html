@@ -1,0 +1,32 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                <!--推荐位名称 单行文本-->
+                {form:input name="title" title="推荐位名称" value="info['title']" cols="3" tips="所显示的推荐位名称" /}
+                <!--最大保存条数 单行文本-->
+                {form:input name="maxnum" title="条数" value="info['maxnum']|default='20'" tips="最大保存条数" cols="2" /}
+                <!--排序 单行文本-->
+                {form:input name="sort" title="排序" value="info['sort']|default='0'" tips="排序越大越靠前" cols="2" /}
+                <!--模型 多选框-->
+                {form:checkbox name="modelid" title="模型" data="model" checked="info['modelid']" /}
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="type" value="{$info.type}">
+                        <input type="hidden" name="id" value="{$info.id|default=''}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+<script>
+
+</script>
+{/}

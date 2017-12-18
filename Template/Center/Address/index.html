@@ -1,0 +1,37 @@
+{extend name="Base/common" /}{block name="body"}
+<div class="c-content">
+
+    <div class="cd-wrap padding20">
+        <ul class="time-tab">
+            <li class="current"><a href="javascript:;">收货地址</a></li>
+            <li><a href="{:U('add')}">添加地址</a></li>
+        </ul>
+        <table class="gray-table marginT30">
+            <thead>
+                <tr class="height40">
+                    <th class="width80">联系人</th>
+                    <th class="width150">所在地区</th>
+                    <th class="width300">详细地址</th>
+                    <th class="width150">电话/手机</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {volist name="_list" id="vo" empty="暂无数据"}
+                <tr>
+                    <td>{$vo['consignee']}</td>
+                    <td>{:get_regions($vo['province'], $vo['city'], $vo['district'])}</td>
+                    <td>{$vo['address']}</td>
+                    <td>{$vo['id']|get_address_phone}</td>
+                    <td>
+                        <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-small"> <i class="fa fa-edit"></i>修改</a>
+                        <a href="javascript:;" data-url="{:U('delete',array('ids'=>$vo['id']))}" data-title="删除地址{$vo['address']}" class="btn btn-danger btn-small confirm ajax-get"> <i class="fa fa-trash"></i>删除</a>
+                        {$vo['isdefault']|show_address_status=U('setDefault',array('id'=>$vo['id']))}
+                    </td>
+                </tr>
+                {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}

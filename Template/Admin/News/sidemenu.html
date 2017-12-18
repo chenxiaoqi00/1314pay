@@ -1,0 +1,37 @@
+{block name="sidemenu"}
+<ul class="nav side-menu">
+    <!--一级栏目-->
+    {volist name="nodes" id="one"}
+        {notempty name="one"}
+        <li {notempty name="one['active']"}class="active"{/notempty}>
+        <a href="javascript:;">
+            <i class="fa {notempty name="one['active']"}fa-folder-open{else/}fa-folder{/notempty}"></i>
+            <span class="nav-label">{$one['title']}</span>
+            <span class="fa arrow"></span>
+        </a>
+        {notempty name="one['_child']"}
+        <ul class="nav nav-second-level {empty name="one['active']"}collapse{/empty}">
+            {volist name="one['_child']" id="two"}
+            {empty name="two['_child']"}
+            <li {notempty name="two['active']"}class="active"{/notempty}>
+                <a href="{$two.url|U}"><i class="fa {notempty name="two['active']"}fa-folder-open{else/}fa-folder{/notempty}"></i> {$two.title}</a>
+            </li>
+            {else/}
+            <li {notempty name="two['active']"}class="active"{/notempty}>
+            <a href="javascript:;"><i class="fa {notempty name="two['active']"}fa-folder-open{else/}fa-folder{/notempty}"></i> {$two.title} <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level {notempty name="two['active']"}collapse in{/notempty}" {notempty name="two['active']"} aria-expanded="true"{/notempty}>
+                {volist name="two['_child']" id="three"}
+                <li {notempty name="three['active']"}class="active"{/notempty}><a href="{$three.url|U}"><i class="fa {notempty name="three['active']"}fa-folder-open{else/}fa-folder{/notempty}"></i> {$three.title}</a>
+                </li>
+                {/volist}
+            </ul>
+            </li>
+            {/empty}
+            {/volist}
+        </ul>
+        {/notempty}
+    </li>
+    {/notempty}
+    {/volist}
+</ul>
+{/block}

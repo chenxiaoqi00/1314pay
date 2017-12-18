@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>pay to bank</title>
+</head>
+<body onLoad="document.lcardy.submit();">
+<form name="lcardy" action="{$data.nodeAuthorizationURL}" method="post">
+<input type="hidden" name="mercId"					value="{$data.mercId}">
+<input type="hidden" name="Orderno"				value="{$data.Orderno}">
+<input type="hidden" name="PAmount"				value="{$data.PAmount}">
+<input type="hidden" name="MeUrl"					value="{$data.MeUrl}">
+<input type="hidden" name="pageUrl"					value="{$data.pageUrl}">
+<input type="hidden" name="BaCode"					value="{$data.BaCode}">
+<input type="hidden" name="ExInf"					value="{$data.ExInf}">
+<input type="hidden" name="TraCur"				value="{$data.TraCur}">
+<input type="hidden" name="ProName"					value="{$data.ProName}">
+<input type="hidden" name="Cdit"					value="{$data.Cdit}">
+<input type="hidden" name="Deion"					value="{$data.Deion}">
+<input type="hidden" name="mercip"				value="{$data.mercip}">
+<input type="hidden" name="productnum"			value="{$data.productnum}">
+<input type="hidden" name="ordertime"					value="{$data.ordertime}">
+<input type="hidden" name="businesstype"			value="{$data.businesstype}"> 
+<input type="hidden" name="version"			value="{$data.version}"> 
+<input type="hidden" name="signtype"			value="{$data.signtype}"> 
+<input type="hidden" name="sign"			value="{$data.sign}"> 
+</form>
+</body>
+</html>

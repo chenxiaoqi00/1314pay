@@ -1,0 +1,68 @@
+{extend name="Public/base" /}
+{block name="style"}
+<link href="__JS__/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+<link href="__CSS__/animate.min.css" rel="stylesheet">{/block}
+{block name="body"}
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        {volist name="extsType" id="v"}
+            <li {if condition="$key eq $type"}class="active"{/if}> <a href="{:U('index',array('type'=>$key))}" aria-expanded="true">{$v['title']}</a></li>
+       {/volist}
+    </ul>
+</div>
+<div class="ibox-content ibox-noborder float-e-margins">
+        <div class="animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    {volist name="list" id="vo"}
+                    <div class="file-box">
+                        <div class="file">
+                            <span class="corner"></span>
+                            <span class="delete confirm ajax-get" url="{:U('del',array('ids'=>$vo['id']))}" title="删除{$vo.name}">删除</span>
+                            <div class="file-text">{$vo.name|len=15}</div>
+                            {switch name="type"}
+                            {case value="image"}
+                            <div class="image">
+                                <a class="fancybox" href="{$vo['id']|getImage}" title="{$vo.name}">
+                                    <img class="img-responsive" src="{$vo['id']|thumb=3}">
+                                </a>
+                            </div>
+                            {/case}
+                            {case value="file"}
+                            <div class="icon">
+                                <i class="img-responsive fa fa-file"></i>
+                            </div>
+                            {/case}
+                            {case value="video"}
+                            <div class="icon">
+                                <i class="img-responsive fa fa-film"></i>
+                            </div>
+                            {/case}
+                            {/switch}
+                            <div class="file-name">
+                                <small>上传时间：{$vo.create_time|times}</small>
+                            </div>
+
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+    <!-- 分页 -->
+    <ul class="pagination">
+        {$_page}
+    </ul>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/editable/js/bootstrap-editable.min.js"></script>
+<script src="__JS__/plugins/fancybox/jquery.fancybox.js"></script>
+<script>
+$(document).ready(function() {
+    $(".fancybox").fancybox({
+        openEffect: "elastic",
+        closeEffect: "elastic"
+    })
+});
+</script>
+{/block}

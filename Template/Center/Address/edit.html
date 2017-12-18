@@ -1,0 +1,59 @@
+{extend name="Base/common" /}{block name="body"}
+<div class="c-content">
+    <div class="c-tip">
+        【重要通知】产品违规发布规则说明<a href="javascript:void">点击查看</a>
+    </div>
+    <div class="cd-wrap padding20">
+        <form  action="{$dourl}" method="post" class="form">
+            <div class="form-group">
+                <label for="consignee">*收货人：</label>
+                <input type="text" name="consignee" class="form-control width200" value="{$info['consignee']}">
+            </div>
+            <div class="form-group">
+                <label for="select">*收货地址：</label>
+                <select id="province" name="province" class="form-control"></select>
+                <select id="city" name="city" class="form-control"></select>
+                <select id="district" name="district" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="address">*详细地址：</label>
+                <textarea name="address" class="form-control width400 height100">{$info['address']}</textarea>
+                <span class="help-block"><i class="fa fa-info-circle"></i>固话号码格式:区号-电话号码-分机(例如: 0580-2299669-1)</span>
+            </div>
+            <div class="form-group">
+                <label for="passwrod">邮编：</label>
+                <input type="text" name="zipcode" class="form-control width80" value="{$info['zipcode']}">
+            </div>
+            <div class="form-group">
+                <label for="passwrod">*手机号码：</label>
+                <input type="text" name="mobile" class="form-control width200" value="{$info['mobile']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i>手机号码和固定电话必填一个</span>
+            </div>
+            <div class="form-group">
+                <label for="passwrod">*固定电话：</label>
+                <input type="text" name="phone" class="form-control width200" value="{$info['phone']}">
+                <span class="help-block"><i class="fa fa-info-circle"></i>固话号码格式:区号-电话号码-分机(例如: 0580-2299669-1)</span>
+            </div>
+            <div class="form-group marginL100">
+                <input type="hidden" name="id" value="{$info['id']}">
+                <input type="submit" value="保存" class="btn btn-success btn-large ajax-submit" target-form="form">
+                <a href="javascript:;" class="btn btn-default btn-large" onclick="javascript:history.back(-1);return false;">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script src="__BASE_JS__/linkagesel/comm.js"></script>
+<script src="__BASE_JS__/linkagesel/linkagesel.min.js"></script>
+<script type="text/javascript">
+var opts = {
+    ajax: '{:U("api/region/index")}',
+    selStyle: 'margin-left: 3px;',
+    select:[ '#province', '#city', '#district' ],
+    head: '=请选择地区=',
+    defVal:[{$info['province']}, {$info['city']}, {$info['district']}]
+};
+var linkageSel = new LinkageSel(opts);
+</script>
+{/block}

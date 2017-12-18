@@ -1,0 +1,118 @@
+{extend name="@App/base" /}
+{block name="style"}
+	 <style>
+        body{background: #fff;}
+        .navbar{margin-bottom: 0px;}
+        .navbar-default {background-color: #FFF;}
+        .app-search{padding-top:20px;}
+        .app_shouye_logo_register{color:#2bb9f2;font-size:24px;position:absolute;right:5%;top:3px;}
+        .app_shouye_logo_register a{color:#0758b7;font-size:24px;}
+        .app_ggnr{overflow: hidden;text-overflow: ellipsis;width: 92%;white-space:nowrap;margin: 0px auto;padding-left: 0px;}
+        .app_date{font-size: 15px;color: #777;font-weight: 400;float: right;font-style: normal;}
+        .app_tuichu_div{color:#2bb9f2;}
+        .app_search_div{float:left;margin-left:2%;padding:0;width:95%;display: inline-block;}
+        .common{background: #fff;text-align: center;padding: 0px 10px;box-sizing: border-box;padding-top: 7px;}
+        .common p{padding: 8px 0px;white-space: nowrap;font-size: 20px;color:#666;}
+        .bottom-red{color:#FF6666;font-style: normal;font-size: 18px;padding-left: 10px;}
+        .search-input {width:84%;padding-left:60px;padding-right:0%;background: #fff url(https://storage.kuaifaka.com/app_login/search_03.png) no-repeat 25px center;}
+    </style>
+{/block}
+{block name="body"}
+    <div class="app_head">
+     <div class="app_header" style="background: #FFF url(__IMG__/home/appbanner.png) no-repeat;position: relative; background-size: 100% 100%;">
+        <div class="app_shouye_logo_register">
+        {present name="username"}
+        	<a href="{:U('Center/Index/index')}" class="no_bg">欢迎,{$username}</a>
+        {else/}
+        	<a target="_blank" href="{:U('Center/Public/login')}">登陆</a>
+        	<span>/</span>
+        	<a target="_blank" href="{:U('Center/Public/register')}">注册</a>
+        {/present}
+        
+        </div>
+        <!-- <div class="header-section11" style="margin-top: 210px;"><a href="" class="btn app-login no_bg">个人中心</a></div> -->
+       <!--  <div class="header-section2" style="position: absolute;"><h3 class="text_color3">商户公共的选择</h3></div></div> -->
+    </div>
+   <div class="app_containter">
+    <div class="app-search">
+        <form class="app-frm" action="" method="post" style="text-align: center;">
+            <div class="app_search_div">
+              <input type="search" name="order" class="search-input" placeholder="请输入订单号或者联系方式" maxlength="35" style="display: inline-block;">
+              <button type="submit" class="text_color no_bg btn-success" style="margin-left: 1%;display: inline-block;">查 询</button>
+            </div>
+        </form>
+    </div>
+    <div style="padding: 8px 0px;text-align: center;color: #fff;width: 100%;margin:0px auto;margin-top: 10px;border-radius: 4px;box-sizing: border-box;letter-spacing: 1px;display: block;">
+          <span style="display: block;width: 100%;letter-spacing: 1px;font-size: 19px;"><i style="font-style: normal;padding-right: 5px;color: #fff;">提示</i>:请将购买时的订单号或预留的联系方式填入框中</span>
+    </div>
+    <!-- <hr style="border-top: 0px;width: 95%;margin: 0px auto;border-color: #ddd;"> -->
+    <div class="app_containter">
+      <div class="app_section app_gfgd">
+          <h1>站点公告</h1>
+            <div name="app_gfgd_content">
+             {volist name="notice" id="vo" offset="1" length='3'}
+             	<div class="app_ggnr app_nt_nr">
+             		<div style="display: inline-block;width: calc(100% - 160px);">
+             			<a href="{$vo['url']}" class="app_ggnr_a">{$vo['title']}</a>
+             		</div>
+             	<i class="app_date">{:times($vo['inputtime'])}</i></div> 
+             {/volist}
+                
+            </div>
+            <div class="app_ckgd app_w">
+              <a href="/News/notice.html" class="no_bg">...查看更多</a>
+            </div>
+      </div>
+      <div class="app_section app_gfgd app_jsgg">
+          <h1>帮助中心</h1>
+            <div name="app_jsgg_content">
+                {volist name="help" id="vo"  offset="1" length='3'}
+                	<div class="app_ggnr app_se_nr" id="420"><a href="/News/help">{$vo['title']}</a><!-- <span class="app_zuixin"></span> --><i class="app_date">{:times($vo['inputtime'])}</i></div>
+                {/volist}
+            </div>
+            <div class="app_ckgd app_t">
+              <a href="/News/help" class="no_bg">...查看更多</a>
+            </div>
+      </div>
+    </div>
+   </div>
+   <div class="bottom_section">
+    <ul class="app_bottom_ul">
+      <li><a href="{:U('Index/aboutUs')}">公司简介<span>|</span></a></li>
+      <li><a href="{:U('Index/connect')}">联系我们<span>|</span></a></li>
+      <li><a href="{:U('Index/service')}">服务项目</a></li>
+    </ul>
+   </div>
+    <div class="common">
+      <p>ICP备案证书号：<a href="http://www.miitbeian.gov.cn" style="color: #666;"> 浙ICP备16008939号-2</a></p>
+     <!--  <p>百度实名认证主体识别码：BDV-510600677</p> -->
+      <p style="padding-bottom: 0px;">版权所有： © 2016-2017 All rights reserved 1314发卡<i class="bottom-red">仿盗版必究</i></p>　　
+    </div>
+  </div>
+{/block}
+{block name="script"}	
+<script>
+	    $(".btn-success").on('click', function() {
+	    	var data = $(".search-input").val();
+	    	if(data == ""){
+	    		layer.msg("请先输入查询号！", {icon: 5, time: 1500 , anim: 6});
+	    		return false;
+	    	}else{
+    		  	var searchType;
+    		  	var checkUrl = "Home/Orders/orderidOrContact/number/"+data;
+    		  	$.get(checkUrl,function(searchType){
+    		  		console.log("searchType",searchType);
+    		  	   	if (searchType == "orderid"){
+       		    		var url = "/Home/Orders/order/orderid/"+data;
+       		   			window.open(url);
+        		    }else if(searchType == "contact"){
+        		    	var url = "/Home/Orders/order/contact/"+data;
+        		    	window.open(url);
+        		    }
+    		  		
+    		  	})
+	    	};
+	    	return false;
+	 });
+</script>
+{/block}

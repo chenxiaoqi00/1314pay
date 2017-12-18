@@ -1,0 +1,99 @@
+{extend name="Base/common" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+{/block}
+{block name="body"}
+<div class="c-content">
+    <div class="c-tip">
+        【重要通知】产品违规发布规则说明<a href="javascript:void">点击查看</a>
+    </div>
+    <div class="c-detail">
+        <div class="cd-left">
+            <div class="manage cd-wrap ">
+                <h4>我的支付链接</h4>
+               <form action="__SELF__" method="post" class="form">
+	            
+                <div>我的支付链接：</div>
+                <div>文字链接</div>
+                <div>http://www.318pay.com/usr/paylinks.php</div>
+                
+                <div>漂浮代码：</div>
+                <div><script type="text/javascript" src="http://www.318pay.com/sjs.php?id=2A0519A272B3FDEA&t=1"></script></div>
+                 
+                <div>链接状态： </div> 
+              	<li>
+                    <a href="javascript:;" class="btn btn-danger btn-small ajax-status confirm">关闭</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="btn btn-warning btn-small ajax-status confirm">复制代码</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="btn btn-success btn-small ajax-status">预览代码</a>
+                </li>
+              
+               <div>链接说明：商品和分类的独立链接在商品分类和商品列表中获取！ </div>
+              
+               <div>漂浮代码：复制好漂浮代码后，请将代码放在您的网页的<head></head>标签内即可。 </div>
+               </form>
+            </div>
+        </div>
+        
+        
+        <div class="cd-right">
+            <div class="cd-wrap">
+                <h4>今日必读</h4>
+                <ul class="tody-read">
+                    <li><a href="javascript:void">航运业如何拥抱大数据航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                    <li><a href="javascript:void">航运业如何拥抱大数据</a></li>
+                </ul>
+            </div>
+            <div class="cd-wrap">
+                <h4>热门推荐</h4>
+                <ul class="hot-list">
+                    <li>
+                        <a href="javascript:void">
+                            <img src="__IMG__/img01.jpg" alt="">
+                        </a>
+                        <h5>￥面议</h5>
+                        <p><a href="javascript:void">第二条12.8m定置网渔船</a></p>
+                    </li>
+                    <li>
+                        <a href="javascript:void">
+                            <img src="__IMG__/img01.jpg" alt="">
+                        </a>
+                        <h5>￥面议</h5>
+                        <p><a href="javascript:void">第二条12.8m定置网渔船</a></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script>
+        var hi = {
+            //百度上传URL
+            'url_upload_picture': '{:U("center/upload/webUploader",array("session_id"=>session_id()))}',
+            //编辑器上传
+            'url_editor_upload': '{:U("center/upload/ueditor",array("session_id"=>session_id()))}',
+            //当前URL地址
+            'url_curr': '{:U()}',
+            //百度上传队列
+            'url_upload_list': '{:U("center/upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+        };
+        $(function(){
+            $(':input').labelauty();
+        });
+    </script>
+{/block}
+

@@ -1,0 +1,74 @@
+{extend name="Base/common" /}{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/switch.css">
+{/block}{block name="body"}
+<div class="c-content tabs-container">
+    <div class="cd-wrap padding20">
+        <form action="__SELF__" method="post" class="form">
+        	<!-- 名称 -->
+            {center:input name="catename" title="分类名称" value="info['catename']" important="important" width="200"/}
+			{center:input name="sortid" title="分类排序" value="info['sortid']" width="50" tips="数字越小越靠前"/}
+			{center:select name="theme" title="支付页面" data="theme" selected="info['theme']" /}
+			{center:input name="sitename" title="商户名称" value="info['sitename']" width="200" tips="若为空，商品出售页面则显示商户信息中的站点名称"/}
+            {center:input name="siteurl" title="商户网址" value="info['siteurl']" width="200" tips="若为空，商品出售页面则显示商户信息中的站点网址"/}
+            {center:input name="qq" title="商户QQ" value="info['qq']" width="200" tips="若为空，商品出售页面则显示商户信息中的联系QQ"/}
+            
+            <div class="form-group">
+            	<input type="hidden" name="id" value="{$info.id|default=''}">
+                <input type="submit" value="保存设置" class="btn btn-success button_bg ajax-submit" target-form="form">
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script src="__BASE_JS__/plugins/layer/layer.js"></script>
+<script src="__BASE_JS__/linkagesel/comm.js"></script>
+<script src="__BASE_JS__/linkagesel/linkagesel.min.js"></script>
+<script>
+setFormValue("type", {$info['type']|default=1});
+$(function() {
+    $(':input[class="form-radio"], input[class="form-checkbox"]').labelauty();
+   if({$info['type']|default=1} == 1){
+	   $('#typedate').show();
+   }else{
+	   $('#typedate').hide();
+   }
+});
+//选择时间
+$('input[name=type]').click(function(){
+	if($(this).val() == 1){
+		$('#typedate').show();
+	}else{
+		$('#typedate').hide();
+	}
+});
+	var typs = {
+	    ajax: '{:U("api/region/fishing")}',
+	    selStyle: 'margin-left: 3px;',
+	    select:[ '#cates'],
+	    selClass:'form-control',
+	    head: '==请选择分类==',
+	    defVal:[{volist name="info['pid']" id="p"}{$p},{/volist}]
+	};
+	var linkageSel = new LinkageSel(typs);
+	 linkageSel.onChange(function() {
+         var input = $('#catid'),
+             catid = this.getSelectedData('id'),
+             catid = catid ? catid : '';
+             input.val(catid);
+     });
+	var opts = {
+		    ajax: '{:U("api/region/index")}',
+		    selStyle: 'margin-left: 3px;',
+		    select:[ '#province', '#city','#district'],
+		    head: '==请选择地区==',
+		    level: 3,
+		    defVal:[{$info['province']}, {$info['city']},{$info['district']}]
+		};
+		var linkageSel = new LinkageSel(opts);
+    </script>
+{/block}

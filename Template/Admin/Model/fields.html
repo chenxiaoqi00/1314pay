@@ -1,0 +1,92 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            {volist name="ModelType" id="v"}
+                <li {if condition="$key eq $type"}class="active"{/if}> <a href="{:U('index',array('type'=>$key))}" aria-expanded="true">{$v}</a></li>
+           {/volist}
+        </ul>
+    </div>
+    <div class="ibox-title m-t-0">
+        <div class="btn-group pull-right">
+            <form method="get" class="pull-right form-inline so-form">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" name="title" placeholder="{$title}">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="__SELF__"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="pull-left col-sm-6">
+            <a class="btn btn-primary input-sm" href="{:U('field',array('model'=>I('model/d')))}"><i class="fa fa-plus"> 添加</i></a>
+            <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1))}"><i class="fa fa-check"> 启用</i></button>
+            <button  class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0))}"><i class="fa fa-ban"> 禁止</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del')}"><i class="fa fa-remove"> 删除</i></button>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>字段</th>
+                        <th>字段名称</th>
+                        <th>数据类型</th>
+                        <th>排序</th>
+                        <th>状态</th>
+                        <th>推荐位</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck"><input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}"></td>
+                                <td class="title">{$vo.name}</td>
+                                <td>{$vo.title}</td>
+                                <td>{$vo.type}</td>
+                                <td><a href="javascript:;" class="edit-text" data-placeholder="请输入排序" data-type="text" data-pk="{$vo.id}" data-name="sort">{$vo.sort}</a></td>
+                                <td>
+                                    <div class="onoffswitch-large">
+                                        <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-field="status" data-model="ModelField" data-id="{$vo['id']}" id="status{$vo['id']}" {notempty name="vo['status']"}checked{/notempty}>
+                                        <label class="onoffswitch-label" for="status{$vo['id']}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="onoffswitch-large">
+                                        <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-field="isposition"  data-model="ModelField" data-id="{$vo['id']}" id="isposition{$vo['id']}" {notempty name="vo['isposition']"}checked{/notempty}>
+                                        <label class="onoffswitch-label" for="isposition{$vo['id']}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{:U('field',array('id'=>$vo['id']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                                    <a url="{:U('del',array('ids'=>$vo['id']))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__JS__/editable/js/bootstrap-editable.min.js"></script>
+{/block}

@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{$meta_title}-{:C('WEB_SITE_TITLE')}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="{:C('WEB_SITE_TITLE')}">
+    <meta name="description" content="HiCMS是基于THINKPHP3.23开发。">
+    <link href="__CSS__/font-awesome.min.css" rel="stylesheet">
+    <link href="__CSS__/animate.min.css" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/style.css" rel="stylesheet">
+    <link href="__CSS__/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/flat/green.css" rel="stylesheet">
+    {block name="style"}{/block}
+    <link href="__JS__/editable/css/bootstrap-editable.css" rel="stylesheet">
+    <script type="text/javascript" src="__JS__/jquery.min.js"></script>
+    <script>
+        var hi = {
+            //快速编辑URL
+            'url_quick': '{:U("quick")}',
+            //百度上传URL
+            'url_upload_picture': '{:U("upload/webUploader",array("session_id"=>session_id()))}',
+            //编辑器上传
+            'url_editor_upload': '{:U("upload/ueditor",array("session_id"=>session_id()))}',
+            //当前URL地址
+            'url_curr': '{:U()}',
+            //百度上传队列
+            'url_upload_list': '{:U("Upload/getPicture",array("ids"=>"ids", "index"=>"index"))}',
+        };
+    </script>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <div class="nav-header">
+                    <div class="dropdown profile-element">
+                        <span><img alt="image" class="img-circle" src="{:avatar(UID, 64)}" /></span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear">
+                           <span class="block m-t-xs"><strong class="font-bold">{:getUserName()}</strong></span>
+                            <span class="text-muted text-xs block">{:getGroupName()}<b class="caret"></b></span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="{:U('my/avatar')}">修改头像</a></li>
+                            <li><a href="{:U('my/info')}">个人资料</a></li>
+                            <li><a href="{:U('my/password')}">修改密码</a></li>
+                            <li class="divider"></li>
+                            <li><a url="{:U('login/out')}" class="confirm ajax-get">安全退出</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">Hi</div>
+                </div>
+                {block name="sidemenu"}
+                <ul class="nav side-menu">
+                    {volist name="__MENU__.submenu" id="v"}
+                    {notempty name="v['child']"}
+                        <li {notempty name="v['class']"}class="{$v['class']}"{/notempty}>
+                        <a href="javascript:;">
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label">{$v['group']}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level {empty name="v['class']"}collapse{/empty}">
+                            {volist name="v['child']" id="vo"}
+                            <li {notempty name="vo['class']"}class="{$vo['class']}"{/notempty}>
+                                <a href="{$vo.url|U}"><i class="fa {$vo.icon}"></i> {$vo.title}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </li>
+                    {/notempty}
+                    {/volist}
+                </ul>
+                {/block}
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header hi-nav-bg">
+                        <div class="hi-top-nav">
+                            <nav class="hi-nav">
+                                <ul>
+                                {volist name="__MENU__.main" id="r"}
+                                    <li class="{$r.class|default=''}"><a href="{$r.url|U}"><i class="fa {$r.icon}"></i> {$r.title}</a></li>
+                                {/volist}
+                                </ul>
+                            </nav>
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-bell"></i> <span class="label label-danger">8</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-alerts">
+                                    <li>
+                                        <a href="mailbox.html">
+                                            <div>
+                                                <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
+                                                <span class="pull-right text-muted small">4分钟前</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="profile.html">
+                                            <div>
+                                                <i class="fa fa-qq fa-fw"></i> 3条新回复
+                                                <span class="pull-right text-muted small">12分钟钱</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <div class="text-center link-block">
+                                            <a class="J_menuItem" href="notifications.html">
+                                                <strong>查看所有 </strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="hidden-xs">
+                                <a url="javaScript:;" class="ajax-get"><i class="fa fa-undo"></i> 更新HTML</a>
+                            </li>
+                            <li class="hidden-xs">
+                                <a url="javaScript:;" class="ajax-get"><i class="fa fa-trash-o"></i> 清除缓存</a>
+                            </li>
+                            <li class="hidden-xs">
+                                <a url="{:U('login/out')}" class="confirm ajax-get" title="退出后台管理"><i class="fa fa-sign-out"></i> 退出</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="row content-tabs">
+                <div class="bread-title">
+                <h2>{$meta_title}</h2>
+                </div>
+                <div class="bread-main">
+                    {$breadcrumb}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row J_mainContent" id="content-main">
+                <div class="wrapper wrapper-content">
+                    <div class="row animated fadeIn">
+                        <div class="col-sm-12">
+                            {block name="body"}{/block}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="pull-right">&copy; 2017 <a href="http://www.zhoushan.work/" target="_blank">HiCMS</a>
+                </div>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+    <script type="text/javascript" src="__JS__/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__JS__/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script type="text/javascript" src="__JS__/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="__JS__/hplus.min.js"></script>
+    <script type="text/javascript" src="__JS__/contabs.min.js"></script>
+    <script type="text/javascript" src="__JS__/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript" src="__JS__/plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <script type="text/javascript" src="__JS__/editable/js/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="__JS__/common.js"></script>
+<!--     检测结算申请 -->
+    <script type="text/javascript">
+  var time = 10*60*1000; //十分钟统计一次
+ // var time = 5000;
+   var url = "/Admin/UserMoney/countAccount";
+   ref = setInterval(function(){
+	   account();
+    },time); 
+   
+   function account(){
+	   $.get(url,function(resoult){
+			$(".account h2").text(resoult)
+		})  
+   }
+   account();
+    </script>
+    {block name="script"}{/block}
+</body>
+</html>

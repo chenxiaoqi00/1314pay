@@ -1,0 +1,76 @@
+{extend name="Public/base" /}
+{block name="style"}<link href="__JS__/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="__CSS__/plugins/datapicker/datepicker3.css" rel="stylesheet">
+{/block}
+
+<!-- 子导航 -->
+{block name="body"}
+    <div class="ibox-title ibox-title-border">
+        <div class="pull-left">
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del',array('model'=>'Users'))}"><i class="fa fa-remove"> 删除</i></button>
+        </div>
+    </div>
+
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>id</th>
+                        <th>商户名</th>
+                        <th>收款人</th>
+                        <th>上次登录IP</th>
+                        <th>注册时间</th>
+                        <th>状态</th>
+                        <!-- <th>账户信息</th> -->
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.id}</td>
+                                <td >{$vo.username}</td>
+                                <td>{$vo['Userinfo']['realname']}</td>
+                                <td>{$vo.last_ip|long2ip}</td>
+                                <td>{$vo.addtime}</td>
+                                <td>{$vo.is_state_text}</td>
+                               <!--   <td>  <div class="onoffswitch-large">
+                                        <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-url="{:U('changeAccount')}" data-field="is_account" data-id="{$vo['id']}" id="status{$vo['id']}" {eq name="vo['Userinfo']['is_account']" value="1"}checked{/eq}>
+                                        <label class="onoffswitch-label" for="status{$vo['id']}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td> -->
+                                <td>
+                                	<a url="{:U('setStatus',array('ids'=>$vo['id'],'status'=>1,'model'=>'Users'))}" class="btn btn-info btn-xs confirm ajax-get" title="还原{$vo.title}"><i class="fa fa-edit"></i>还原</a>
+                                    <a url="{:U('del',array('ids'=>$vo['id'],'model'=>'Users'))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+    
+            
+{/block}
+{block name="script"}
+
+
+{/block}

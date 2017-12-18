@@ -1,0 +1,148 @@
+{extend name="Public/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/colorpicker/css/bootstrap-colorpicker.min.css">
+<style>
+#jumpURL{display: none;}
+</style>{/block}
+<!-- 子导航 -->
+{block name="sidemenu"}
+{include file="sidemenu" /}
+{/block}
+{block name="body"}
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#base" aria-expanded="true">基本设置</a></li>
+        <li><a data-toggle="tab" href="#extend" aria-expanded="false">扩展属性</a></li>
+    </ul>
+    <div class="ibox-content ibox-noborder float-e-margins tab-content">
+        <form class="form-horizontal m-t" action="__SELF__" method="post">
+            <div id="base" class="tab-pane active">
+                <!--标题 单行文本-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">标题：</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" name="title" id="title" value="{$info['title']}" class="form-control" onkeyup="strlen_verify(this, 'title_len', 80)"{notempty name="info['style']"} style="color: rgb(138, 67, 67);"{/notempty}>
+                            <input type="hidden" name="style" value="{$info['style']}">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default doCheck" data-url="{:U('unique')}"><i class="fa fa-circle-o-notch fa-spin"></i> 标题检测</button>
+                                <button type="button" class="btn btn-primary" id="colorpicker"{notempty name="info['style']"} style="background-color: {$info['style']};"{/notempty}><i class="fa fa-dashboard"></i> 颜色</button>
+                            </div>
+                        </div>
+                            <span class="help-block"><i class="fa fa-info-circle"></i> 文章标题名称，还可输入 <label id="title_len" class="label">80</label> 个字符</span>
+                    </div>
+                </div>
+                <!--上级栏目 选择框-->
+                {form:select name="catid" title="栏目" first="==所属栏目==" data="category" selected="info['catid']" /}
+                <!--关键字 单行文本-->
+                {form:input name="keywords" title="关键字" value="info['title']" cols="3" tips="多个关键字“,”分割" /}
+                <!--标签Tags 单行文本-->
+                {form:input name="tags" title="Tags" value="info['tags']" cols="3" tips="多个标签,空格或者“,”或者“|”分割" /}
+                 <!--描述 多行文本框-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">摘要：</label>
+                    <div class="col-sm-5">
+                        <textarea name="description" class="form-control" rows="3" onkeyup="strlen_verify(this, 'desc_len', 255)">{$info['description']}</textarea><span class="help-block"><i class="fa fa-info-circle"></i> 内容简介,还可输入 <label id="desc_len" class="label">255</label> 个字符</span>
+                    </div>
+                </div>
+                <!--关键字 单行文本-->
+                {form:input name="copyfrom" title="来源" value="info['copyfrom']" cols="2" tips="文章的出处及来源" /}
+                <!--图片 上传-->
+                {form:image name="thumb" title="缩略图" value="info['thumb']" limit="1" button="选择图片" /}
+                <!--文章内容-->
+                {form:editor name="content" id="content" title="正文" value="info['ArticleData']['content']" /}
+            </div>
+            <div id="extend" class="tab-pane">
+                <!--是否跳转链接 开关效果-->
+                {form:switch name="islink" title="跳转" value="info['islink']" tips="开启后必须设置跳转链接" /}
+                <div id="jumpURL" {notempty name="info['islink']"}style="display:block"{/notempty}>
+                    <!--链接 单行文本-->
+                    {form:input name="url" title="链接" value="info['url']" tips="跳转指向的链接地址" /}
+                </div>
+                <!--标识 单行文本-->
+                {form:input name="name" title="标识" value="info['name']" cols="3" tips="如不填，默认为栏目拼音" /}
+                <!--发布时间 日期时间选取器-->
+                {form:datetimepicker name="inputtime" title="发布时间" value="info['inputtime']|times" tips="可选择任何一个日期" /}
+                <!--排序 单行文本-->
+                {form:input name="sort" title="排序" value="info['sort']|default='0'" cols="1" /}
+                <!--点击数 单行文本-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">浏览：</label>
+                    <div class="col-sm-5">
+                        <div class="input-group col-sm-3">
+                            <input type="text" name="views" id="views" value="{$info['views']|default=0}" class="form-control"">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default doRand"><i class="fa fa-refresh fa-spin"></i></button>
+                            </div>
+                        </div>
+                        <span class="help-block"><i class="fa fa-info-circle"></i> 点击显示随机数</span>
+                    </div>
+                </div>
+                <!--名称 单行文本-->
+                {form:input name="template" title="模板" value="info['template']" cols="2" /}
+                <!--允许评论 开关效果-->
+                {form:switch name="iscomment" title="允许评论" value="info['iscomment']" /}
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <input type="hidden" name="id" value="{$info.id|default=''}">
+                    <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript" src="__JS__/colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script type="text/javascript">
+    setFormValue("model", {$info.model|default=2});
+    setFormValue("iscomment", {$info.iscomment|default=1});
+    // 检测标题
+    $(".doCheck").on('click', function() {
+        var self = this;
+        var $url = $(this).data('url');
+        var $title = $('input[name=title]').val();
+        if(!title){
+            layer.msg('请输入文章标题', { icon: 8, time: 1500, anim: 6 });
+        }
+        $(self).addClass('disabled').prop('disabled', true);
+        $.post($url, {title:$title}, function(res) {
+            if (res.status) {
+                $(self).html('<i class="fa fa-circle-o-notch fa-spin"></i> '+ res.info).removeClass('btn-danger btn-default').addClass('btn-primary').attr("disabled", false);
+                $(self).addClass('disabled').prop('disabled', false);
+            } else {
+                $(self).html('<i class="fa fa-circle-o-notch fa-spin"></i> '+ res.info).removeClass('btn-default').addClass('btn-danger').attr("disabled", false);
+                $(self).addClass('disabled').prop('disabled', false);
+            }
+            $(self).removeClass('disabled').prop('disabled', false);
+        }, 'json');
+    });
+    // 随机浏览数
+    $(".doRand").on('click', function() {
+        $('#views').val(parseInt(300*Math.random()));
+    });
+    // 跳转链接
+    $("input[name='islink']").change(function() {
+        if ($(this).prop('checked')){
+            $("#jumpURL").show();
+        } else {
+            $("#jumpURL").hide();
+            $("#url").val('');
+        }
+    });
+    //拾色器
+    $(function() {
+        $('#colorpicker').colorpicker().on('changeColor', function(e) {
+            $(this).css("backgroundColor",e.color.toString('hex'));
+            $("input[name='title']").css("color",e.color.toString('hex'));
+            $("input[name='style']").val(e.color.toString('hex'));
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>用户合作协议</title>
+    <link rel="stylesheet" href="__CSS__/font-awesome.min.css" />
+    <!--[if lt IE 9]><script src="_JS__/html5shiv.min.js"></script><![endif]-->
+    <link rel="stylesheet" href="/Public/statics/css/pay.css" />
+    <link rel="stylesheet" href="/Public/statics/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/Public/statics/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/Public/statics/js/plugins/layer/layer.js"></script>
+  
+    <body>
+		<p>1、您使用的交易方式是买卖双方使用本系统，且约定买卖合同项下的货款，通过买方即时向卖方支付的交易方式，该项服务一般适用于您与交易对方彼此都有充分信任的小额交易。</p>
+		<p>2、使用本服务支付货款是基于您对交易对方的充分信任，一旦您选用该方式，相对应的交易为非担保性质的交易，您将自行承担所有交易风险并自行处理所有相关的交易纠纷。</p>
+		<p>3、使用本系统支付交易请确定购买的数量及金额，卡类购买超出的部分由于系统的原因将不会找零，如果支付购买过程中出现余额不足，请通过订单号查询补足金额支付即可获取卡密。</p>
+        <div style="text-align: center; margin: 10px auto;" class="pay-submit-button">
+						<a href="javascript:" class="btn btn-primary btn-large" id="sure">确定</a>
+					</div>
+    </body>
+    <script>
+    	$("#sure").click(function(){
+    		var index = parent.layer.getFrameIndex(window.name);
+    		parent.layer.close(index);
+    	});
+    </script>
+</html>

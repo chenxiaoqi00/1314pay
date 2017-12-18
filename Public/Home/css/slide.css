@@ -1,0 +1,27 @@
+img { border: 0;}
+.flexslider ul,.ship-slider ul,.mall-silder ul,.shop-slide ul{ margin: 0; padding: 0; list-style-type: none;}
+.flexslider,.ship-slider,.mall-silder,.shop-slide{ position: relative; overflow: hidden;}
+.flexslider ul.ck-slide-wrapper,.ship-slider ul.ck-slide-wrapper,.mall-silder ul.ck-slide-wrapper,.shop-slide ul.ck-slide-wrapper{ position: absolute; top: 0; left: 0; z-index: 1; margin: 0; padding: 0;}
+.mall-silder ul.ck-slide-wrapper{top:20px;}
+.flexslider ul.ck-slide-wrapper li,.ship-slider ul.ck-slide-wrapper li,.mall-silder ul.ck-slide-wrapper li,.shop-slide ul.ck-slide-wrapper li{ position: absolute;}
+.flexslider .ck-prev, .ck-slide .ck-next { position: absolute; top: 50%; z-index: 2; width: 35px; height: 70px; margin-top: -35px; border-radius: 3px; opacity: .15; background: red; text-indent: -9999px; background-repeat: no-repeat; transition: opacity .2s linear 0s;}
+.flexslider .ck-prev { left: 5px; background: url(../images/arrow-left.png) #000 50% no-repeat;}
+.flexslider .ck-next { right: 5px; background: url(../images/arrow-right.png) #000 50% no-repeat;}
+.ck-slidebox { position: absolute; left: 50%; bottom: 12px; z-index: 30;}
+.ck-slidebox ul { height: 20px; padding: 0 4px;}
+.ck-slidebox ul li { float: left; height: 12px; margin: 4px 4px;}
+.ck-slidebox ul li em { display: block; width: 10px; height: 12px; background-color: #fff; text-indent: -9999px; cursor: pointer;}
+.ck-slidebox ul li.current em { background-color: #fe6500;height: 16px;}
+.ck-slidebox ul li em:hover { background-color: #fe6500;}
+
+.iconl-slide { position: relative; overflow: hidden;}
+.iconl-slide ul.ck-slide-wrapper { position: absolute; top: 0; left: 0; z-index: 1; margin: 0; padding: 0;}
+.iconl-slide ul.ck-slide-wrapper li { position: absolute;}
+.iconl-slide .ck-slidebox { position: absolute; left: 165px; bottom: 0px; z-index: 30;}
+.iconl-slide .ck-slidebox ul li { float: left; height: 12px; margin: 2px 2px;}
+.iconl-slide .ck-slidebox ul li em { display: block; width: 8px; height: 8px; border: solid 1px #fff;background-color: #fff; text-indent: -9999px; cursor: pointer;}
+.iconl-slide .ck-slidebox ul li.current em { background-color: #1492ff;}
+.iconl-slide .ck-slidebox ul li em:hover { background-color:  #1492ff;}
+.mall-silder .ck-slidebox ul li em { display: block; width: 14px; height: 14px; border-radius: 100%; background-color: #fff;border-radius: 100%; text-indent: -9999px; cursor: pointer;}
+.mall-silder .ck-slidebox ul li.current em { background-color: #1492ff;}
+.mall-silder .ck-slidebox ul li em:hover { background-color:  #1492ff;}

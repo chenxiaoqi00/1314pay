@@ -1,0 +1,88 @@
+{extend name="Base/common" /}{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/labelauty/labelauty.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/switch.css">
+{/block}{block name="body"}
+<div class="c-content tabs-container">
+<!-- 	<ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#base" aria-expanded="true">基本设置</a></li>
+        <li><a data-toggle="tab" href="#ship" aria-expanded="false">额外信息</a></li>
+    </ul> -->
+    <div class="cd-wrap padding20 tab-content">
+        <form action="__SELF__" method="post" class="form">
+        <div id="base" class="tab-pane active">
+        	<!-- 名称 -->
+            {center:select name="cateid" title="商品分类" data="cate" selected="info['cateid']" important="important"/}
+			{center:input name="goodname" title="商品名称" value="info['goodname']" width="200" important="important"/}
+			
+			{center:input name="sortid" title="排序" value="info['sortid']" width="200" tips="数字越小排在前面"/}
+			{center:input name="price" title="销售价格" value="info['price']" width="50" tips="单位“元”" important="importants"/}
+			{center:input name="cbprice" title="成本价格" value="info['cbprice']" width="50" tips="单位“元”"/}
+			
+			{center:radio name="is_email" title="库存预警" data="is_email" checked="info['is_email']" tips="主动发邮件提醒" /}
+			<div id="report" style="display: none;">
+				{center:input name="invent_report" title="预警库存" value="info['invent_report']" width="50"/}
+			</div>
+			{center:select name="theme" title="支付页面" data="theme" selected="info['theme']" /}
+			{center:input name="limit_quantity" title="限购数量" value="info['limit_quantity']" width="50" tips="“0”为不限购"/}
+			{center:radio name="is_coupon" title="优 惠 券" data="is_coupon" checked="info['is_coupon']" tips="是否使用优惠券" /}
+			{center:radio name="is_dispay" title="支付方式" data="is_dispay" checked="info['is_dispay']" tips="默认是指根据您开启的支付方式来决定，此项设置仅在商品独立链接中有效！" /}
+			{if condition="ACTION_NAME eq 'add'"}
+			{center:radio name="is_api" title="商品类型" data="is_api" checked="info['is_api']" tips="设置后不能修改！在线充值需要API接口" /}
+			<div id="api" style="display: none;">
+				{center:input name="api_return_url" title="通知地址" value="info['api_return_url']" width="200" tips="以'http://'开头(api通知地址，不可带任何参数)"/}
+			</div>
+			{/if}
+			</div>
+	<!-- 		<div id="ship" class="tab-pane">
+			{center:input name="sitename" title="商户名称" value="info['sitename']" width="200" tips="若为空，商品出售页面则显示商户信息中的站点名称"/}
+            {center:input name="siteurl" title="商户网址" value="info['siteurl']" width="200" tips="若为空，商品出售页面则显示商户信息中的站点网址"/}
+            {center:input name="qq" title="商户QQ" value="info['qq']" width="200" tips="若为空，商品出售页面则显示商户信息中的联系QQ"/}
+            {center:input name="remark" title="商户描述" value="info['remark']" width="200" tips="商品描述信息将显示在订单查询结果下方"/}
+            </div> -->
+            <div class="form-group">
+            	<input type="hidden" name="id" value="{$info.id|default=''}"> 
+                <input type="submit" value="保存设置" class="btn btn-success ajax-submit button_bg" target-form="form">
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript" src="__JS__/labelauty/labelauty.js"></script>
+<script src="__BASE_JS__/plugins/layer/layer.js"></script>
+<script src="__BASE_JS__/linkagesel/comm.js"></script>
+<script src="__BASE_JS__/bootstrap.min.js"></script>
+<script src="__BASE_JS__/linkagesel/linkagesel.min.js"></script>
+<script>
+setFormValue("type", {$info['type']|default=1});
+$(function() {
+    $(':input[class="form-radio"], input[class="form-checkbox"]').labelauty();
+
+    	if({$info['is_email']|default=0} == 1){
+    		$('#report').show();
+    	}else{
+    		$('#report').hide();
+    	}
+
+});
+//选择时间
+$('input[name=is_email]').click(function(){
+	if($(this).val() == 1){
+		$('#report').show();
+	}else{
+		$('#report').hide();
+	}
+});
+
+//选择时间
+$('input[name=is_api]').click(function(){
+	if($(this).val() == 1){
+		$('#api').show();
+	}else{
+		$('#api').hide();
+	}
+});
+    </script>
+{/block}

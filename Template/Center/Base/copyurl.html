@@ -1,0 +1,51 @@
+
+<!-- 购买链接模态框（Modal）-->
+	<div  id="copy-url" style="display:none; " >
+	
+		<p class="p-link">
+			<span>1.短链接<lable style="color:#03A9F4;">(推荐)</lable>：</span>
+			<a name="short_url" href="" target="_blank"></a>
+			<button class="btn btn-copy" id="btn-sina" >复制链接</button>
+		</p>
+		
+		<p class="p-link">
+			<span>2.分类链接<lable style="color:#FF5722;">(严禁使用此链接群发,违者关闭交易)</lable>：</span>
+			<a name="pr_url" href="" target="_blank"></a>
+			<button class="btn btn-copy" id="btn-copy">复制链接</button>
+		</p>
+		
+		<p class="p-link" name="sina">
+			<span>3.二维码：</span><img name='qr' src="">
+		</p>
+	</div>
+	
+	<style>
+		.layui-layer-wrap {
+		    padding: 0px 20px 0px 20px;
+		}
+		.layui-layer-wrap .btn {
+		    background: #2b9cf2;
+		    color: #fff;
+		    border-radius: 15px;
+		    position: relative;
+		    top: -2px;
+		    padding: 3px 13px;
+		}
+		.p-link span {
+		    letter-spacing: 1px;
+		    margin-top: 25px;
+		    display: block;
+		    margin-bottom: 10px;
+		}
+		img {
+		    border: none;
+		}
+		.layui-layer-title {
+		    border: none;
+		    background-color: #2b9cf2;
+		    color: #fff;
+		    text-align: center;
+		    padding: 0px;
+		    font-size: 16px;
+		}
+	</style>

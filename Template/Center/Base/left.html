@@ -1,0 +1,10 @@
+<div class="cd-right">
+            <div class="cd-wrap">
+                <h4>站点公告</h4>
+                <ul class="tody-read">
+                {hi:article limit="10" catid="1" order="id desc"}
+                    <li><a href="/Home/News/detail/id/{$v['id']}" title="{$v.title}" target="_blank">{$v.title}</a></li>
+                {/hi:article}
+                </ul>
+            </div>
+        </div>

@@ -1,0 +1,96 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="ibox-title">
+        <div class="btn-group pull-right">
+            <form method="get" class="pull-right form-inline">
+                <select name="module" class="form-control input-sm">
+                    <option value="">==所属模块==</option>
+                    <option value="admin" selected>后台管理</option>
+                    <option value="u">会员中心</option>
+                </select>
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" name="search" placeholder="菜单名称">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-sm btn-primary">搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <a class="btn btn-primary input-sm" href="{:U('add',array('pid'=>$pid))}"><i class="fa fa-plus"> 添加</i></a>
+        <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1))}"><i class="fa fa-check"> 启用</i></button>
+        <button  class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0))}"><i class="fa fa-ban"> 禁止</i></button>
+        <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del')}"><i class="fa fa-remove"> 删除</i></button>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="ids checkall" type="checkbox">
+                        </th>
+                        <th>UID</th>
+                        <th>用户名|手机</th>
+                        <th>上次登录时间</th>
+                        <th>上次登录IP</th>
+                        <th>登录次数</th>
+                        <th>会员类型</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="_list"}
+                        {volist name="_list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.id}</td>
+                                <td>{notempty name="vo['username']"}<i class="fa fa-user"></i> {$vo.username}{/notempty} {notempty name="vo['mobile']"}<i class="fa fa-mobile-phone"></i> {$vo.mobile}{/notempty}</td>
+                                <td>{$vo.last_time|times}</td>
+                                <td>{$vo.last_ip|long2ip}</td>
+                                <td>{$vo.logins}</td>
+                                <td>{$vo.modelid}</td>
+                                <td>
+                                    <div class="onoffswitch-large">
+                                        <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-field="status" data-id="{$vo['id']}" data-url="{:U('quick')}" id="status{$vo['id']}" {notempty name="vo['status']"}checked{/notempty}>
+                                        <label class="onoffswitch-label" for="status{$vo['id']}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a url="{:U('resetPass',array('id'=>$vo['id']))}" class="btn btn-success btn-xs resetPASS" title="重置{$vo.username}的密码"><i class="fa fa-refresh"></i> 重置密码</a>
+                                    <a url="{:U('ajax/kickuser',array('uid'=>$vo['id']))}" class="btn btn-warning btn-xs ajax-get confirm" title="强制退出{$vo.username}"><i class="fa fa-sign-out"></i> 强退</a>
+                                    <a url="{:U('del',array('ids'=>$vo['id']))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+            {$data['page']}
+        </form>
+    </div>
+{/block}
+{block name="script"}
+    <script type="text/javascript">
+    $(".resetPASS").click(function() {
+        var $url = $(this).attr('url');
+        var $title = $(this).attr('title');
+        layer.confirm('确定要' + $title + '？', {icon: 0, title: '重置密码'}, function() {
+            $.get($url).success(function(data) {
+                if (data.status == 1) {
+                    layer.alert( data.info, {icon: 6,title: $title+'成功'})
+                } else {
+                    layer.msg(data.info, { icon: 5, time: 1500, shift: 6});
+                }
+            });
+        });
+    });
+    </script>
+{/block}

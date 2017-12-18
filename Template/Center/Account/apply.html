@@ -1,0 +1,78 @@
+{extend name="Base/common" /} 
+{block name="body"}
+
+	<form action="__SELF__">
+		<div class="inline">
+			<span class="title">可结算金额：</span>
+			<span class="zhyy" id="settle">{$unpaid}</span><span class="zhyy">元</span>
+		</div>	
+		<div class="inline">
+			<span class="title"><i>*</i>申请金额：</span>
+			<input type="text" name="applyMoney" class="form-control" id="settle_money" style="width: 100px;" readonly>
+			<!-- <span class="miaosu">(暂不收取手续费,最低申请结算10元)</span> -->
+			<span class="miaosu">(系统暂时为自动结算)</span>
+		</div>
+		<div class="inline">
+			<span class="title">手续费：</span>
+			<span class="zhyy" id="fee">0 元</span>
+			<span class="money-msg"></span>
+		</div>
+		<div class="inline" style="height:60px">
+			<button type="button" disabled="disabled" class="btn button_bg tijiaoanniu" id="apply-account" style="margin-left:110px;width: 210px;">申请结算</button>
+			<span class="apply-msg"></span>
+		</div>	
+	</form> 
+	<div class="inline">
+		<span style="padding-right:20px;float:right;color:#555;">注意事项：请在10:00-5:00之间申请结算,您的申请任务我们将在1小时内处理完毕</span>
+	</div>
+{/block}
+{block name="script"}
+	<script>
+	$("#apply-account").click(function(){
+		layer.mag("系统暂时为自动结算！")
+		return false;
+		var url=$("form").attr("action");
+		var data = $("form").serialize();
+		$.post(url,data,function(resolut){
+			layer.msg(resolut.info)
+		})
+	})
+	
+	$("#settle_money").bind('input porpertychange',function(){
+		 var applyMoney = parseFloat($("input[name='applyMoney']").val());
+		 var unpaid = Number($("#settle").text());
+		 var balance = unpaid-applyMoney;
+		 console.log(applyMoney);
+		 if(isInteger(applyMoney)){
+			 $(".apply-msg").text("请输入大于0的数字");
+			 $(".money-msg").text("")
+			 $('#apply-account').attr('disabled',"true");
+		 } else if(!applyMoney){
+			 $(".apply-msg").text("");
+			 $(".money-msg").text("")
+			 $('#apply-account').attr('disabled',"true");
+		 }else if(applyMoney<10){
+			 $(".apply-msg").text("最低结算金额是：10 元,请重新修改结算金额");
+			 $(".money-msg").text("")
+			 $('#apply-account').attr('disabled',"true");
+		 }else if(applyMoney>unpaid){
+			 $(".apply-msg").text("申请结算的金额已经超出了您的余额,请修改");
+			 $(".money-msg").text("")
+			 $('#apply-account').attr('disabled',"true");
+		 }else{
+			 $(".apply-msg").text("");
+			 $(".money-msg").text(",结算后余额"+balance)
+			 $('#apply-account').removeAttr("disabled"); 
+		 }
+	});
+	
+	function isInteger(obj) {
+		  var parnt = /^\d+(\.\d+)?$/;
+	        if(!parnt.exec(obj)){
+	            return true;    
+	        }else {
+		        return false;
+		    }
+	}
+	</script>
+{/block}

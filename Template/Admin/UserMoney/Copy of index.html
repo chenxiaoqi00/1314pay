@@ -1,0 +1,451 @@
+{extend name="Public/base" /}
+{block name="style"}<link href="__JS__/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="__CSS__/plugins/datapicker/datepicker3.css" rel="stylesheet">{/block}
+
+<!-- 子导航 -->
+{block name="body"}
+    <div class="ibox-title ibox-title-border">
+        <div class="pull-left">
+            <a class="btn btn-primary input-sm" href="{:U('add')}"><i class="fa fa-plus"> 新增</i></a>
+            <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1))}"><i class="fa fa-check"> 启用</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0))}"><i class="fa fa-ban"> 禁用</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del',array('model'=>'Users'))}"><i class="fa fa-remove"> 删除</i></button>
+            {notempty name="pid"}
+            <button class="btn btn-primary input-sm"><i class="fa fa-reply" onclick="javascript:history.back(-1);return false;"> 返回</i></button>
+            {/notempty}
+        </div>
+    </div>
+    <div class="ibox-title ibox-title-border">
+        <div class="btn-group">
+            <form method="get" class="form-inline so-form">
+                <select name="account" class="form-control input-sm">
+                    <option value='' selected>是否申请结算</option>
+                    <option value="1">申请</option>
+                    <option value="0">未申请</option>
+                </select>
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" value="{:I('get.username')}" name="username" placeholder="用户名|手机|邮箱">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="{:U('index',array('catid'=>$catid))}"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="row-selected icheck">
+                            <input class="checkall" type="checkbox">
+                        </th>
+                        <th>id</th>
+                        <th>商户名</th>
+                        <th>收款人</th>
+                        <th>申请结算</th>
+                        <th>收款方式</th>
+                        <th>结算方式</th>
+                        <th>总收入</th>
+                        <th>已结算</th>
+                        <th>未结算</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.userid}</td>
+                                <td class="title userName">{:getUsersName($vo['userid'])}</td>
+                                <td>{:userinfo($vo['userid'],realname)}
+                                <td>{eq name="vo.account" value="0"}未申请{else/} <span style="color:red" >申请结算</span>{/eq}</td>
+                                <td><font color="green"> {$vo.ptypetext}</font></td>
+                                <td>{$vo.ctypetext}</td>
+                                <td>{$vo.allmoney}</td>
+                                <td>{$vo.paid}</td>
+                                <td>{$vo.unpaid}</td>
+                                <td>
+                                <a href="javascript:void(0)" class="btn btn-info btn-xs account" userid="{$vo['userid']}" account="{$vo['account']}" unpaid="{$vo['unpaid']}"><i class="fa fa-edit"></i>结算</a>
+                                    <a href="{:U('Payments/index',array('userid'=>$vo['userid']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 详单</a>
+                                    <a href="{:U('Orders/index',array('userid'=>$vo['userid']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 订单</a>
+                                    <a url="{:U('del',array('ids'=>$vo['id'],'model'=>'Usermoney'))}" class="btn btn-danger btn-xs confirm ajax-get" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {else/}
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <ul class="pagination">
+            {$_page}
+        </ul>
+    </div>
+    <!-- 账户结算 -->
+     <div id="account" style="display:none">
+     	<div id="user-info"> 
+     	     <table width="400" class="tablelistinfo" border="0" cellspacing="0" cellpadding="0">
+			     <tbody>
+				   
+			     </tbody>
+		    </table>
+     	</div>
+    	<div id="apply-account" class="list"> </div>
+    	<div id="transfer-every-day" class="list"> </div>
+     <div id="unpaid">
+     <span>未结算总额:</span><span id="unpaid-money"></span>元
+     <hr/>
+     </div>
+    </div>
+    
+       <!-- 每天订单 -->
+     <div id="orders" style="display:none">
+    
+    </div> 
+    
+    
+    <style>
+	.list table, .tablelistinfo {
+		border-top: 1px solid #ddd;
+		border-left: 1px solid #ddd;
+		width: 98%;
+		margin: 10px auto;		
+	}
+	.list table th, .list table td, .tablelistinfo th, .tablelistinfo td {
+		border-bottom: 1px solid #ddd;
+		border-right: 1px solid #ddd;
+		padding: 3px;
+		text-align: center;
+	}
+	#unpaid {
+		text-align: right;
+    	padding-right: 20px;
+	}
+	#unpaid span:first-of-type {
+		font-weight: 700;
+		margin-left: 15px;
+	}
+	#unpaid span:last-of-type {
+		font-weight: 700;
+		color: #f00;
+	}
+	table.tablelistinfo td.bg {
+	    background: #f1f1f1;
+	}
+	table.tablelistinfo td {
+	    padding: 5px;
+	    background: #fff;
+	}
+	</style>
+{/block}
+{block name="script"}
+<script src="__JS__/linkagesel/comm.js"></script>
+<script src="__JS__/linkagesel/linkagesel.min.js"></script>
+<script src="__JS__/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+function DatePicker(beginSelector, endSelector) {
+    $(beginSelector).datepicker({
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+        } else {
+            $(endSelector).datepicker('setStartDate', null);
+        }
+    })
+    $(endSelector).datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        endDate: new Date()
+    }).on('changeDate', function(ev) {
+        if (ev.date) {
+            $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+        } else {
+            $(beginSelector).datepicker('setEndDate', new Date());
+        }
+
+    })
+}
+DatePicker("#start", "#end");
+
+var userid; //被结算人的ID
+//结算
+$(".account").click(function(){
+	var that = $(this);
+	var unpaid = that.attr("unpaid");
+	$("#unpaid-money").text("");
+	$("#unpaid-money").text(unpaid);
+	$("#apply-account").html("");
+	userid = that.attr("userid");
+	var account =  that.attr("account");
+	
+	applyInfo(account,userid) //申请结算的信息
+	
+	transferInfo(userid)//获取结算商家的转账信息
+	
+	transferEveryDay(userid)//获取按天统计的转账金额
+	
+	var title = "商家: "+$(this).parents("tr").children("td.userName").text();
+	layerindex = layer.open({
+		  type: 1,
+		  title:title,
+		  shade :false,
+		  area: ['580px', '450px'], //宽高
+		  btn: ['全部结算', '关闭'],
+		  yes: function(index, layero){
+			var account ;
+			if($("#apply-account tbody tr").length >0 ){
+				account=1;
+			}else{
+				account=0;
+			}
+				
+			var url = "/Admin/UserMoney/accontAll/userid/"+userid+"/account/"+account;
+		    $.get(url,function(resoult){
+		    	console.log(resoult);
+		    	layer.msg(resoult.info);
+		    	if(resoult.status ==1){
+					layer.close(layerindex)
+					location.reload();
+		    	}
+		    })
+		  },
+		  content: $("#account")
+		});
+})
+
+//获取结算商家的转账信息
+function transferInfo(userid){
+	//商家支付信息
+	var user_info_url = "/Admin/UserMoney/userinfo/userid/"+userid;
+	$.get(user_info_url,function(resoult){
+		var	userInfo = "";
+		switch(parseInt(resoult.ptype))
+		{
+		case 1:
+		userInfo +="<tr>"+
+				" <td class='right bg' width='90'>收款方式：</td>"+
+				 "<td>银行转账</td>"+
+			 "</tr>"+
+			"<tr>"+
+				"<td class='right bg' width='90'>银行名称</td>"+
+				"<td>"+resoult.bank+"</td>"+
+		 	"</tr>"+
+			"<tr>"+
+				"<td class='right bg' width='90'>银行账号</td>"+
+				"<td>"+resoult.card+"</td>"+
+		 	"</tr>"+
+			"<tr>"+
+				"<td class='right bg' width='90'>开户地址</td>"+
+				"<td>"+resoult.addr+"</td>"+
+	 		"</tr>";
+		break;
+		case 2:
+		userInfo +="<tr>"+
+					"<td class='right bg' width='90'>收款方式：</td>"+
+					"<td>支付宝转账</td>"+
+			 	"</tr>"+
+				"<tr>"+
+					"<td class='right bg' width='90'>支付宝账号</td>"+
+					"<td>"+resoult.alipay+"</td>"+
+			 	"</tr>"+
+				"<tr>"+
+					"<td class='right bg' width='90'>收款人姓名</td>"+
+					"<td>"+resoult.realname+"</td>"+
+			 	"</tr>";
+		break;
+		case 3:
+		userInfo +="<tr>"+
+					" <td class='right bg' width='90'>收款方式：</td>"+
+					"<td>财付通转账</td>"+
+			 	"</tr>"+
+				"<tr>"+
+					" <td class='right bg' width='90'>支付宝账号</td>"+
+					"<td>"+resoult.tenpay+"</td>"+
+			 	"</tr>"+
+				"<tr>"+
+					" <td class='right bg' width='90'>收款人姓名</td>"+
+					"<td>"+resoult.realname+"</td>"+
+			 	"</tr>";
+			 	
+		break;
+	 /*  	default:
+			userInfo += "商家未填写转账信息！";
+		break; 
+ */		} 
+		userInfo +=	"<tr>"+
+						" <td class='right bg' width='90'>联系方式</td>"+
+						"<td>手机:"+resoult.tel+"&nbsp&nbspQQ:"+resoult.qq+"&nbsp&nbsp邮箱:"+resoult.email+"</td>"+
+				 	"</tr>";
+		$("#user-info tbody").html("");
+		$("#user-info tbody").html(userInfo);
+		
+		
+	})
+	
+}
+
+//获取商家申请结算的信息
+function applyInfo(account,userid){
+	if(account == 1){
+		var url = "/Admin/UserMoney/getAccount/userid/"+userid;
+		var tbody = "";
+		var table="";
+		$.get(url,function(resoult){
+			$.each(resoult,function(index,obj){
+			tbody =tbody+	"<tr><td>"+obj.addtime+"</td>"+
+			"<td>"+obj.applymoney+"</td>"+
+			"<td><a href='javascript:void(0);' class='btn btn-info btn-xs accont-apply' aid="+obj.id+" applymoney="+obj.applymoney+">结算</a></td></tr>"; 
+			})
+			
+			table='<table width="400" border="0" cellspacing="0" cellpadding="0">'+
+					     "<thead>"+
+				         "<tr>"+
+				             "<th>申请时间</th>"+
+				             "<th>申请金额</th>"+
+				             "<th>操作</th>"+
+				         "</tr>"+
+				     "</thead>"+
+				     "<tbody>"+
+				     	tbody+
+				     "</tbody>"+
+			    "</table><hr/>";
+		
+			$("#apply-account").html(table);
+		});
+ 		
+	}
+}
+
+
+//获取按天统计的转账金额
+function transferEveryDay(userid){
+		var url = "/Admin/UserMoney/transferEveryDay/userid/"+userid;
+		var tbody = "";
+		var table="";
+		$.get(url,function(resoult){
+		//	console.log(resoult);
+			
+			$.each(resoult,function(index,obj){
+			tbody =tbody+	"<tr><td>"+obj.time+"</td>"+
+			"<td>"+obj.money+"</td>"+
+			"<td><a href='javascript:void(0);' class='btn btn-danger btn-xs accont-everyday' map="+obj.map+" userid="+userid+" money="+obj.money+">结算</a>"+
+			"<a href='javascript:void(0);' class='btn btn-info btn-xs orders-everyday' map="+obj.map+" userid="+userid+">订单</a>"+
+			(obj.time=="昨天"||obj.time=="前天"||obj.time=="大前天"?"<a href='javascript:void(0);' class='btn btn-info btn-xs unaccont-everyday' map="+obj.map+" userid="+userid+" money="+obj.money+">暂不结算</a></td></tr>":""); 
+			})
+			
+			table='<table width="400" border="0" cellspacing="0" cellpadding="0">'+
+					     "<thead>"+
+				         "<tr>"+
+				             "<th>时间</th>"+
+				             "<th>未结算金额</th>"+
+				             "<th>操作</th>"+
+				         "</tr>"+
+				     "</thead>"+
+				     "<tbody>"+
+				     	tbody+
+				     "</tbody>"+
+			    "</table><hr/>";
+		
+			$("#transfer-every-day").html(table);
+		});
+ 		
+}
+
+//结算当天的金额
+$(document).delegate(".accont-everyday","click",function(){
+	var that = $(this);
+	var userid = that.attr("userid");
+	var money = that.attr("money");
+	var addtime = that.attr("map");
+	var url = "/Admin/UserMoney/accontEveryDay";
+    $.post(url,{userid:userid,money:money,addtime:addtime},function(resoult){
+    	layer.msg(resoult.info);
+    	if(resoult.status ==1){
+    	that.parents("tr").remove();
+    	
+    	var unpaidMoney = Number($("#unpaid-money").text())-Number(that.attr("money"));
+    	$("#unpaid-money").text(unpaidMoney);
+    	
+    	if($("#transfer-every-day tbody tr").length ==0){
+    		$("#transfer-every-day").remove();
+    	}
+    	
+    	}
+    })
+});
+
+//暂时不结算当天的金额
+$(document).delegate(".unaccont-everyday","click",function(){
+	var that = $(this);
+	var userid = that.attr("userid");
+	var money = that.attr("money");
+	var ordertime = that.attr("map");
+	var url = "/Admin/UserMoney/unaccontEveryDay";
+    $.post(url,{userid:userid,money:money,ordertime:ordertime},function(resoult){
+    	layer.msg(resoult.info);
+    	if(resoult.status ==1){
+    	that.parents("tr").remove();
+    	}
+    })
+});
+
+//查看当天的订单
+$(document).delegate(".orders-everyday","click",function(){
+	var that = $(this);
+	var userid = that.attr("userid");
+	var addtime = that.attr("map");
+	var url = "/Admin/UserMoney/ordersEveryDay";
+	
+    $.post(url,{userid:userid,addtime:addtime},function(resoult){
+    	console.log(resoult);
+   // 	if(resoult.status=1){
+    		$("#orders").html("");
+    		$("#orders").html(resoult.data);
+    		var title =  "啊啊啊啊啊啊啊 ";
+    		layerindex = layer.open({
+    			  type: 1,
+    			  title:title,
+    			  shade :false,
+    			  area: ['900px', '500px'], //宽高
+    			  btn: ['结算', '关闭'],
+    			  yes: function(index, layero){
+    			
+    			  },
+    			  content: $("#orders")
+    			});
+    	/* }else{
+    		layer.msg("查询失败！")
+    	} */
+   	    icheck();
+    })
+});
+
+
+//结算申请的金额
+$(document).delegate(".accont-apply","click",function(){
+	var that = $(this);
+	var aid = that.attr("aid");
+	var url = "/Admin/UserMoney/accontApply/aid/"+aid;
+    $.get(url,function(resoult){
+    	layer.msg(resoult.info);
+    	if(resoult.status ==1){
+    	that.parents("tr").remove();
+    	var unpaidMoney = Number($("#unpaid-money").text())-Number(that.attr("applymoney"));
+    	$("#unpaid-money").text(unpaidMoney);
+    	
+    	if($("#apply-account tbody tr").length ==0){
+    		$("#apply-account").remove();
+    	}
+    	
+    	}
+    })
+});
+</script>{/block}

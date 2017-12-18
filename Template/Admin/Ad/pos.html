@@ -1,0 +1,29 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="ibox-title">
+        <h5>{$meta_title}</h5>
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                <!--网址 单行文本-->
+                {form:input name="title" title="广告位名称" value="info['title']" cols="3" tips="用于广告位的标注文字" /}
+                <!--链接 单行文本-->
+                {form:input name="width" title="版位宽度" value="info['width']" tips="版位显示宽度" cols="2" /}
+                <!--链接 单行文本-->
+                {form:input name="height" title="版位高度" value="info['height']" tips="版位显示高度" cols="2" /}
+                <!--模板 选择框-->
+                <!-- {form:select name="template" title="广告模板" first="==模板==" data="tpl_publish" selected="info['tpl_publish']" /} -->
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="id" value="{$info.id|default=''}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}

@@ -1,0 +1,122 @@
+{extend name="Base/common" /} {block name="body"}
+<div class="c-content">
+            <form action="{:U('index')}" method="get">
+            <div class="form-group form-inline">
+            <!--  <label for="price">投诉时间</label> -->
+            	<div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class=" form-control" value="{:I('get.start_date')}" id="start" name="start_date" placeholder="开始日期" />
+                    <span class="input-group-addon">~</span>
+                    <input type="text" class=" form-control" value="{:I('get.end_date')}" id="end" name="end_date" placeholder="结束日期" />
+                </div>
+                <!--  <label for="price">商家状态</label> -->
+                <select name="is_agree" class="form-control">
+                    <option value='' selected>商家状态</option>
+                    <option value="0" {eq name="is_agree" value="0" }selected{/eq}>未处理</option>
+                    <option value="1" {eq name="is_agree" value="1" }selected{/eq}>同意退款</option>
+                    <option value="2" {eq name="is_agree" value="2" }selected{/eq}>拒绝退款</option>
+                </select>
+               <!--  <label for="price">平台处理</label> -->
+                <select name="is_state" class="form-control">
+                    <option value='' selected>平台处理</option>
+                    <option value="0" {eq name="is_state" value="0" }selected{/eq}>未处理</option>
+                    <option value="1" {eq name="is_state" value="1" }selected{/eq}>退款</option>
+                    <option value="2" {eq name="is_state" value="2" }selected{/eq}>结算</option>
+                </select>
+            
+               <!--  <label for="name">订单号</label> -->
+                <input type="text" id="name" class="form-control" name="orderid" value="{:I('get.orderid')}" placeholder="订单号">
+                <!--  <label for="name">投诉理由</label> -->
+                <input type="text" id="name" class="form-control" name="reason" value="{:I('get.reason')}" placeholder="投诉理由">
+                <button class="btn btn-success btn-middle">搜索</button>
+            </div>
+            </form>
+            <form class="ids">
+            <table class="list-table marginT30">
+                <thead>
+                    <tr>
+                     	<th>投诉时间</th>
+                        <th>投诉订单号</th>
+                        <th>投诉理由</th>
+                        <th>买家信息</th>
+                        <th>订单金额</th>
+                        <th>状态</th>
+                        <th>是否同意</th>
+                        <th>投诉详情</th>
+                    </tr>
+                </thead>
+                 {notempty name="complainOrders"}
+				{volist name="complainOrders" id="vo"}
+                <tr>
+                 <td>{$vo.addtime}</font></td>
+                 <td>{$vo.orderid}</td>
+                 <td>{$vo.reason}</td>
+                 <td>{$vo.contact}</td>
+                 <td>{$vo.money}</td>
+                 <td>{:get_compalin_status($vo['is_state'])}</td>
+                 <td>	 
+                 	<select class="form-control input-sm agree" orderid ="{$vo.orderid}" state="{$vo['is_state']}" name="is_agree" style="padding: 0 12px;">
+		         		<option value="0"  {if condition="$vo.is_agree eq '0'"}selected="selected"{/if}>请选择</option>
+		         		<option value="1" {if condition="$vo.is_agree eq '1'"}selected="selected"{/if}>同意</option>
+		         		<option value="2" {if condition="$vo.is_agree eq '2'"}selected="selected"{/if}>拒绝</option>
+         			</select> 
+         		</td>
+         		 <td><a href="javascript:void(0);" class="btn btn-info btn-xs supplement"  data="{$vo['id']}"><i class="fa fa-file-text-o"></i>详情</a></td>
+                 <td class="supplement{$vo['id']}" style="display:none">{$vo.supplement}</td>
+                </tr>
+			{/volist}
+			{else/}
+            <td colspan="10" class="text-center"> 恭喜您，没有投诉订单! </td>
+            {/notempty}
+            </table>
+        </form>
+         <div style="text-align: center;">
+        {$_page}
+        </div>
+        </div>
+{/block}
+{block name="script"}
+<script>
+$('.agree').change(function(){ 
+	var that = $(this);
+	var is_agree=that.children('option:selected').val();//这就是selected的值 
+	var is_state = that.attr("state");
+	if(is_state >0){
+		layer.msg("该订单已完结！");
+		return false;
+	}
+	if(is_agree == 0) return false;
+	var msg = is_agree==1?"若同意退款，平台将按原价退还给买家，并向商家收取部分手续费":"若拒绝退款，经平台确认订单无误后将结算订单金额及手续费"
+	var orderid = that.attr("orderid");
+
+	var url = "/Center/Complain/refund";
+	
+ 	var alert = layer.alert(msg, {
+		 // skin: 'layui-layer-molv' //样式类名 自定义样式
+		  closeBtn: 1  // 是否显示关闭按钮
+		  ,btn: ['确定','取消'] //按钮
+		  ,icon: 6  // icon
+		  ,yes:function(){
+			$.post(url,{orderid:orderid,isagree:is_agree},function(resoult){
+				layer.close(alert);
+				layer.msg(resoult.info);
+		    	if(resoult.status ==1){
+		    	}
+			})
+		 }});
+	});
+	//查看投诉详情
+$(".supplement").click(function(){
+	var id =$(this).attr("data");
+	var supplement = $(".supplement"+id).text();
+	var alert = layer.alert(supplement, {
+		title:"投诉详情",
+	    btn: ['确定'], //按钮
+	    shade: false, //不显示遮罩
+	    yes:function(){
+	    	layer.close(alert);
+	    }
+	});
+	
+})
+</script>
+{/block}

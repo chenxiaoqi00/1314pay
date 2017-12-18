@@ -1,0 +1,94 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            {present name="Think.get.group"}
+                <li><a href="{:U('index')}">全部</a>
+                </li>
+                {else/}
+                <li class="active"><a href="{:U('index')}" aria-expanded="true">全部</a>
+                </li>
+            {/present}
+            {foreach name="group" item="vo"}
+                <li {eq name="group_id" value="$key"}class="active"{/eq}><a href="{:U('index?group='.$key)}">{$vo}</a>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+    <div class="ibox-title m-t-0">
+        <div class="btn-group pull-right">
+            <form method="get" class="pull-right form-inline so-form">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm so-input" name="title" placeholder="{$title}">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary so-btn" url="__SELF__"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="pull-left col-sm-6">
+            <a class="btn btn-primary input-sm" href="{:U('add')}"><i class="fa fa-plus"> 添加</i></a>
+            <button class="btn btn-primary input-sm ajax-status" target-form="ids" url="{:U('setStatus',array('status'=>1))}"><i class="fa fa-check"> 启用</i></button>
+            <button  class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('setStatus',array('status'=>0))}"><i class="fa fa-ban"> 禁止</i></button>
+            <button class="btn btn-primary input-sm ajax-status confirm" target-form="ids" url="{:U('del')}"><i class="fa fa-remove"> 删除</i></button>
+            {notempty name="pid"}
+            <button class="btn btn-primary input-sm"><i class="fa fa-reply"  onclick="javascript:history.back(-1);return false;"> 返回</i></button>
+            {/notempty}
+        </div>
+    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal m-t ids">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <th class="row-selected icheck">
+                        <input class="checkall" type="checkbox">
+                    </th>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>标题</th>
+                    <th>排序</th>
+                    <th>分组</th>
+                    <th>类型</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td class="icheck">
+                                    <input class="ids check" type="checkbox" name="ids[]" value="{$vo.id}">
+                                </td>
+                                <td>{$vo.id}</td>
+                                <td>{$vo.name}</td>
+                                <td>{$vo.title}</td>
+                                <td><a href="javascript:;" class="edit-text" data-placeholder="请输入排序数字" data-type="text" data-pk="{$vo.id}" data-name="sort">{$vo.sort}</a></td>
+                                <td>{$vo.group|get_config_group}</td>
+                                <td>{$vo.type|get_config_type}</td>
+                                <td>
+                                    <div class="onoffswitch-large">
+                                        <input type="checkbox" class="onoffswitch-checkbox ajax-switch" data-field="status" data-id="{$vo['id']}" id="status{$vo['id']}" {notempty name="vo['status']"}checked{/notempty}>
+                                        <label class="onoffswitch-label" for="status{$vo['id']}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                                    <a url="{:U('del',array('ids'=>$vo['id']))}" class="btn btn-danger btn-xs ajax-get confirm" title="删除{$vo.title}"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                        {else/}
+                        <td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+                    {/notempty}
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+            {$_page}
+        </div>
+    </div>
+{/block}

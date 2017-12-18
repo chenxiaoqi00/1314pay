@@ -1,0 +1,26 @@
+{extend name="Public/base" /}
+{block name="body"}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form class="form-horizontal m-t" action="__SELF__" method="post">
+                <!--用户名 单行文本-->
+                {form:input name="username" title="用户名" value="info['username']" tips="用户名只能为英文或和数字组合" cols="3" /}
+                <!--手机 单行文本-->
+                {form:input name="mobile" title="手机" value="info['mobile']" tips="手机号码,可做登陆用" cols="3" /}
+                <!--邮箱 单行文本-->
+                {form:input name="email" title="邮箱" value="info['email']" tips="会员的邮箱,可做登陆用" /}
+                <!--密码 单行文本-->
+                {form:input name="password" type="password" title="密码" tips="用户密码" cols="3" /}
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <input type="hidden" name="id" value="{$info.id|default=''}">
+                        <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/block}

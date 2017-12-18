@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <title>1314发卡平台 - 商户注册</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" type="text/css" href="__CSS__/login_style.css">
+  <link rel="stylesheet" type="text/css" href="__BASE_CSS__/font-awesome.min.css">
+   <link rel="stylesheet"  type="text/css" href="__BASE_CSS__/validform.css">
+   <link rel="stylesheet" type="text/css" href="__CSS__/alertifyjs/css/alertify.min.css">
+</head>
+<body  style="background: url(../../public/statics/images/home/login.gif);overflow: auto;">
+
+  <div class="logo" onclick="location.href=&#39;/&#39;"></div>
+  <div class="regsiter-content">
+      <span class="big-msg">商户注册</span><i class="change_mode" data="0">使用邮箱注册</i>
+      <div class="wrap-contents">
+          <span class="wrap-warning">注意：此通道为商户注册,买家无需注册</span>
+          <form class="login-form" action="{:U('public/register')}" role="form" method="post">
+          <div class="wrap-inline" >
+            <div class="l"><i>*</i>用户名:</div>
+            <div class="r"><input  type="text" name="username" placeholder="用户名格式只能为6-16位英文和数字"  id="username" datatype="*" nullmsg="请输入用户名！" errormsg="用户名格式只能为6-16位英文和数字！"ajaxurl="checkUniqueUsername"/></div>
+          </div>
+          <div class="wrap-inline">
+            <div class="l"><i>*</i>密码:</div>
+            <div class="r"><input type="password" name="password" placeholder="密码需在6-15位"  id="password" datatype="*6-16" nullmsg="请输入密码！" errormsg="密码范围在6~16位之间！"/></div>
+          </div>
+          <div class="wrap-inline">
+            <div class="l"><i>*</i>确认密码:</div>
+            <div class="r"><input type="password" name="repassword" placeholder="密码确认"  id="repassword" datatype="*"  recheck="password" errormsg="您两次输入的账号密码不一致！"></div>
+          </div>
+          <div class="wrap-inline mobile-email">
+            <div class="l"><i>*</i><span>手机号</span>:</div>
+            <div class="r"><input type="text" name="tel" placeholder="请输入您的手机号码"  id="tel" datatype="m" nullmsg="请输入您的手机号！" errormsg="您的手机号有误！" ajaxurl="checkUniqueMobile"/> </div>
+          </div>
+		  <div class="wrap-inline">
+            <div class="l"><i>  </i><span>邀请码</span>:</div>
+            <div class="r"><input type="text" name="inviteCode" placeholder="如有邀请码请输入" ignore="ignore" datatype="*" id="inviteCode"  ajaxurl="checkInviteCode"></div>
+          </div>
+          <div class="wrap-inline">
+            <div class="l"><i>*</i>验证码:</div>
+            <div class="r input-group">
+			    <input type="text" name="verify" id="verify" class="form-control" placeholder="验证码" datatype="*" nullmsg="请输入验证码" ajaxurl="checkVerifyValid"  style="width: 100px;border-radius: 2px 0 0 2px;" /><!-- ajaxurl="checkVerifyValid" -->
+			    <div class="cord-btn" style="display: inline-block; width: 31px;margin-left: -5px;">
+			    	<button type="button" class="btn-primary reload" style="height: 31px; width: 31px;background-color: #1E65BD; border: 0; padding-bottom: 0px;">
+			    	<i class="fa fa-circle-o-notch fa-spin" style="margin-left: -5px;color: #fff;"></i></button>
+			    </div>
+			    <div class="cord" style="width: 90px; display: inline-block;">
+			    	<img class="verifyimg" class="img-polaroid" src="{:U('Api/Public/verify')}" style="height: 30px; margin-bottom: -10px; width: 178px;">
+			    </div>
+			</div>
+          </div>
+               
+          <div class="wrap-inline" style="position: relative;height: 90px;">
+         <!--  <input type="submit" value="Submit" /> -->
+            <div class="btn btn-code">立    即   注    册</div>
+          </div> 
+          </form>
+      <!--     <div class="wrap-inline" name="reg" style="display: none;">
+            <span class="hi">hi 欢迎加入1314大家庭!</span>
+          </div>      
+          <div class="wrap-inline" name="reg" style="display: none;">
+            <div class="btn btn-reg">注册完成</div>
+          </div>  -->   
+          <div class="wrap-inline">
+            <p class="note">已有帐号?　<a class="a" href="{:U('Center/Public/login')}">马上登录</a></p>
+          </div>
+      </div>
+  </div>
+  <div id="login-reg-bottom">1314支付 2016-2017@关注我们</div>
+  </div>
+	<!-- <script src="__BASE_JS__/jquery.min.js"></script> -->
+	<script type="text/javascript" src="http://validform.rjboy.cn/wp-content/themes/validform/js/jquery-1.6.2.min.js"></script>
+	<script src="__BASE_JS__/Validform_v5.3.2.js"></script>
+	<script src="__CSS__/alertifyjs/alertify.min.js"></script>
+	
+	<script type="text/javascript">
+    /*改变注册方式*/
+    $(".change_mode").click(function(event) {
+        var data = $(this).attr("data");
+        //当前是使用手机注册的,需要切换到邮箱注册
+        var mobile = '<div class="l"><i>*</i><span>手机号</span>:</div>'+
+        '<div class="r">'+
+        '<input type="text" name="tel" placeholder="请输入您的手机号码"  id="tel" datatype="m" nullmsg="请输入您的手机号！" errormsg="您的手机号有误！" ajaxurl="checkUniqueMobile">'+
+        '</div>';
+        
+        var email = '<div class="l"><i>*</i><span>邮箱号</span>:</div>'+
+        '<div class="r">'+
+        '<input type="text" name="email" placeholder="请输入您的邮箱号"  id="email" datatype="e" nullmsg="请输入您的邮箱号！" errormsg="您的邮箱号有误！" ajaxurl="checkUniqueEmail">'+
+        '</div>';
+        
+        if (data == "1") {
+            //切换到邮箱注册
+            $(this).attr("data","0").text("使用手机注册?");
+            $(".mobile-email").html("");
+            $(".mobile-email").html(mobile);
+            $(".big-msg").text("手机注册");
+        }else{
+            $(this).attr("data","1").text("使用邮箱注册");
+            $(".mobile-email").html("");
+            $(".mobile-email").html(email);
+            $(".big-msg").text("邮箱注册");
+        }
+    });
+    //改变验证码
+    var verifyimg = $(".verifyimg").attr("src");
+    $(".reload").click(function(){
+        if(verifyimg.indexOf('?')>0){
+            $(".verifyimg").attr("src", verifyimg+'&random='+Math.random());
+        }else{
+            $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+        }
+        
+       $("#verify").addClass("Validform_error"); 
+    });
+    
+    $(".login-form").Validform({
+    	 btnSubmit:".btn-code",
+    	 ajaxPost:true,
+    	 tiptype:function(msg, o){
+    		 console.log(msg);
+    		 console.log(o);
+             if (o.type == 3 && msg!="所填信息没有经过验证，请稍后…") {
+                 alertify.warning(msg);
+             }
+         },
+         callback:function(data){
+        	 if(data.status){
+	        	 setTimeout(function(){
+	        		 console.log("callback",data);
+	            	 location.href=data.url;
+	        		},1000);
+        	 }
+         }
+    });
+/* 
+    $("#btn-code").on('click', function() {
+        var $url  = "__SELF__";
+        var $data = $('form').serialize();
+        var $btn  = $(this).button('loading');
+        $.post($url, $data, function(res) {
+            if(res.status){
+                layer.msg('注册成功！', {icon: 6, time: 1500 },function(){
+                    window.location.href = res.url;
+                });
+            } else {
+                layer.msg(res.info, {icon: 5, time: 1500 , anim: 6});
+                $btn.button('reset');
+            }
+        }, 'json');
+    }); */
+	</script>
+</body>
+</html>

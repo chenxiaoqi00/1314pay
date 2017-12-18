@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>318支付管理后台</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.min.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css" rel="stylesheet">
+    <link href="__JS__/ladda/ladda-themeless.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>
+    if (window.top !== window.self) {
+        window.top.location = window.location;
+    }
+    </script>
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+            	<img alt="" src="__IMG__/home/logo.png">
+                <!-- <h1 class="logo-name">318支付</h1> -->
+            </div>
+           <!--  <h3>欢迎使用318支付管理平台</h3> -->
+            <form class="m-t" role="form" method="post">
+                <div class="form-group input-group">
+                    <input type="text" name="username" value="" class="form-control" placeholder="用户名">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                </div>
+                <div class="form-group input-group">
+                    <input type="password" name="password" value="" class="form-control" placeholder="密码">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                </div>
+                <div class="form-group input-group">
+                    <input type="text" name="verify" class="form-control" placeholder="验证码" autocomplete="off">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary reload"><i class="fa fa-circle-o-notch fa-spin"></i></button>
+                    </div>
+                </div>
+                <div class="form-group input-group">
+                    <img class="verifyimg" class="img-polaroid" src="{:U('Api/Public/verify')}">
+                </div>
+                <button type="button" class="btn btn-primary block full-width m-b" id="login" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> 登录中..." > 登 录</button>
+            </form>
+        </div>
+    </div>
+    <script src="__JS__/jquery.min.js"></script>
+    <script src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/plugins/layer/layer.js"></script>
+    <script>
+    $("#login").on('click', function() {
+        var $url  = "__SELF__";
+        var $data = $('form').serialize();
+        var $btn  = $(this).button('loading');
+        $.post($url, $data, function(res) {
+            if(res.status){
+                layer.msg('登陆成功！', {icon: 6, time: 1500 },function(){
+                    window.location.href = res.url;
+                });
+            } else {
+                layer.msg(res.info, {icon: 5, time: 1500 , anim: 6});
+                $btn.button('reset');
+            }
+        }, 'json');
+    });
+
+    var verifyimg = $(".verifyimg").attr("src");
+    $(".reload").click(function(){
+        if(verifyimg.indexOf('?')>0){
+            $(".verifyimg").attr("src", verifyimg+'&random='+Math.random());
+        }else{
+            $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+        }
+    });
+    </script>
+</body>
+
+</html>

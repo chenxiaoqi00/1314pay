@@ -1,0 +1,144 @@
+{extend name="Public/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__JS__/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__JS__/colorpicker/css/bootstrap-colorpicker.min.css">
+<style>
+#jumpURL{display: none;}
+</style>{/block}
+<!-- 子导航 -->
+{block name="body"}
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#base" aria-expanded="true">基本设置</a></li>
+        <li><a data-toggle="tab" href="#extend" aria-expanded="false">扩展属性</a></li>
+    </ul>
+    <div class="ibox-content ibox-noborder float-e-margins tab-content">
+        <form class="form-horizontal m-t" action="__SELF__" method="post">
+            <div id="base" class="tab-pane active">
+                <!--状态设置 选择框-->
+                {form:select name="ctype" title="结算方式" data="ctype" selected="info['ctype']" /}
+                <!--关键字 单行文本-->
+                {form:input name="username" title="用户名" value="info['username']" cols="3" tips="用于用户登录" /}
+                <!--真实姓名-->
+                {form:input name="realname" title="真实姓名" value="info['Userinfo']['realname']" tips="收款人姓名" /}
+                {empty name="info['id']"}
+                <!--密码 单行文本-->
+                {form:input name="password" type="password" title="密码" tips="用户密码" cols="3" /}
+                <!--密码 单行文本-->
+                {form:input name="repassword" type="password" title="密码" tips="重复输入密码" cols="3" /}
+            	{/empty}
+            	<!--QQ 文本框-->
+                {form:input name="qq" title="联系QQ" tips="联系QQ" cols="3" value="info['qq']"/}
+                <!--联系电话 文本框-->
+                {form:input name="tel" title="联系电话" tips="联系电话" cols="3" value="info['tel']" /}
+                <!--联系邮箱文本框-->
+                {form:input name="email" title="联系邮箱" tips="联系邮箱" cols="3" value="info['email']" /}
+                <!--站点名称文本框-->
+                {form:input name="sitename" title="站点名称" cols="3" value="info['sitename']" /}
+                <!--站点URL文本框-->
+                {form:input name="siteurl" title="站点URL" tips="http://开头" cols="3" value="info['siteurl']" /}
+                <!--统计JS 文本框-->
+                {form:input name="statistics" title="统计JS" cols="3" value="info['statistics']" /}
+                <!--商户链接 文本框-->
+                {form:input name="userkey" title="商户链接" cols="3" value="info['userkey']" /}
+                <!--商户链接 文本框-->
+                {form:input name="superman" title="上级商户" cols="3" value="info['superman']" /}
+                <!--商户链接 文本框-->
+                {form:input name="app_uid" title="APP_UID" cols="3" value="info['app_uid']" /}
+                <!--商户链接 文本框-->
+                {form:input name="app_state" title="APP_UID" cols="3" value="info['app_uid']" /}
+                
+            </div>
+            <div id="extend" class="tab-pane">
+                <!--是否跳转链接 开关效果-->
+                {form:switch name="islink" title="跳转" value="info['islink']" tips="开启后必须设置跳转链接" /}
+                <div id="jumpURL" {notempty name="info['islink']"}style="display:block"{/notempty}>
+                    <!--链接 单行文本-->
+                    {form:input name="url" title="链接" value="info['url']" tips="跳转指向的链接地址" /}
+                </div>
+                <!--标识 单行文本-->
+                {form:input name="name" title="标识" value="info['name']" cols="3" tips="如不填，默认为栏目拼音" /}
+                <!--发布时间 日期时间选取器-->
+                {form:datetimepicker name="inputtime" title="发布时间" value="info['inputtime']|times" tips="可选择任何一个日期" /}
+                <!--排序 单行文本-->
+                {form:input name="sort" title="排序" value="info['sort']|default='0'" cols="1" /}
+                <!--点击数 单行文本-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">浏览：</label>
+                    <div class="col-sm-5">
+                        <div class="input-group col-sm-3">
+                            <input type="text" name="views" id="views" value="{$info['views']|default=0}" class="form-control"">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default doRand"><i class="fa fa-refresh fa-spin"></i></button>
+                            </div>
+                        </div>
+                        <span class="help-block"><i class="fa fa-info-circle"></i> 点击显示随机数</span>
+                    </div>
+                </div>
+                <!--名称 单行文本-->
+                {form:input name="template" title="模板" value="info['template']" cols="2" /}
+                <!--允许评论 开关效果-->
+                {form:switch name="iscomment" title="允许评论" value="info['iscomment']" /}
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <input type="hidden" name="id" value="{$info.id|default=''}">
+                    <button class="btn btn-primary btn-block btn-lg ajax-form" type="submit" target-form="form-horizontal"><i class="fa fa-check"></i>&nbsp;提交</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-lg btn-block" onclick="javascript:history.back(-1);return false;"><i class="fa fa-reply"> 返回</i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="__JS__/webuploader/upload.js"></script>
+<script type="text/javascript" src="__JS__/colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script type="text/javascript">
+    setFormValue("model", {$info.model|default=2});
+    setFormValue("iscomment", {$info.iscomment|default=1});
+    // 检测标题
+    $(".doCheck").on('click', function() {
+        var self = this;
+        var $url = $(this).data('url');
+        var $title = $('input[name=title]').val();
+        if(!title){
+            layer.msg('请输入文章标题', { icon: 8, time: 1500, anim: 6 });
+        }
+        $(self).addClass('disabled').prop('disabled', true);
+        $.post($url, {title:$title}, function(res) {
+            if (res.status) {
+                $(self).html('<i class="fa fa-circle-o-notch fa-spin"></i> '+ res.info).removeClass('btn-danger btn-default').addClass('btn-primary').attr("disabled", false);
+                $(self).addClass('disabled').prop('disabled', false);
+            } else {
+                $(self).html('<i class="fa fa-circle-o-notch fa-spin"></i> '+ res.info).removeClass('btn-default').addClass('btn-danger').attr("disabled", false);
+                $(self).addClass('disabled').prop('disabled', false);
+            }
+            $(self).removeClass('disabled').prop('disabled', false);
+        }, 'json');
+    });
+    // 随机浏览数
+    $(".doRand").on('click', function() {
+        $('#views').val(parseInt(300*Math.random()));
+    });
+    // 跳转链接
+    $("input[name='islink']").change(function() {
+        if ($(this).prop('checked')){
+            $("#jumpURL").show();
+        } else {
+            $("#jumpURL").hide();
+            $("#url").val('');
+        }
+    });
+    //拾色器
+    $(function() {
+        $('#colorpicker').colorpicker().on('changeColor', function(e) {
+            $(this).css("backgroundColor",e.color.toString('hex'));
+            $("input[name='title']").css("color",e.color.toString('hex'));
+            $("input[name='style']").val(e.color.toString('hex'));
+        });
+    });
+</script>
+{/block}
